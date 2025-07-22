@@ -1,0 +1,11 @@
+import 'package:flutter/material.dart';
+
+class Separator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(2.0),
+      child: Container(color: Colors.black, height: 2.0),
+    );
+  }
+}
