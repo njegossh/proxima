@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
-import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
-import 'package:proxima/zego_ui_options.dart';
+//import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+//import 'package:proxima/zego_ui_options.dart';
 
 final User exampleUser1 = User(
   id: 'cc-5679-zz',
@@ -28,6 +28,8 @@ class VideoCallMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container();
+    /*
     return ZegoUIKitPrebuiltCall(
       appID: ZegoUIOptions.currentOptions.appId,
       callID: exampleCallId,
@@ -36,5 +38,6 @@ class VideoCallMainPage extends StatelessWidget {
       config: ZegoUIKitPrebuiltCallConfig(turnOnCameraWhenJoining: false),
       appSign: ZegoUIOptions.currentOptions.appSign,
     );
+    */
   }
 }
