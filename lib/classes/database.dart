@@ -26,7 +26,6 @@ class Database with ChangeNotifier {
     );
   }
 
-
   static Future<void> signIn(String email, String password) async {
     try {
       try {
@@ -43,5 +42,15 @@ class Database with ChangeNotifier {
     } catch (e) {
       debugPrint('$e');
     }
+  }
+
+  DocumentReference userReference(String userID){
+    return firestore.collection('users').doc(userID);
+  }
+  DocumentReference appointmentReference(String appID){
+    return firestore.collection('appointments').doc(appID);
+  }
+  DocumentReference classReference(String classID){
+    return firestore.collection('classes').doc(classID);
   }
 }
