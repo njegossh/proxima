@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/pages/map/main_page.dart';
 import 'pages/video_call/main_page.dart';
 import 'pages/calendar/main_page.dart';
 import 'pages/user/main_page.dart';
@@ -60,6 +61,17 @@ class DebugPages extends StatelessWidget {
               );
             }, 
             child: Text('User'),
+          ),
+          TextButton(
+            onPressed: (){ 
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MapMainPage(),
+                ),
+              );
+            }, 
+            child: Text('Map'),
           ),
     
         ]
