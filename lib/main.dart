@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/pages/course/main_page.dart';
 import 'package:proxima/pages/map/main_page.dart';
 import 'pages/video_call/main_page.dart';
 import 'pages/calendar/main_page.dart';
 import 'pages/user/main_page.dart';
-import 'pages/class/main_page.dart';
 import 'classes/database.dart';
 
 Future<void> main() async {

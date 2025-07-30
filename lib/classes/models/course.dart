@@ -1,4 +1,4 @@
-class Class { //heh
+class Course { //heh
   String? id;
   String userID;
   String name;
@@ -6,7 +6,7 @@ class Class { //heh
   double pricePerHour;
   double? averageReview;
 
-  Class({
+  Course({
     this.id,
     required this.name,
     required this.userID,
@@ -15,8 +15,8 @@ class Class { //heh
     this.averageReview,
   });
 
-  static Class fromJson(Map json, String? id){
-    return Class(
+  static Course fromJson(Map json, String? id){
+    return Course(
       id: id,
       name: json['name'],
       userID: json['userID'],
@@ -27,22 +27,22 @@ class Class { //heh
   }
 }
 
-final mockClasses = [
-  Class(
+final mockCourses = [
+  Course(
     id: 'aaa',
     userID: '',
     name: 'Sah',
     tags: [], 
     pricePerHour: 32,
   ),
-  Class(
+  Course(
     id: 'bbb',
     userID: '',
     name: 'Muzika',
     tags: [], 
     pricePerHour: 32,
   ),
-  Class(
+  Course(
     id: 'ccc',
     userID: '',
     name: 'Odmaranje',

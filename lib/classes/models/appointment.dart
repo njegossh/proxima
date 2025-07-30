@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'class.dart';
+import 'course.dart';
 
 class Appointment extends ChangeNotifier {
   String? id;
   DateTime from, to;
   String classID;
-  Class? classe;
+  Course? classe;
 
   Appointment({
     this.id,
@@ -42,7 +42,7 @@ class Appointment extends ChangeNotifier {
   }
 
   Future reloadClass() async {
-    classe = mockClasses.firstWhere((classe){
+    classe = mockCourses.firstWhere((classe){
       return classe.id == classID;
     });
   }

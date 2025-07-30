@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/models/class.dart';
+import 'package:proxima/classes/models/course.dart';
+
 import 'package:proxima/classes/models/user.dart';
-import 'package:proxima/pages/class/components/courseDisplayImage.dart';
-import 'package:proxima/pages/class/components/tagsChips.dart';
-import 'package:proxima/pages/class/components/userInfo.dart';
-import 'package:proxima/pages/class/components/videoShowcase.dart';
+import 'package:proxima/pages/course/components/courseDisplayImage.dart';
+import 'package:proxima/pages/course/components/tagsChips.dart';
+import 'package:proxima/pages/course/components/userInfo.dart';
+
 import 'package:proxima/pages/user/components/interestChips.dart';
 
-final mockCourse = Class(
+final mockCourse = Course(
   id: 'prog123',
   userID: '4',
   name: 'Programiranje u C++',
