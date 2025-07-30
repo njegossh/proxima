@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class InterestChips extends StatelessWidget {
+class TagsChips extends StatelessWidget {
   final List<String>? listOfInterests;
-  const InterestChips({super.key, this.listOfInterests});
+  const TagsChips({super.key, this.listOfInterests});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class InterestChips extends StatelessWidget {
                 padding: const EdgeInsets.all(2),
                 child: Chip(
                   label: Text(interest, style: TextStyle(color: Colors.white, fontSize: 16),),
-                  backgroundColor: Colors.blue[400],
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                  backgroundColor: Colors.indigo[400],
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
               );
             }).toList() ??
