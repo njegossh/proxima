@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/locator.dart';
 import 'package:proxima/pages/map/components/InstructorsBottomSheet.dart';
 
 final User exampleUser1 = User(
@@ -40,11 +42,11 @@ class MapMainPage extends StatefulWidget {
 }
 
 class _MapMainPageState extends State<MapMainPage> {
-  double _radius = 1000;
+  final MapController _mapController = MapController();
+  double _radius = 1500;
   bool _instructorsSheetVisible = false;
 
-  LatLng get userLocation =>
-      LatLng(exampleUser1.locationX, exampleUser1.locationY);
+  LatLng userLocation = LatLng(exampleUser1.locationX, exampleUser1.locationY);
 
   List<User> getInstructorsWithinRadius() {
     final Distance distance = Distance();
@@ -61,18 +63,37 @@ class _MapMainPageState extends State<MapMainPage> {
         .toList();
   }
 
+  void getCurrentLocation() async {
+    Position position = await getCurrentPosition();
+    final newLocation = LatLng(position.latitude, position.longitude);
+    setState(() {
+      userLocation = newLocation;
+    });
+    _mapController.move(newLocation, 13);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Map')),
-      body: Column(
+      appBar: AppBar(
+        title: Text('Map'),
+        actions: [
+          IconButton(
+            onPressed: getCurrentLocation,
+            icon: Icon(Icons.my_location),
+          ),
+        ],
+      ),
+      body: Stack(
         children: [
-          Expanded(
+          Positioned.fill(
             child: FlutterMap(
+              mapController: _mapController,
               options: MapOptions(initialCenter: userLocation, initialZoom: 13),
               children: [
                 TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate:
+                      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
                   userAgentPackageName: 'com.example.app',
                 ),
                 MarkerLayer(
@@ -115,37 +136,46 @@ class _MapMainPageState extends State<MapMainPage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                Text('Radius ${_radius.toInt()} meters'),
-                Slider(
-                  min: 50,
-                  max: 10000,
-                  divisions: 50,
-                  value: _radius,
-                  onChanged: (value) {
-                    setState(() {
-                      _radius = value;
-                    });
-                  },
-                  onChangeEnd: (value) {
-                    final updated = getInstructorsWithinRadius();
-
-                    if (updated.isNotEmpty && !_instructorsSheetVisible) {
-                      _instructorsSheetVisible = true;
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (_) =>
-                            InstructorsBottomSheet(instructors: updated),
-                      ).whenComplete(() {
-                        _instructorsSheetVisible = false;
-                      });
-                    }
-                  },
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 6,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Radius ${_radius.toInt()} meters'),
+                    Slider(
+                      min: 1000,
+                      max: 100000,
+                      divisions: 50,
+                      value: _radius,
+                      onChanged: (value) {
+                        setState(() => _radius = value);
+                      },
+                      onChangeEnd: (value) {
+                        final updated = getInstructorsWithinRadius();
+                        if (updated.isNotEmpty && !_instructorsSheetVisible) {
+                          _instructorsSheetVisible = true;
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (_) =>
+                                InstructorsBottomSheet(instructors: updated),
+                          ).whenComplete(() {
+                            _instructorsSheetVisible = false;
+                          });
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],
