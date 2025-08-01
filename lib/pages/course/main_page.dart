@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:proxima/classes/models/course.dart';
 
 import 'package:proxima/classes/models/user.dart';
