@@ -5,8 +5,7 @@ import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/pages/course/components/courseDisplayImage.dart';
 import 'package:proxima/pages/course/components/tagsChips.dart';
 import 'package:proxima/pages/course/components/userInfo.dart';
-
-import 'package:proxima/pages/user/components/interestChips.dart';
+import 'package:proxima/pages/course/components/videoShowcase.dart';
 
 final mockCourse = Course(
   id: 'prog123',
@@ -43,6 +42,8 @@ final mockUser = User(
       'Opis profila. Samo i iskljucivo u svrhe testiranja. Ovaj tekst ne sadrzi nikakve znacajne informacije i iskljucivo se koristi kao reprezentativan primer opisa profila nekog korisnika. Trudimo se da ovaj opis bude dovoljno opsiran.',
   avatarURL: null,
 );
+
+final mockVideoURL = "https://youtu.be/LozsKQQRPkU?si=oUAEC-8IBcsN9Syf";
 
 class ClassMainPage extends StatelessWidget {
   ClassMainPage({super.key});
@@ -120,15 +121,25 @@ class ClassMainPage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding( // VIDEO O KURSU : TO BE ADDED!
-              padding: const EdgeInsets.all(4),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                width: double.infinity,
-                height: 100,
-                child: Card(child: Center(child: Text("To be added: Video showcase"))),
-              ),
-            ),
+            mockVideoURL == null
+                ? SizedBox.shrink()
+                : Padding(
+                    // VIDEO O KURSU : TO BE ADDED!
+                    padding: const EdgeInsets.all(4),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      width: double.infinity,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Videoshowcase(videoURL: mockVideoURL),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

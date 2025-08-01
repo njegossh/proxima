@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
-import 'package:proxima/pages/user/components/separator.dart';
 import 'components/avatar.dart';
 import 'components/interestChips.dart';
 
