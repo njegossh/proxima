@@ -10,11 +10,12 @@ class Database with ChangeNotifier {
   static final Database instance = Database.internal();
   factory Database() => instance;
 
-  static FirebaseFirestore get firestore => FirebaseFirestore.instance;
-  static FirebaseAuth get auth => FirebaseAuth.instance;
-  static User get user => auth.currentUser!;
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
+  FirebaseAuth get auth => FirebaseAuth.instance;
+  User get user => auth.currentUser!;
+  String get userUID => user.uid;
 
-  static bool get logged {
+  bool get logged {
     if (user.isAnonymous) return false;
     if (user.email == null) return false;
     return true;
@@ -26,7 +27,7 @@ class Database with ChangeNotifier {
     );
   }
 
-  static Future<void> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     try {
       try {
         await auth.createUserWithEmailAndPassword(
