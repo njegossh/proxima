@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/course.dart';
 import 'package:proxima/classes/models/course.dart';
-import 'package:proxima/pages/course/components/courseDisplayImage.dart';
-import 'package:proxima/pages/course/components/userInfo.dart';
-import 'package:proxima/pages/course/components/videoShowcase.dart';
+import 'package:proxima/pages/course/components/course_display_image.dart';
+import 'package:proxima/pages/course/components/user_info.dart';
+import 'package:proxima/pages/course/components/video_showcase.dart';
 import 'components/tags_chips.dart';
 
 class CourseMainPage extends StatefulWidget {
@@ -15,7 +15,6 @@ class CourseMainPage extends StatefulWidget {
 }
 
 class _CourseMainPageState extends State<CourseMainPage> {
-  
   Course get course => widget.course;
 
   @override
@@ -30,10 +29,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       listenable: course,
       builder: (context, child) {
         return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 243, 243, 243),
           appBar: AppBar(
-            backgroundColor: Colors.indigo[500],
-            iconTheme: IconThemeData(color: Colors.white),
             elevation: 0,
           ),
           body: ListView(
@@ -49,14 +45,14 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ),
                 ),
               ),
-        
+
               Coursedisplayimage(displayImageURL: course.thumbnailURL),
               SizedBox(height: 24),
               TagsChips(interests: course.tags),
               Builder(
-                builder: (context){
-                  if( course.user == null) {
-                    return CircularProgressIndicator();
+                builder: (context) {
+                  if (course.user == null) {
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     return Padding(
                       // INFORMACIJE INSTRUKTORA
@@ -126,7 +122,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
             ],
           ),
         );
-      }
+      },
     );
   }
 }

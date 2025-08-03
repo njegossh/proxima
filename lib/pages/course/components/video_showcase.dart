@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class Videoshowcase extends StatefulWidget {
-  const Videoshowcase({super.key, required this.videoURL});
+  const Videoshowcase({super.key, this.videoURL});
 
-  final String videoURL;
+  final String? videoURL;
 
   @override
   State<Videoshowcase> createState() => _VideoshowcaseState();
@@ -15,7 +15,7 @@ class _VideoshowcaseState extends State<Videoshowcase> {
 
   @override
   void initState() {
-    final String? videoId = YoutubePlayerController.convertUrlToId(widget.videoURL);
+    final String? videoId = YoutubePlayerController.convertUrlToId(widget.videoURL ?? '');
     _controller = YoutubePlayerController.fromVideoId(
       videoId: videoId ?? '',
       autoPlay: false,

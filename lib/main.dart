@@ -20,16 +20,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Database().init();
 
-  runApp(MaterialApp(
-    theme: generateTheme( 
-      primary: Color(0xFF3E5F44),
-      secondary: Color(0xFF5E936C),
-      tertiaty: Color(0xFF93DA97),
-      surface: Color(0xFFE8FFD7),
+  runApp(
+    MaterialApp(
+      theme: generateTheme(
+        primary: Color(0xFF41682C),
+        secondary: Color(0xFFC0F0A4),
+        tertiaty: Color(0xFF072100),
+        surface: Color(0xFFFFFFFF),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: DebugPages(),
     ),
-    debugShowCheckedModeBanner: false, 
-    home: DebugPages(),
-  ));
+  );
 }
 
 class DebugPages extends StatelessWidget {
@@ -38,134 +40,108 @@ class DebugPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Temporary home page'),
-      ),
+      appBar: AppBar(title: Text('Temporary home page')),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CalendarMainPage(),
-                  ),
-                );
-              },
-              child: Text('Calendar'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const VideoCallMainPage(),
-                  ),
-                );
-              },
-              child: Text('VideoCall'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                backgroundColor: Colors.deepPurple[300],
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const UserMainPage()),
-                );
-              },
-              child: Text('User', style: TextStyle(color: Colors.white, fontSize: 18)),
-            ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CalendarMainPage()),
+              );
+            },
+            child: Text('Calendar'),
           ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CourseMainPage()),
-                );
-              },
-              child: Text('Course'),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                backgroundColor: Colors.deepPurple[300],
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MapMainPage()),
-                );
-              },
-              child: Text('Map', style: TextStyle(color: Colors.white, fontSize: 18)),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => VideoCallMainPage()),
+              );
+            },
+            child: Text('VideoCall'),
           ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountMainPage()),
-                );
-              },
-              child: Text('Account'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserMainPage()),
+              );
+            },
+            child: Text('User'),
+          ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SearchMainPage()),
-                );
-              },
-              child: Text('Search'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CourseMainPage()),
+              );
+            },
+            child: Text('Course'),
+          ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatList()),
-                );
-              },
-              child: Text('Chat List'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapMainPage()),
+              );
+            },
+            child: Text('Map'),
+          ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WelcomeMainPage()),
-                );
-              },
-              child: Text('Welcome'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccountMainPage()),
+              );
+            },
+            child: Text('Account'),
+          ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReviewMainPage()),
-                );
-              },
-              child: Text('Review'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchMainPage()),
+              );
+            },
+            child: Text('Search'),
+          ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatMainPage()),
-                );
-              },
-              child: Text('Chat'),
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatList()),
+              );
+            },
+            child: Text('Chat List'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomeMainPage()),
+              );
+            },
+            child: Text('Welcome'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReviewMainPage()),
+              );
+            },
+            child: Text('Review'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatMainPage()),
+              );
+            },
+            child: Text('Chat'),
+          ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:proxima/pages/map/components/InstructorsBottomSheet.dart';
+import 'package:proxima/pages/map/components/instructor_bottom_sheet.dart';
 
 import 'controller.dart';
 
@@ -60,7 +60,7 @@ class _MapMainPageState extends State<MapMainPage> {
                             color: Colors.blue,
                           ),
                         ),
-                        controller.instructors.map(
+                        ...controller.instructors.map(
                           (instructor) => Marker(
                             point: LatLng(
                               instructor.locationX,

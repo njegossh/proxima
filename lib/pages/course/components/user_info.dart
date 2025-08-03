@@ -13,17 +13,17 @@ class UserInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 4, right: 4),
           child: SizedBox(
-            width: 90,
-            height: 90,
+            width: 110,
+            height: 100,
             child: Card(
               color: const Color.fromARGB(255, 245, 245, 250),
               elevation: 10,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(15),
                 side: BorderSide(color: Colors.black, width: 3),
               ),
               child: avatarURL == null
-                  ? Icon(Icons.person, size: 70, color: Colors.indigo[600])
+                  ? Icon(Icons.person, size: 50)
                   : Image.network(avatarURL!),
             ),
           ),

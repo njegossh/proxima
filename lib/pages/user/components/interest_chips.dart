@@ -15,7 +15,7 @@ class InterestChips extends StatelessWidget {
                 padding: const EdgeInsets.all(2),
                 child: Chip(
                   label: Text(interest, style: TextStyle(color: Colors.white, fontSize: 16),),
-                  backgroundColor: Colors.blue[400],
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 ),
               );

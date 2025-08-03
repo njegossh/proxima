@@ -4,8 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/user.dart';
 import 'package:proxima/config/firebase_options.dart';
-import 'package:proxima/classes/models/user.dart' as userDTO;
-
 import '../../main.dart';
 
 class Database with ChangeNotifier {
