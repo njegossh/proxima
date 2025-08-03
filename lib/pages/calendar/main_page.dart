@@ -1,5 +1,4 @@
 import 'package:proxima/classes/mock/user.dart';
-import 'package:proxima/pages/user/main_page.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:flutter/material.dart';
 import '../../classes/models/appointment.dart';
