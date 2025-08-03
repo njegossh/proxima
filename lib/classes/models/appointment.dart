@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/mock/course.dart';
 import 'course.dart';
 
 class Appointment extends ChangeNotifier {
@@ -42,7 +43,7 @@ class Appointment extends ChangeNotifier {
   }
 
   Future reloadClass() async {
-    classe = mockCourses.firstWhere((classe){
+    classe = courses.firstWhere((classe){
       return classe.id == classID;
     });
   }

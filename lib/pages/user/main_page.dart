@@ -3,25 +3,7 @@ import 'package:proxima/classes/models/user.dart';
 import 'components/avatar.dart';
 import 'components/interestChips.dart';
 
-final mockUser = User(
-  locationX: 3123,
-  locationY: 34234,
-  name: 'Nikola',
-  surname: 'Nikolic',
-  interests: [
-    'Sah',
-    'Programiranje',
-    'Plivanje',
-    'Guslanje',
-    'Strani jezici',
-    'Planinarenje',
-    'Matematika',
-  ],
-  locationDesc: ['Nis', 'Srbija'],
-  description:
-      'Opis profila. Samo i iskljucivo u svrhe testiranja. Ovaj tekst ne sadrzi nikakve znacajne informacije i iskljucivo se koristi kao reprezentativan primer opisa profila nekog korisnika. Trudimo se da ovaj opis bude dovoljno opsiran.',
-  avatarURL: null,
-);
+
 
 class UserMainPage extends StatelessWidget {
   const UserMainPage({super.key});

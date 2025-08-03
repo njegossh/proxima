@@ -6,12 +6,15 @@ import 'package:proxima/pages/course/main_page.dart';
 import 'package:proxima/pages/map/main_page.dart';
 import 'package:proxima/pages/review/main_page.dart';
 import 'package:proxima/pages/search/main_page.dart';
+import 'classes/database/database.dart';
+import 'classes/models/user.dart';
 import 'pages/account/main_page.dart';
 import 'pages/video_call/main_page.dart';
 import 'pages/calendar/main_page.dart';
 import 'pages/user/main_page.dart';
-import 'classes/database.dart';
 import 'pages/welcome/main_page.dart';
+
+late User currentUser;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,7 +91,7 @@ class DebugPages extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ClassMainPage()),
+                  MaterialPageRoute(builder: (context) => CourseMainPage()),
                 );
               },
               child: Text('Course'),

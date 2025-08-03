@@ -1,3 +1,4 @@
+import 'package:proxima/classes/mock/user.dart';
 import 'package:proxima/pages/user/main_page.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _CalendarMainPageState extends State<CalendarMainPage> {
 
   @override
   void initState() {
-    controller = CalendarMainController(user: mockUser);
+    controller = CalendarMainController(user: nikolaNikolic);
     super.initState();
   }
 

@@ -12,7 +12,7 @@ class UserInfo extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, right: 4),
-          child: Container(
+          child: SizedBox(
             width: 90,
             height: 90,
             child: Card(

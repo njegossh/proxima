@@ -1,0 +1,29 @@
+import 'package:proxima/classes/models/appointment.dart';
+
+final appointments = [
+  appointment1,
+  appointment2,
+  appointment3,
+  appointment4,
+];
+
+final appointment1 = Appointment(
+  from: DateTime(2025, 6, 27), 
+  to: DateTime(2025, 7, 26, 12), 
+  classID: 'ccc',
+);
+final appointment2 = Appointment(
+  from: DateTime(2025, 7, 27, 7), 
+  to: DateTime(2025, 7, 27, 8), 
+  classID: 'aaa',
+);
+final appointment3 = Appointment(
+  from: DateTime(2025, 7, 27, 8), 
+  to: DateTime(2025, 7, 27, 9), 
+  classID: 'bbb',
+);
+final appointment4 = Appointment(
+  from: DateTime(2025, 7, 27, 12), 
+  to: DateTime(2025, 7, 27, 14, 30), 
+  classID: 'aaa',
+);

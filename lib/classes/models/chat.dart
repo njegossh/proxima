@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../database/chat.dart';
-import '../database.dart';
+import 'package:proxima/classes/database/chat.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'message.dart';
 import 'user.dart';
 

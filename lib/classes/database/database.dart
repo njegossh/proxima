@@ -2,7 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:proxima/firebase_options.dart';
+import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/config/firebase_options.dart';
+import 'package:proxima/classes/models/user.dart' as userDTO;
+
+import '../../main.dart';
 
 class Database with ChangeNotifier {
 
@@ -25,6 +29,14 @@ class Database with ChangeNotifier {
     await Firebase.initializeApp( 
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    /*
+    final userDoc = userReference(userUID);
+    final userSnapshot = await userDoc.get();
+    final userJSON = userSnapshot.data() as Map;
+    currentUser = userDTO.User.fromJson(userJSON, userUID);
+    */
+    currentUser = goranEdman;
   }
 
   Future<void> signIn(String email, String password) async {
@@ -48,6 +60,7 @@ class Database with ChangeNotifier {
   DocumentReference userReference(String userID){
     return firestore.collection('users').doc(userID);
   }
+
   DocumentReference appointmentReference(String appID){
     return firestore.collection('appointments').doc(appID);
   }

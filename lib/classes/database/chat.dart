@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' show DocumentReference;
 import '../models/message.dart' show Message;
-import '../database.dart' show Database;
+import 'database.dart' show Database;
 
 extension ChatDatabase on Database {
 
