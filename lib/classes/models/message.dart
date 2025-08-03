@@ -5,14 +5,14 @@ import 'package:proxima/classes/database/database.dart';
 class Message {
   String? id;
   String fromUserID, toUserID;
-  String message;
+  String content;
   Timestamp timestamp;
 
   Message({
     this.id,
     required this.fromUserID,
     required this.toUserID,
-    required this.message,
+    required this.content,
     required this.timestamp,
   });
 
@@ -21,7 +21,7 @@ class Message {
       id: id,
       fromUserID: json['fromUserID'],
       toUserID: json['toUserID'],
-      message: json['message'],
+      content: json['content'],
       timestamp: json['timestamp'],
     );
   }
@@ -30,9 +30,16 @@ class Message {
     return {
       'fromUserID': fromUserID,
       'toUserID': toUserID,
-      'message': message,
+      'content': content,
       'timestamp': timestamp,
     };
+  }
+
+  String get formmatedTime {
+    final date = timestamp.toDate();
+    final hour = date.hour.toString();
+    final min = date.minute.toString();
+    return "${hour.padLeft(2, '0')}:${min.padLeft(2, '0')}";
   }
 
   Future<void> send() => Database().sendMessage(

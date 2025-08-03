@@ -8,10 +8,10 @@ ThemeData generateTheme({
     Color error = Colors.red,
 }) {
   return ThemeData(
-    useMaterial3: false,
     colorScheme: ColorScheme(
       primary: primary,
       secondary: secondary,
+      tertiary: tertiaty,
       brightness: Brightness.light,
       error: error,
       onError: surface,
@@ -117,13 +117,31 @@ ThemeData generateTheme({
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      extendedTextStyle: TextStyle( 
+        fontWeight: FontWeight.w800,
+        fontFamily: 'Inter',
+      )
+    ),
+    textButtonTheme: TextButtonThemeData( 
+      style: ButtonStyle( 
+        padding: WidgetStateProperty.all(
+          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        ),
+        backgroundColor: WidgetStateProperty.all(primary),
+        textStyle: WidgetStateProperty.all(
+          TextStyle(
+            color: surface,
+            fontSize: 18,
+          ),
+        ),
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData( 
       style: ButtonStyle( 
         padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
-        backgroundColor: WidgetStateProperty.all(primary),
+        backgroundColor: WidgetStateProperty.all(secondary),
         textStyle: WidgetStateProperty.all(
           TextStyle(
             color: surface,

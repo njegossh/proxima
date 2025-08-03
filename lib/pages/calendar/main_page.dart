@@ -1,7 +1,6 @@
 import 'package:proxima/classes/mock/user.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:flutter/material.dart';
-import '../../classes/models/appointment.dart';
 import 'controller.dart';
 
 
@@ -40,9 +39,8 @@ class _CalendarMainPageState extends State<CalendarMainPage> {
             firstDayOfWeek: 1,
             dataSource: controller,
             onTap: (details){
-              final app = details.appointments![0] as Appointment;
-              //Odavde ode na stranicu classa
-              print(app.name);
+              //TODO Odavde ode na stranicu classa
+              //final app = details.appointments![0] as Appointment;
             },
           ),
         );

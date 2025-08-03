@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/user.dart';
 import 'package:proxima/config/firebase_options.dart';
 import '../../main.dart';
+import 'auth.dart';
 
 class Database with ChangeNotifier {
 
@@ -13,15 +13,8 @@ class Database with ChangeNotifier {
   factory Database() => instance;
 
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
-  FirebaseAuth get auth => FirebaseAuth.instance;
-  User get user => auth.currentUser!;
-  String get userUID => user.uid;
+  Auth get auth => Auth();
 
-  bool get logged {
-    if (user.isAnonymous) return false;
-    if (user.email == null) return false;
-    return true;
-  }
 
   Future<void> init() async {
     await Firebase.initializeApp( 
@@ -35,24 +28,6 @@ class Database with ChangeNotifier {
     currentUser = userDTO.User.fromJson(userJSON, userUID);
     */
     currentUser = goranEdman;
-  }
-
-  Future<void> signIn(String email, String password) async {
-    try {
-      try {
-        await auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-      } catch (e) {
-        await auth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-      }
-    } catch (e) {
-      debugPrint('$e');
-    }
   }
 
   DocumentReference userReference(String userID){
