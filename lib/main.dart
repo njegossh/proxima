@@ -23,10 +23,11 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       theme: generateTheme(
-        primary: Color(0xFF41682C),
-        secondary: Color(0xFFC0F0A4),
-        tertiaty: Color(0xFF072100),
+        primary: Color(0xFF351C1D),
+        secondary: Color(0xFFDAB986),
+        tertiaty: Color(0xFF162722),
         surface: Color(0xFFFFFFFF),
+        error: Color(0xFF4E0000)
       ),
       debugShowCheckedModeBanner: false,
       home: DebugPages(),

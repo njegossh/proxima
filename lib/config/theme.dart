@@ -5,7 +5,7 @@ ThemeData generateTheme({
     required Color secondary,
     required Color tertiaty,
     required Color surface,
-    Color error = Colors.red,
+    required Color error,
 }) {
   return ThemeData(
     colorScheme: ColorScheme(
@@ -142,6 +142,7 @@ ThemeData generateTheme({
           EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
         backgroundColor: WidgetStateProperty.all(secondary),
+        foregroundColor: WidgetStateProperty.all(surface),
         textStyle: WidgetStateProperty.all(
           TextStyle(
             color: surface,
