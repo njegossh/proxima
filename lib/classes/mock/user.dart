@@ -9,9 +9,10 @@ final users = [
 ];
 
 final nikolaNikolic = User(
-  locationX: 3123,
-  locationY: 34234,
+  locationX: 21,
+  locationY: 23,
   name: 'Nikola',
+  avatarURL: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.y_-RrO81dmnPR5dKO0GYWAHaHa%3Fpid%3DApi&f=1&ipt=b1838d508cf7ab8bd7cd26ec296ca178e050b871799c981492943e9b3b7e73a6&ipo=images",
   surname: 'Nikolic',
   interests: [
     'Sah',
@@ -25,6 +26,20 @@ final nikolaNikolic = User(
   locationDesc: ['Nis', 'Srbija'],
   description:
       'Opis profila. Samo i iskljucivo u svrhe testiranja. Ovaj tekst ne sadrzi nikakve znacajne informacije i iskljucivo se koristi kao reprezentativan primer opisa profila nekog korisnika. Trudimo se da ovaj opis bude dovoljno opsiran.',
+);
+
+final peraPeric = User(
+  locationX: 51,
+  locationY: 12,
+  name: 'Pera',
+  surname: 'Peric',
+  interests: [
+    'Engleski jezik',
+    'Pecanje',
+    'Ples'
+  ],
+  locationDesc: ['Brus', 'Srbija'],
+  description: 'Volim engleski jezik i pecanje! Plesem kad upecam ribu, naravno! Ako zelis da naucis tehnike kvalitetnog ribolova, ili mozda da pricas engleski, javi se!'
 );
 
 final goranEdman = User(

@@ -7,18 +7,23 @@ class AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      height: 200,
+      width: 160,
+      height: 160,
       child: Card(
-        color: const Color.fromARGB(255, 245, 245, 250),
-        elevation: 10,
+        margin: EdgeInsets.all(0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-          side: BorderSide(color: Colors.black, width: 3),
+          side: BorderSide(width: 3),
+          borderRadius: BorderRadius.circular(20),
         ),
+        clipBehavior: Clip.hardEdge,
         child: avatarURL == null
-            ? Icon(Icons.person, size: 150)
-            : Image.network(avatarURL!),
+            ? Center(child: Icon(Icons.person, size: 120))
+            : Image.network(
+                avatarURL!,
+                width: 160,
+                height: 160,
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

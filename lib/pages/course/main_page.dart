@@ -29,9 +29,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       listenable: course,
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-          ),
+          appBar: AppBar(elevation: 0),
           body: ListView(
             children: [
               Align(

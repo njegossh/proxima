@@ -7,6 +7,7 @@ class InterestChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.all(16),
       scrollDirection: Axis.horizontal,
       child: Row(
         children:
@@ -14,9 +15,7 @@ class InterestChips extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(2),
                 child: Chip(
-                  label: Text(interest, style: TextStyle(color: Colors.white, fontSize: 16),),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                  label: Text(interest),
                 ),
               );
             }).toList() ??

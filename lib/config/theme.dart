@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
 ThemeData generateTheme({
-    required Color primary,
-    required Color secondary,
-    required Color tertiaty,
-    required Color surface,
-    required Color error,
+  required Color primary,
+  required Color secondary,
+  required Color tertiaty,
+  required Color surface,
+  required Color secondarySurface,
+  required Color textPrimary,
+  required Color textSecondary,
+  required Color primaryAccent,
+  required Color secondaryAccent,
+  required Color tertiaryAccent,
+  required Color error,
 }) {
   return ThemeData(
     colorScheme: ColorScheme(
@@ -40,19 +46,32 @@ ThemeData generateTheme({
         fontSize: 20,
       ),
     ),
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: primary,
-    ),
+    textSelectionTheme: TextSelectionThemeData(cursorColor: primary),
     textTheme: TextTheme(
-      titleMedium: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      titleLarge: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      titleSmall: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      bodySmall: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      bodyMedium: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      bodyLarge: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      displayLarge: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      displayMedium: TextStyle(fontWeight: FontWeight.w600, color: primary),
-      displaySmall: TextStyle(fontWeight: FontWeight.w600, color: primary),
+      titleMedium: TextStyle(
+        // ZA CARDS KORISTIMO
+        fontWeight: FontWeight.w300,
+        color: textSecondary,
+        fontSize: 14,
+        leadingDistribution: TextLeadingDistribution.even,
+      ),
+      titleLarge: TextStyle(fontWeight: FontWeight.w600, color: textSecondary, ),
+      titleSmall: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
+      bodySmall: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
+      bodyMedium: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
+      bodyLarge: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
+      displayLarge: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: textSecondary,
+      ),
+      displayMedium: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: textSecondary,
+      ),
+      displaySmall: TextStyle(
+        fontWeight: FontWeight.w600,
+        color: textSecondary,
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       suffixIconColor: primary,
@@ -85,19 +104,17 @@ ThemeData generateTheme({
       thumbShape: RoundSliderThumbShape(enabledThumbRadius: 9),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: surface,
-      selectedColor: primary,
-      checkmarkColor: surface,
-      shadowColor: Colors.transparent,
+      backgroundColor: primaryAccent,
+      selectedColor: secondary,
+      checkmarkColor: secondaryAccent,
+      shadowColor: primary,
       labelStyle: TextStyle(
-        color: primary,
-        fontWeight: FontWeight.w600,
+        color: textPrimary,
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
         fontFamily: 'Inter',
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: primary, width: 2),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
     listTileTheme: ListTileThemeData(
       textColor: primary,
@@ -106,50 +123,44 @@ ThemeData generateTheme({
     ),
     iconTheme: IconThemeData(color: primary),
     cardTheme: CardThemeData(
-      elevation: 6,
+      elevation: 4,
       shadowColor: primary,
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      color: surface,
+      margin: const EdgeInsets.only(left: 16, right: 16),
+      color: secondarySurface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: primary, width: 2),
       ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      extendedTextStyle: TextStyle( 
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      extendedTextStyle: TextStyle(
         fontWeight: FontWeight.w800,
         fontFamily: 'Inter',
-      )
+      ),
     ),
-    textButtonTheme: TextButtonThemeData( 
-      style: ButtonStyle( 
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
         padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
         backgroundColor: WidgetStateProperty.all(primary),
         textStyle: WidgetStateProperty.all(
-          TextStyle(
-            color: surface,
-            fontSize: 18,
-          ),
+          TextStyle(color: surface, fontSize: 18),
         ),
       ),
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData( 
-      style: ButtonStyle( 
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
         padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
-        backgroundColor: WidgetStateProperty.all(secondary),
-        foregroundColor: WidgetStateProperty.all(surface),
+        backgroundColor: WidgetStateProperty.all(primary),
+        foregroundColor: WidgetStateProperty.all(textPrimary),
         textStyle: WidgetStateProperty.all(
-          TextStyle(
-            color: surface,
-            fontSize: 18,
-          ),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ),
-    )
+    ),
   );
 }

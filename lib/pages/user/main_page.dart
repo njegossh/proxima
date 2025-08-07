@@ -1,100 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/mock/course.dart';
 import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'components/avatar.dart';
 import 'components/interest_chips.dart';
 
 class UserMainPage extends StatelessWidget {
-  const UserMainPage({super.key});
+  UserMainPage({super.key});
+
+  final user = nikolaNikolic;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      body: Column(
+      appBar: AppBar(elevation: 0),
+      body: ListView(
         children: [
-          Padding(
-            // PROFILNA SLIKA
-            padding: EdgeInsets.only(top: 48, bottom: 32),
-            child: Center(
-              child: AvatarWidget(avatarURL: nikolaNikolic.avatarURL),
-            ),
-          ),
+          SizedBox(height: 24,),
+          Center(child: AvatarWidget(avatarURL: user.avatarURL)),
+          SizedBox(height: 24,),
           Align(
-            //IME I PREZIME
             alignment: Alignment.center,
             child: Padding(
               padding: EdgeInsets.only(right: 16, left: 16),
               child: Text(
-                nikolaNikolic.fullName,
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                user.fullName,
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
               ),
             ),
           ),
+          SizedBox(height: 12,),
           Align(
-            //LOKACIJA
             alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 16, left: 16, right: 16),
-              child: Chip(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: Colors.black),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
                 ),
-                backgroundColor: Colors.white,
-                label: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.person_pin_circle_outlined,
-                    ),
+                    Icon(Icons.person_pin_circle_outlined),
                     Text(
-                      nikolaNikolic.locationDesc != null
-                          ? nikolaNikolic.locationDesc!.join(", ")
+                      user.locationDesc != null
+                          ? user.locationDesc!.join(", ")
                           : "Nema podataka za lokaciju.",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Padding(
-            //INTERESOVANJA
-            padding: EdgeInsets.only(top: 4, right: 16, left: 16),
-            child: InterestChips(listOfInterests: nikolaNikolic.interests),
-          ),
+          Center(child: InterestChips(listOfInterests: user.interests)),
           Align(
-            //DESKRIPCIJA PROFILA
             alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SizedBox(
-                width: double.infinity,
-                child: Card(
-                  elevation: 10,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 12,
-                      bottom: 12,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Text(
-                      nikolaNikolic.description ?? '',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
+            child: SizedBox(
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 12,
+                    bottom: 12,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: Text(
+                    user.description ?? '',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.justify,
                   ),
                 ),
               ),
             ),
           ),
+          CourseCarousel(courses: courses,)
         ],
       ),
     );
