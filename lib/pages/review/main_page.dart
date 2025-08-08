@@ -48,7 +48,7 @@ class _ReviewMainPageState extends State<ReviewMainPage> {
           }
         },
         icon: const Icon(Icons.edit),
-        label: const Text('Write a review'),
+        label: const Text('Napiši recenziju'),
       ),
       body: ListenableBuilder(
         listenable: controller,
