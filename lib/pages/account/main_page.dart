@@ -9,7 +9,7 @@ import 'components/avatar.dart';
 import 'components/interest_chips.dart';
 
 class AccountMainPage extends StatefulWidget {
-  AccountMainPage({super.key});
+  const AccountMainPage({super.key});
 
   @override
   State<AccountMainPage> createState() => _AccountMainPageState();

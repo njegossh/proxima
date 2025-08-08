@@ -27,8 +27,8 @@ class CourseCarousel extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: course.thumbnailURL == null
-                        ? Icon(Icons.image, size: 150)
+                    child: (course.thumbnailURL == null || course.thumbnailURL!.isEmpty)
+                        ? Icon(Icons.image, size: 75)
                         : Image.network(
                             course.thumbnailURL!,
                             fit: BoxFit.cover,

@@ -3,6 +3,7 @@ import 'package:proxima/config/theme.dart';
 import 'package:proxima/pages/chat/main_page.dart';
 import 'package:proxima/pages/chat_list/main_page.dart';
 import 'package:proxima/pages/course/main_page.dart';
+import 'package:proxima/pages/course_creation/main_page.dart';
 import 'package:proxima/pages/map/main_page.dart';
 import 'package:proxima/pages/review/main_page.dart';
 import 'package:proxima/pages/search/main_page.dart';
@@ -146,6 +147,15 @@ class DebugPages extends StatelessWidget {
           );
         },
         child: Text('Chat'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CourseCreationMainPage()),
+          );
+        },
+        child: Text('Course creation'),
       ),
     ];
 

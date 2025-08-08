@@ -6,14 +6,22 @@ class EditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Card(
-        elevation: 1,
-        margin: EdgeInsets.only(left: 16, right: 16),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(children: [Icon(Icons.edit), Text("Izmeni")]),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: OutlinedButton(
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            Icon(Icons.edit),
+            SizedBox(width: 4),
+            Text(
+              "Izmeni",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );

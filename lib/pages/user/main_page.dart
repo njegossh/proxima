@@ -33,7 +33,7 @@ class UserMainPage extends StatelessWidget {
           SizedBox(height: 12),
           LocationInfo(user: user),
           Center(child: InterestChips(listOfInterests: user.interests)),
-          (user!.description != null && user!.description!.isNotEmpty)
+          (user.description != null && user.description!.isNotEmpty)
               ? Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
