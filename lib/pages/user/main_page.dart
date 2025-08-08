@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/course.dart';
 import 'package:proxima/classes/mock/user.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
+import 'package:proxima/pages/user/components/location.dart';
 import 'components/avatar.dart';
 import 'components/interest_chips.dart';
 
@@ -30,31 +31,7 @@ class UserMainPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12,),
-          Align(
-            alignment: Alignment.center,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.person_pin_circle_outlined),
-                    Text(
-                      user.locationDesc != null
-                          ? user.locationDesc!.join(", ")
-                          : "Nema podataka za lokaciju.",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          LocationInfo(user: user),
           Center(child: InterestChips(listOfInterests: user.interests)),
           Align(
             alignment: Alignment.centerLeft,

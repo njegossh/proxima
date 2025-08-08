@@ -28,6 +28,43 @@ class ReviewsPreview extends StatelessWidget {
             ],
           ),
           SizedBox(height: 8),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: reviews.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final review = reviews[index];
+              return Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.star, color:Theme.of(context).colorScheme.secondary,),
+                          Text("${review.value}"),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(review.comment, style: TextStyle(fontWeight: FontWeight.w100),),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 8,),
+          OutlinedButton(onPressed: null /* TO DO */, child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.remove_red_eye_outlined),
+              SizedBox(width: 8,),
+              Text("Sve recenzije"),
+            ],
+          ))
         ],
       ),
     );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/course.dart';
-import 'package:proxima/classes/mock/review.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
 import 'package:proxima/pages/course/components/video_showcase.dart';
+import 'package:proxima/pages/course/controller.dart';
 import 'components/tags_chips.dart';
 
 class CourseMainPage extends StatefulWidget {
@@ -18,17 +18,19 @@ class CourseMainPage extends StatefulWidget {
 
 class _CourseMainPageState extends State<CourseMainPage> {
   Course get course => widget.course;
+  final controller = CourseMainController();
 
   @override
   void initState() {
     course.reload();
+    controller.init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: course,
+      listenable: controller,
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(elevation: 0),
@@ -89,7 +91,15 @@ class _CourseMainPageState extends State<CourseMainPage> {
                     )
                   : SizedBox.shrink(),
               SizedBox(height: 32),
-              ReviewsPreview(reviews: reviews),
+              Builder(
+                builder: (context) {
+                  if (controller.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return ReviewsPreview(reviews: controller.reviewList);
+                  }
+                },
+              ),
               SizedBox(height: 32),
               course.videoURL == null
                   ? SizedBox.shrink()
