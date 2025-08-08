@@ -26,6 +26,7 @@ dependencies:
   geolocator: ^14.0.2
   youtube_player_iframe: ^5.2.1
   intl: ^0.20.2
+  easy_stars: ^1.0.9
   #zego_uikit_prebuilt_call: ^4.17.7
 
 dev_dependencies:

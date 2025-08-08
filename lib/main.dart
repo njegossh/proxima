@@ -133,7 +133,7 @@ class DebugPages extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ReviewMainPage()),
+            MaterialPageRoute(builder: (context) => ReviewMainPage(userId: '4444-abc', classId: 'eng12')),
           );
         },
         child: Text('Review'),
