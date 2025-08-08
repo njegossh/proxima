@@ -9,7 +9,7 @@ import 'components/interest_chips.dart';
 class UserMainPage extends StatelessWidget {
   UserMainPage({super.key});
 
-  final user = nikolaNikolic;
+  final user = peraPeric;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,9 @@ class UserMainPage extends StatelessWidget {
       appBar: AppBar(elevation: 0),
       body: ListView(
         children: [
-          SizedBox(height: 24,),
+          SizedBox(height: 24),
           Center(child: AvatarWidget(avatarURL: user.avatarURL)),
-          SizedBox(height: 24,),
+          SizedBox(height: 24),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -30,25 +30,27 @@ class UserMainPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 12,),
+          SizedBox(height: 12),
           LocationInfo(user: user),
           Center(child: InterestChips(listOfInterests: user.interests)),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              child: Card(
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    user.description ?? '',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.justify,
+          (user!.description != null && user!.description!.isNotEmpty)
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Text(
+                          user.description!,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ),
-          CourseCarousel(courses: courses,)
+                )
+              : SizedBox.shrink(),
+          CourseCarousel(courses: courses),
         ],
       ),
     );

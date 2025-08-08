@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class EditButton extends StatelessWidget {
-  const EditButton({super.key});
+  const EditButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: null,
+      onTap: onPressed,
       child: Card(
         elevation: 1,
         margin: EdgeInsets.only(left: 16, right: 16),
