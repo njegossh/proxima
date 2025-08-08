@@ -6,18 +6,17 @@ class Coursedisplayimage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: double.infinity,
-        height: 200,
-        padding: EdgeInsets.all(8),
-        child: Center(
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.all(0),
+        child: SizedBox(
+          height: 200,
           child: displayImageURL == null ? Icon(
             Icons.image_rounded, 
-            size: 100, 
-            color: Colors.indigo[800],
-          ) : Image.network(displayImageURL!),
+            size: 100,
+          ) : Image.network(displayImageURL!, fit: BoxFit.cover,),
         ),
       ),
     );

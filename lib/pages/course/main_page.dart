@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/mock/course.dart';
+import 'package:proxima/classes/mock/review.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
+import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
 import 'package:proxima/pages/course/components/video_showcase.dart';
 import 'components/tags_chips.dart';
@@ -32,91 +34,80 @@ class _CourseMainPageState extends State<CourseMainPage> {
           appBar: AppBar(elevation: 0),
           body: ListView(
             children: [
+              SizedBox(height: 24),
               Align(
-                //NAZIV KURSA
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 48, bottom: 24),
+                  padding: EdgeInsets.only(right: 16, left: 16),
                   child: Text(
                     course.name,
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
                   ),
                 ),
               ),
-
+              SizedBox(height: 24),
               Coursedisplayimage(displayImageURL: course.thumbnailURL),
               SizedBox(height: 24),
-              TagsChips(interests: course.tags),
+              Center(child: TagsChips(tags: course.tags)),
+              SizedBox(height: 24),
               Builder(
                 builder: (context) {
                   if (course.user == null) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return Padding(
-                      // INFORMACIJE INSTRUKTORA
-                      padding: const EdgeInsets.only(
-                        top: 16,
-                        bottom: 16,
-                        right: 4,
-                        left: 4,
-                      ),
-                      child: UserInfo(
-                        username: course.user!.fullName,
-                        avatarURL: course.user!.avatarURL,
-                      ),
+                    return UserInfo(
+                      username: course.user!.fullName,
+                      avatarURL: course.user!.avatarURL,
+                      location: course.user!.locationDesc != null
+                          ? course.user!.locationDesc!.join(", ")
+                          : "Nema podataka za lokaciju.",
                     );
                   }
                 },
               ),
-              Align(
-                // DESKRIPCIJA KURSA : DODATI ATRIBUT ZA DESKRIPCIJU KURSA!
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      elevation: 10,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 12,
-                          bottom: 12,
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: Text(
-                          "Description to be addded!",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
+              course.description != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 32,
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              course.videoURL == null
-                  ? SizedBox.shrink()
-                  : Padding(
-                      // VIDEO O KURSU : TO BE ADDED!
-                      padding: const EdgeInsets.all(4),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
+                      child: SizedBox(
                         width: double.infinity,
                         child: Card(
-                          color: Colors.white,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Videoshowcase(videoURL: course.videoURL!),
+                          margin: EdgeInsets.all(0),
+                          child: Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              course.description!,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              textAlign: TextAlign.justify,
                             ),
                           ),
                         ),
                       ),
+                    )
+                  : SizedBox.shrink(),
+              SizedBox(height: 32),
+              ReviewsPreview(reviews: reviews),
+              SizedBox(height: 32),
+              course.videoURL == null
+                  ? SizedBox.shrink()
+                  : Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      width: double.infinity,
+                      child: Card(
+                        margin: EdgeInsets.all(0),
+                        color: Colors.white,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Videoshowcase(videoURL: course.videoURL!),
+                          ),
+                        ),
+                      ),
                     ),
+              SizedBox(height: 32),
             ],
           ),
         );

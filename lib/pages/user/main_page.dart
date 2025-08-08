@@ -61,12 +61,7 @@ class UserMainPage extends StatelessWidget {
             child: SizedBox(
               child: Card(
                 child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 12,
-                    bottom: 12,
-                    left: 20,
-                    right: 20,
-                  ),
+                  padding: EdgeInsets.all(12),
                   child: Text(
                     user.description ?? '',
                     style: Theme.of(context).textTheme.titleMedium,

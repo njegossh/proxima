@@ -9,6 +9,7 @@ final users = [
 ];
 
 final nikolaNikolic = User(
+  id: '4444-abc',
   locationX: 21,
   locationY: 23,
   name: 'Nikola',
