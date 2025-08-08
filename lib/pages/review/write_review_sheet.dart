@@ -33,7 +33,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Write a Review',
+                  'Napiši recenziju',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 20),
@@ -58,7 +58,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                 TextFormField(
                   controller: _commentController,
                   decoration: const InputDecoration(
-                    labelText: 'Your Comment',
+                    labelText: 'Tvoj komentar',
                     border: OutlineInputBorder(),
                   ),
                   maxLines: 4,
@@ -70,7 +70,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                   children: [
                     ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
+                      child: const Text('Zatvori'),
                     ),
                     const SizedBox(width: 10),
                     ElevatedButton(
@@ -88,7 +88,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                           );
                         }
                       },
-                      child: const Text('Submit'),
+                      child: const Text('Pošalji'),
                     ),
                   ],
                 ),
