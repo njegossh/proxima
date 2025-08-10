@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../controller.dart';
 
 class InputForm extends StatefulWidget {
-  final controller;
+  final CourseCreationController controller;
   const InputForm({super.key, required this.controller});
 
   @override

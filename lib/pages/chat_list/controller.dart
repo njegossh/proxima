@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/chat.dart';
-import 'package:proxima/classes/mock/chat_list.dart';
 
 class ChatListController extends ChangeNotifier {
   List<Chat> chatList = [];
@@ -11,8 +11,7 @@ class ChatListController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
-    chatList = List.from(mockChatList);
+    chatList = await Database().fetchAllChats();
     filteredChatList = List.from(chatList);
 
     isLoading = false;

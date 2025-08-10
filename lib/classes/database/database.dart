@@ -1,7 +1,14 @@
+export 'appointments.dart';
+export 'courses.dart';
+export 'users.dart';
+export 'chat.dart';
+export 'map.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/classes/database/users.dart';
+import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/config/firebase_options.dart';
 import '../../main.dart';
 import 'auth.dart';
@@ -20,24 +27,21 @@ class Database with ChangeNotifier {
     await Firebase.initializeApp( 
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    /*
-    final userDoc = userReference(userUID);
-    final userSnapshot = await userDoc.get();
-    final userJSON = userSnapshot.data() as Map;
-    currentUser = userDTO.User.fromJson(userJSON, userUID);
-    */
-    currentUser = goranEdman;
   }
 
-  DocumentReference userReference(String userID){
-    return firestore.collection('users').doc(userID);
-  }
-
-  DocumentReference appointmentReference(String appID){
-    return firestore.collection('appointments').doc(appID);
-  }
-  DocumentReference classReference(String classID){
-    return firestore.collection('classes').doc(classID);
+  Future<bool> tryFetchingCurrentUser() async {
+    try{
+      currentUser = await fetchUserFromID(Auth().userUID);
+      return true;
+    } catch (e) {
+      try{
+        currentUser = User.blankWithID(Auth().userUID);
+        debugPrint('$e');
+        return false;
+      } catch (e) {
+        debugPrint('$e');
+        return false;
+      }
+    }
   }
 }

@@ -1,6 +1,5 @@
-// controllers/search_main_controller.dart
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/mock/course.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
 
 class SearchMainController extends ChangeNotifier {
@@ -49,8 +48,15 @@ class SearchMainController extends ChangeNotifier {
     }
   }
 
-  void _applyFilters() {
+  Future<void> _applyFilters() async {
     final query = searchController.text.toLowerCase().trim();
+    _filteredCourses = await Database().fetchCoursesWithParams( 
+      name: query,
+      minPrice: _minPrice,
+      maxPrice: _maxPrice,
+      tags: _selectedTags,
+    );
+    /*
     _filteredCourses = courses.where((course) {
       final matchesName = course.name.toLowerCase().contains(query);
       final matchesPrice =
@@ -69,6 +75,7 @@ class SearchMainController extends ChangeNotifier {
     } else if (_sortBy == 'price_high') {
       _filteredCourses.sort((a, b) => b.pricePerHour.compareTo(a.pricePerHour));
     }
+    */
 
     notifyListeners();
   }
@@ -109,7 +116,9 @@ class SearchMainController extends ChangeNotifier {
   }
   
   List<String> getAllAvailableTags() {
-    return courses.map((e) => e.tags).expand((element) => element).toList();
+    //TODO Videcemo za ovo kako cemo
+    return [];
+    //return courses.map((e) => e.tags).expand((element) => element).toList();
   }
 
   @override

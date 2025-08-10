@@ -30,6 +30,7 @@ final nikolaNikolic = User(
 );
 
 final peraPeric = User(
+  id: 'adsdas',
   locationX: 51,
   locationY: 12,
   name: 'Pera',

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'user.dart';
 
 class Course extends ChangeNotifier {
@@ -12,6 +12,7 @@ class Course extends ChangeNotifier {
   String? description;
   String? videoURL;
   String? thumbnailURL;
+
   User? user;
 
   Course({
@@ -24,6 +25,7 @@ class Course extends ChangeNotifier {
     this.averageReview,
     this.videoURL,
     this.thumbnailURL,
+    this.user,
   });
 
   static Course fromJson(Map json, String? id){
@@ -31,7 +33,7 @@ class Course extends ChangeNotifier {
       id: id,
       name: json['name'],
       userID: json['userID'],
-      tags: json['tags'],
+      tags: (json['tags'] as List? ?? []).map((i) => '$i').toList(),
       pricePerHour: json['pricePerHour'],
       averageReview: json['averageReview'],
       description: json['description'],
@@ -39,9 +41,20 @@ class Course extends ChangeNotifier {
     );
   }
 
+  Map<String, Object?> toJson() {
+    return {
+      'name': name,
+      'userID': userID,
+      'tags': tags,
+      'pricePerHour': pricePerHour,
+      'averageReview': averageReview,
+      'description': description,
+      'videoURL': videoURL,
+    };
+  }
+
   Future<void> reload() async {
-    await Future.delayed(const Duration(seconds: 1));
-    user = nikolaNikolic;
+    user = await Database().fetchUserFromID(userID);
     notifyListeners();
   }
 }

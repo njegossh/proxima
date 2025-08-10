@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show DocumentReference;
-import '../models/message.dart' show Message;
-import 'database.dart' show Database;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:proxima/classes/models/chat.dart';
+import 'package:proxima/classes/models/user.dart';
+import '../models/message.dart';
+import 'database.dart';
 
 extension ChatDatabase on Database {
 
@@ -8,20 +10,18 @@ extension ChatDatabase on Database {
     return (userIDs..sort()).join('_');
   }
 
-  DocumentReference chatReference(String chatID){
-    return firestore.collection('chats').doc(chatID);
-  }
+  CollectionReference get chats => firestore.collection('chats');
   
   Future<void> sendMessage(
     List<String> userIDs, 
     Map<String, dynamic> data,
   ) async {
-    final chatDoc = chatReference(chatIDFrom(userIDs));
+    final chatDoc = chats.doc(chatIDFrom(userIDs));
     await chatDoc.collection('messages').add(data);
   }
 
   Stream<List<Message>> openChatConnection(List<String> userIDs){
-    final chatDoc = chatReference(chatIDFrom(userIDs));
+    final chatDoc = chats.doc(chatIDFrom(userIDs));
     final query = chatDoc.collection('messages').orderBy(
       'timestamp', descending: false,
     );
@@ -30,5 +30,23 @@ extension ChatDatabase on Database {
        return Message.fromJson(doc.data(), doc.id); 
       }).toList();
     });
+  }
+
+  Future<List<User>> fetchUsersChattedWith() async {
+    final query = users.where('name', isNull: false);
+    final result = await query.get();
+    return result.docs.map((doc){
+      return User.fromJson(doc.data() as Map, doc.id);
+    }).toList();
+  }
+
+  Future<List<Chat>> fetchAllChats() async {
+    final users = await fetchUsersChattedWith();
+    return users.map((user){
+      return Chat(
+        otherUser: user, 
+        messages: [],
+      );
+    }).toList();
   }
 }

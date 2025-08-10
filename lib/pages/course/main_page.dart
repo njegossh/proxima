@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/mock/course.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
@@ -9,20 +8,20 @@ import 'package:proxima/pages/course/controller.dart';
 import 'components/tags_chips.dart';
 
 class CourseMainPage extends StatefulWidget {
-  final Course course = courseCPP;
-  CourseMainPage({super.key});
+  final Course course;
+  const CourseMainPage({super.key, required this.course});
 
   @override
   State<CourseMainPage> createState() => _CourseMainPageState();
 }
 
 class _CourseMainPageState extends State<CourseMainPage> {
-  Course get course => widget.course;
-  final controller = CourseMainController();
+  Course get course => controller.course;
+  late CourseMainController controller;
 
   @override
   void initState() {
-    course.reload();
+    controller = CourseMainController(course: widget.course);
     controller.init();
     super.initState();
   }
@@ -57,13 +56,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   if (course.user == null) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return UserInfo(
-                      username: course.user!.fullName,
-                      avatarURL: course.user!.avatarURL,
-                      location: course.user!.locationDesc != null
-                          ? course.user!.locationDesc!.join(", ")
-                          : "Nema podataka za lokaciju.",
-                    );
+                    return UserInfo(user: course.user!);
                   }
                 },
               ),
@@ -96,7 +89,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   if (controller.isLoading) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return ReviewsPreview(reviews: controller.reviewList);
+                    return ReviewsPreview(reviews: controller.reviewList, course: controller.course,);
                   }
                 },
               ),

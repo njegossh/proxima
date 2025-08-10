@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:proxima/classes/database/chat.dart';
 import 'package:proxima/classes/database/database.dart';
 
 class Message {
@@ -26,7 +25,7 @@ class Message {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, Object?> toMap() {
     return {
       'fromUserID': fromUserID,
       'toUserID': toUserID,

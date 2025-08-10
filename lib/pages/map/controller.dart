@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
 
 class MainMapController extends ChangeNotifier {
@@ -12,20 +12,19 @@ final MapController mapController = MapController();
 
   List<User> instructors = [];
 
-  LatLng userLocation = LatLng(howieSimon.locationX, howieSimon.locationY);
-
-  Future<List<User>> fetchInstructors() async {
-    await Future.delayed(const Duration(seconds: 2));
-    instructors = [ howieSimon, goranEdman ];
-    notifyListeners();
-    return instructors;
-  }
+  LatLng userLocation = LatLng(0, 0);
 
   Future<void> init() async {
-    fetchInstructors();
+    getInstructorsWithinRadius();
   }
 
-  List<User> getInstructorsWithinRadius() {
+  Future<List<User>> getInstructorsWithinRadius() {
+    return Database().getInstructorsWithinRadius( 
+      userLocation.latitude,
+      userLocation.longitude,
+      radius,
+    );
+    /*
     final Distance distance = Distance();
     return instructors
         .where(
@@ -38,6 +37,7 @@ final MapController mapController = MapController();
               radius,
         )
         .toList();
+    */
   }
 
   void setRadius(double val){

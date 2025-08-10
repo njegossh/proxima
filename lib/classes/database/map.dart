@@ -1,10 +1,9 @@
-
+import 'package:proxima/classes/models/user.dart';
 import 'database.dart';
 
 extension MapDatabase on Database {
 
-
-  Future getInstructorsWithinRadius(
+  Future<List<User>> getInstructorsWithinRadius(
     double userLocationX,
     double userLocationY,
     double radius,
@@ -13,7 +12,14 @@ extension MapDatabase on Database {
       'locationX', 
       isLessThan: userLocationX + radius,
       isGreaterThan: userLocationX - radius,
+    ).where(
+      'locationY',
+      isLessThan: userLocationY + radius,
+      isGreaterThan: userLocationX - radius,
     );
-    return await query.get();
+    final result = await query.get();
+    return result.docs.map((doc){
+      return User.fromJson(doc.data() as Map, doc.id);
+    }).toList();
   }
 }

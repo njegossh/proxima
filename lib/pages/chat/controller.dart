@@ -20,6 +20,7 @@ class ChatController extends ChangeNotifier {
   }
   
   ChatController({required this.chat}){
+    chat.openConnection();
     chat.addListener((){
       scroll.animateTo(
         scroll.position.maxScrollExtent, 
@@ -31,14 +32,21 @@ class ChatController extends ChangeNotifier {
   }
 
   Future<void> send() async {
+    if(input.text.isEmpty) return;
     final message = Message(
-      fromUserID: currentUser.id!,
-      toUserID: chat.otherUser.id!,
+      fromUserID: currentUser.id,
+      toUserID: chat.otherUser.id,
       content: input.text,
       timestamp: Timestamp.now(),
     );
     input.clear();
-    messages.add(message);
+    await message.send();
     notifyListeners();
   }
+
+  @override
+    void dispose() {
+      chat.closeConnection();
+      super.dispose();
+    }
 }

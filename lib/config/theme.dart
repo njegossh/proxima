@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 
+ThemeData get generateGreenTheme {
+  return generateTheme(
+    primary: Color(0xFF351C1D),
+    primaryAccent: Color.fromARGB(255, 102, 56, 59),
+    textPrimary: Color(0xFFFFFFFF),
+    secondary: Color(0xFFB28F5F),
+    secondaryAccent: Color(0xFFDAB986),
+    textSecondary: Color(0xFF000000),
+    tertiaty: Color(0xFF1F1F1F),
+    tertiaryAccent: Color(0xFF383838),
+    surface: Color(0xFFFFFFF5),
+    secondarySurface: Color(0xFFFFFFFD),
+    error: Color(0xFF4E0000),
+  );
+}
+
 ThemeData generateTheme({
   required Color primary,
   required Color secondary,
@@ -161,6 +177,11 @@ ThemeData generateTheme({
           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData( 
+      selectedItemColor: primary,
+      unselectedItemColor: secondary,
+      backgroundColor: tertiaty,
     ),
   );
 }

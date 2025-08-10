@@ -1,45 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
-import 'package:proxima/classes/mock/user.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:proxima/main.dart';
 
 class AccountController extends ChangeNotifier {
-  User? account;
-  bool isLoading = false;
   bool trackLocation = false;
 
-  late TextEditingController firstNameCtrl;
-  late TextEditingController lastNameCtrl;
-  late TextEditingController avatarUrlCtrl;
-  late TextEditingController locXCtrl;
-  late TextEditingController locYCtrl;
-  late TextEditingController locationDescCtrl;
-  late TextEditingController interestsCtrl;
-  late TextEditingController descriptionCtrl;
+  final firstNameCtrl = TextEditingController(text: currentUser.name);
+  final lastNameCtrl = TextEditingController(text: currentUser.surname);
+  final avatarUrlCtrl = TextEditingController(text: currentUser.avatarURL);
+  final locXCtrl = TextEditingController(text: currentUser.locationX.toString());
+  final locYCtrl = TextEditingController(text: currentUser.locationY.toString());
+  final locationDescCtrl = TextEditingController(text: currentUser.locationDesc?.join(', ') ?? '');
+  final interestsCtrl = TextEditingController(text: currentUser.interests.join(', '));
+  final descriptionCtrl = TextEditingController(text: currentUser.description);
 
-  Future<void> init() async {
-    isLoading = true;
-    notifyListeners();
+  User get account => currentUser;
 
-    await Future.delayed(const Duration(seconds: 2));
-    account = nikolaNikolic;
-
-    firstNameCtrl = TextEditingController(text: account?.name ?? '');
-    lastNameCtrl = TextEditingController(text: account?.surname ?? '');
-    avatarUrlCtrl = TextEditingController(text: account?.avatarURL ?? '');
-    locXCtrl = TextEditingController(text: account?.locationX.toString() ?? '');
-    locYCtrl = TextEditingController(text: account?.locationY.toString() ?? '');
-    descriptionCtrl = TextEditingController(text: account?.description ?? '');
-    locationDescCtrl = TextEditingController(
-      text: account?.locationDesc?.join(', ') ?? '',
-    );
-    interestsCtrl = TextEditingController(
-      text: account?.interests.join(', ') ?? '',
-    );
-
-    isLoading = false;
-    notifyListeners();
-  }
+  AccountController();
 
   void trackLocationChange(bool? val) {
     trackLocation = val ?? false;
@@ -47,46 +26,28 @@ class AccountController extends ChangeNotifier {
   }
 
   Future<void> updateAccount() async {
-    if (account == null) return;
-    try {
-      if (trackLocation) {
-        Position pos = await _getUserLocation();
-        account = User(
-          name: firstNameCtrl.text,
-          surname: lastNameCtrl.text,
-          avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
-          description: descriptionCtrl.text,
-          locationX: pos.latitude,
-          locationY: pos.longitude,
-          locationDesc: locationDescCtrl.text.isEmpty
-              ? null
-              : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
-          interests: interestsCtrl.text
-              .split(',')
-              .map((e) => e.trim())
-              .where((e) => e.isNotEmpty)
-              .toList(),
-        );
-      } else {
-        account = User(
-          name: firstNameCtrl.text,
-          surname: lastNameCtrl.text,
-          avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
-          description: descriptionCtrl.text,
-          locationX: account!.locationX,
-          locationY: account!.locationY,
-          locationDesc: locationDescCtrl.text.isEmpty
-              ? null
-              : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
-          interests: interestsCtrl.text
-              .split(',')
-              .map((e) => e.trim())
-              .where((e) => e.isNotEmpty)
-              .toList(),
-        );
-      }
-      notifyListeners();
-    } catch (e) {}
+    Position? position;
+    if(trackLocation) position = await _getUserLocation();
+
+    await Database().updateUser(User(
+      id: currentUser.id,
+      name: firstNameCtrl.text,
+      surname: lastNameCtrl.text,
+      avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
+      description: descriptionCtrl.text,
+      locationX: position?.latitude ?? currentUser.locationX,
+      locationY: position?.longitude ?? currentUser.locationY,
+      locationDesc: locationDescCtrl.text.isEmpty
+          ? null
+          : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
+      interests: interestsCtrl.text
+          .split(',')
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList(), 
+      range: -1, //TODO 
+    ));      
+    navigateToRootAndAuth();
   }
 
   Future<Position> _getUserLocation() async {

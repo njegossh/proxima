@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/pages/chat/components/input.dart';
 import 'package:proxima/pages/chat/controller.dart';
-
 import 'components/messages.dart';
 
 class ChatMainPage extends StatefulWidget {
-  const ChatMainPage({super.key});
+  final User otherUser;
+  const ChatMainPage({super.key, required this.otherUser});
 
   @override
   State<ChatMainPage> createState() => _ChatMainPageState();
 }
 
 class _ChatMainPageState extends State<ChatMainPage> {
-  final otherUser = goranEdman;
   late ChatController controller;
 
   @override
   void initState() {
     controller = ChatController.fromOtherUser(
-      otherUser,
+      widget.otherUser,
     );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
 
@@ -32,7 +37,7 @@ class _ChatMainPageState extends State<ChatMainPage> {
       builder: (context, child) {
         return Scaffold( 
           appBar: AppBar(
-            title: Text(otherUser.fullName),
+            title: Text(widget.otherUser.fullName),
           ),
           bottomSheet: ChatInput(controller: controller),
           body: Column(

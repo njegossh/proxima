@@ -9,20 +9,16 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment> {
   final User user;
   Map<String, Color> classColors = {};
 
-  CalendarMainController({ 
-    required this.user,
-  }){
+  CalendarMainController({required this.user}){
     init();
   }
 
   Future<void> init() async {
     appointments = user.appointments;
-    await user.loadAppointments().then((apps){
-      appointments = apps;
-      for( final app in apps ){
-        app.load();
-      }
-    });
+    await user.reloadAppointments();
+    for(final app in user.appointments!){
+      app.reload();
+    }
   }
 
   @override
@@ -43,14 +39,14 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment> {
   @override
   getColor(int index) {
     final app = this[index];
-    final classID = app.classID;
+    final courseID = app.courseID;
     
-    if(classColors[classID] == null){
+    if(classColors[courseID] == null){
       classColors.addAll({
-        classID : getRandomColor(),
+        courseID : getRandomColor(),
       });
     }
-    return classColors[classID] ?? Colors.grey;
+    return classColors[courseID] ?? Colors.grey;
   }
 
   Appointment operator [](int index) {

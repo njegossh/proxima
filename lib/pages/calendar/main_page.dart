@@ -1,50 +1,16 @@
-import 'package:proxima/classes/mock/user.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:flutter/material.dart';
-import 'controller.dart';
+import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/pages/calendar/components/calendar_body.dart';
 
-
-class CalendarMainPage extends StatefulWidget {
-  const CalendarMainPage({super.key});
-
-  @override
-  State<CalendarMainPage> createState() => _CalendarMainPageState();
-}
-
-class _CalendarMainPageState extends State<CalendarMainPage> {
-  late CalendarMainController controller;
-
-  @override
-  void initState() {
-    controller = CalendarMainController(user: nikolaNikolic);
-    super.initState();
-  }
+class CalendarMainPage extends StatelessWidget {
+  final User user;
+  const CalendarMainPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    final user = controller.user;
-    return ListenableBuilder(
-      listenable: user,
-      builder: (context, child) {
-        final appointments = user.appointments;
-        if( appointments == null) return CircularProgressIndicator();
-        return Scaffold( 
-          appBar: AppBar( 
-            title: Text( 
-              "${user.name}'s appointments",
-            ),
-          ),
-          body: sync.SfCalendar(
-            view: sync.CalendarView.week,
-            firstDayOfWeek: 1,
-            dataSource: controller,
-            onTap: (details){
-              //TODO Odavde ode na stranicu classa
-              //final app = details.appointments![0] as Appointment;
-            },
-          ),
-        );
-      }
+    return Scaffold(
+      appBar: AppBar(title: Text(user.name)),
+      body: CalendarBody(user: user),
     );
   }
 }

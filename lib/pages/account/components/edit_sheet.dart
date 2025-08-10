@@ -130,7 +130,7 @@ class EditAccountSheet extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     controller.updateAccount();
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
                   },
                   child: Text('Ažuriraj'),
                 ),

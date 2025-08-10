@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/chat.dart';
+import 'package:proxima/pages/chat/main_page.dart';
 
 class ChatDisplay extends StatelessWidget {
   final Chat chat;
@@ -11,9 +12,9 @@ class ChatDisplay extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: InkWell(
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Tapped!'), duration: Duration(seconds: 2)),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ChatMainPage(otherUser: chat.otherUser);
+          }));
         } /* TO DO */,
         child: Padding(
           padding: const EdgeInsets.all(4),

@@ -79,8 +79,8 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                           Navigator.pop(
                             context,
                             Review(
-                              userID: widget.controller.userId,
-                              classID: widget.controller.classId,
+                              userID: widget.controller.user.id,
+                              courseID: widget.controller.course.id!,
                               value: _rating,
                               comment: _commentController.text.trim(),
                               date: DateTime.now(),

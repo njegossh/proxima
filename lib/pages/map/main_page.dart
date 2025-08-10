@@ -110,10 +110,11 @@ class _MapMainPageState extends State<MapMainPage> {
                           value: controller.radius,
                           onChanged: controller.setRadius,
                           onChangeEnd: (value) async {
-                            final updated = controller.getInstructorsWithinRadius();
+                            final updated = await controller.getInstructorsWithinRadius();
                             if (updated.isNotEmpty && !controller.instructorsSheetVisible) {
                               controller.instructorsSheetVisible = true;
                               await showModalBottomSheet(
+                                // ignore: use_build_context_synchronously
                                 context: context,
                                 builder: (_) =>
                                     InstructorsBottomSheet(instructors: updated),

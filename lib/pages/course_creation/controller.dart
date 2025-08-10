@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:proxima/classes/mock/course.dart';
-import 'package:proxima/classes/mock/user.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 
 class CourseCreationController extends ChangeNotifier {
   Course? newCourse;
-  int courselen = courses.length;
+  int get courselen => currentUser.courses?.length ?? 0;
 
   final name = TextEditingController();
   final tags = TextEditingController();
@@ -15,10 +15,10 @@ class CourseCreationController extends ChangeNotifier {
   final videoURL= TextEditingController();
   final thumbnailURL= TextEditingController();
 
-  void createCourse() {
+  Future<void> createCourse() async {
     newCourse = Course(
       name: name.text,
-      userID: users[1].id ?? "bezID", //Ovde treba da ide id trenutnog korisnika /* TO DO */
+      userID: currentUser.id,
       tags: tags.text.split(','),
       pricePerHour: double.parse(pricePerHour.text),
       averageReview: 0,
@@ -27,10 +27,9 @@ class CourseCreationController extends ChangeNotifier {
       thumbnailURL: thumbnailURL.text,
     );
 
-    if (newCourse != null) {
-      courses.add(newCourse!);
-    }
-    courselen = courses.length;
+    await Database().createCourse(newCourse!);
+    await currentUser.reload();
+
     notifyListeners();
   }
 }

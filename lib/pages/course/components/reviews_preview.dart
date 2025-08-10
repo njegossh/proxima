@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/classes/models/review.dart';
+import 'package:proxima/pages/review/main_page.dart';
 
 class ReviewsPreview extends StatelessWidget {
+  final Course course;
   final List<Review> reviews;
-  const ReviewsPreview({super.key, required this.reviews});
+  const ReviewsPreview({super.key, required this.reviews, required this.course,});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,11 @@ class ReviewsPreview extends StatelessWidget {
             },
           ),
           SizedBox(height: 8,),
-          OutlinedButton(onPressed: null /* TO DO */, child: Row(
+          OutlinedButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ReviewMainPage(course: course);
+            }));
+          }, child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.remove_red_eye_outlined),

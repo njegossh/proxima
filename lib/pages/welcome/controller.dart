@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/auth.dart';
+import 'package:proxima/main.dart';
 
 class WelcomeController extends ChangeNotifier{
   final pageController = PageController();
@@ -51,6 +52,7 @@ class WelcomeController extends ChangeNotifier{
         email.text, 
         password.text,
       );
+      navigateToRootAndAuth();
       return null;
     } on FirebaseAuthException catch ( error ){
       return error.message;

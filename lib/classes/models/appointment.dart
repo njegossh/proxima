@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/mock/course.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'course.dart';
 
 class Appointment extends ChangeNotifier {
   String? id;
   DateTime from, to;
-  String classID;
-  Course? classe;
+  String courseID;
+  Course? course;
 
   Appointment({
     this.id,
-    this.classe,
+    this.course,
     required this.from,
     required this.to,
-    required this.classID,
+    required this.courseID,
   });
 
   String get name {
-    if(classe == null) load();
-    return classe?.name ?? '?';
+    if(course == null) reload();
+    return course?.name ?? '?';
   }
 
   static Appointment fromJson(Map json, String? id){
@@ -26,25 +26,25 @@ class Appointment extends ChangeNotifier {
       id: id,
       from: DateTime.parse(json['from'] ?? ''), 
       to: DateTime.parse(json['to'] ?? ''), 
-      classID: json['classID'],
+      courseID: json['courseID'],
     );
   }
 
-  Map toJson(){
+  Map<String, Object> toJson(){
     return {
       'from' : from.toIso8601String(),
       'to': to.toIso8601String(),
-      'classID': classID,
+      'courseID': courseID,
     };
   }
 
-  Future load() async {
-    if(classe == null) reloadClass();
+  Future<Course> reloadCourse() async {
+    course = await Database().fetchCourseFromID(courseID);
+    notifyListeners();
+    return course!;
   }
 
-  Future reloadClass() async {
-    classe = courses.firstWhere((classe){
-      return classe.id == classID;
-    });
+  Future reload() async {
+    await reloadCourse();
   }
 }

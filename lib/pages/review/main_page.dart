@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/review/components/review_card.dart';
 import 'package:proxima/pages/review/controller.dart';
 import 'package:proxima/pages/review/write_review_sheet.dart';
 
 class ReviewMainPage extends StatefulWidget {
+  final Course course;
   const ReviewMainPage({
     super.key,
-    required this.userId,
-    required this.classId,
+    required this.course,
   });
-
-  final String userId;
-  final String classId;
 
   @override
   State<ReviewMainPage> createState() => _ReviewMainPageState();
@@ -23,10 +22,7 @@ class _ReviewMainPageState extends State<ReviewMainPage> {
   @override
   void initState() {
     super.initState();
-    controller = ReviewMainController(
-      userId: widget.userId,
-      classId: widget.classId,
-    );
+    controller = ReviewMainController(course: widget.course);
     controller.init(); // make sure we actually fetch the data
   }
 
@@ -74,7 +70,7 @@ class _ReviewMainPageState extends State<ReviewMainPage> {
                   ReviewCard(
                     review: review,
                     user: user,
-                    isCurrentUser: review.userID == widget.userId,
+                    isCurrentUser: review.userID == currentUser.id,
                   ),
                 ],
               );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/pages/chat_list/components/chat_display.dart';
-import 'package:proxima/pages/chat_list/controller.dart';
+import 'components/chat_display.dart';
+import 'controller.dart';
 
 class ChatList extends StatefulWidget {
   const ChatList({super.key});
@@ -18,6 +18,7 @@ class _ChatListState extends State<ChatList> {
     super.initState();
     controller.init();
     _searchController.addListener(() {
+
       controller.filterChats(_searchController.text);
     });
   }
@@ -34,16 +35,9 @@ class _ChatListState extends State<ChatList> {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        if (controller.isLoading) {
-          return Scaffold(
-            appBar: AppBar(title: Text('Chats')),
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+        if (controller.isLoading) CircularProgressIndicator();
 
-        return Scaffold(
-          appBar: AppBar(title: Text('Chats')),
-          body: Column(
+        return  Column(
             children: [
               SizedBox(height: 16,),
               Padding(
@@ -74,11 +68,10 @@ class _ChatListState extends State<ChatList> {
                           final chat = controller.filteredChatList[index];
                           return ChatDisplay(chat: chat);
                         },
-                        separatorBuilder: (context, index) => SizedBox(height: 8,),
+                        separatorBuilder: (_, i) => SizedBox(height: 8),
                       ),
               ),
             ],
-          ),
         );
       },
     );

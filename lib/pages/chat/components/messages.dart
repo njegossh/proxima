@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../controller.dart';
 
 class ChatMessages extends StatelessWidget {
@@ -21,8 +21,7 @@ class ChatMessages extends StatelessWidget {
       itemCount: messages.length,
       itemBuilder: (context, index){
         final message = messages[index];
-        //final mine = message.fromUserID == currentUser.id;
-        final mine = Random().nextInt(2) % 2 == 0;
+        final mine = message.fromUserID == currentUser.id;
         final colorScheme = Theme.of(context).colorScheme;
 
         return Container(
