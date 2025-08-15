@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/auth.dart';
 import 'package:proxima/config/theme.dart';
 import 'package:proxima/pages/home/main_page.dart';
+import 'package:proxima/pages/init_account/main_page.dart';
 import 'classes/database/database.dart';
 import 'classes/models/user.dart';
 import 'pages/account/main_page.dart';
@@ -21,7 +22,7 @@ Future<void> navigateToRootAndAuth() async {
 
   final home = {
     AuthStatus.unauthenticated: WelcomeMainPage(),
-    AuthStatus.pendingProfile: AccountMainPage(),
+    AuthStatus.pendingProfile: InitAccountMainPage(),
     AuthStatus.active: HomeMainPage(),
   }[authStatus]!;
 

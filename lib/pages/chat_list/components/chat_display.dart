@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/chat.dart';
 import 'package:proxima/pages/chat/main_page.dart';
+import 'package:proxima/pages/user/main_page.dart';
 
 class ChatDisplay extends StatelessWidget {
   final Chat chat;
@@ -12,27 +13,44 @@ class ChatDisplay extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return ChatMainPage(otherUser: chat.otherUser);
-          }));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ChatMainPage(otherUser: chat.otherUser);
+              },
+            ),
+          );
         } /* TO DO */,
         child: Padding(
           padding: const EdgeInsets.all(4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 65,
-                height: 65,
-                child: Card(
-                  margin: EdgeInsets.all(0),
-                  clipBehavior: Clip.antiAlias,
-                  child: chat.otherUser.avatarURL == null
-                      ? Icon(Icons.person, size: 45)
-                      : Image.network(
-                          chat.otherUser.avatarURL!,
-                          fit: BoxFit.cover,
-                        ),
+              InkWell( //Klik na sliku vodi do profila (user page)
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return UserMainPage(user: chat.otherUser);
+                      },
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  width: 65,
+                  height: 65,
+                  child: Card(
+                    margin: EdgeInsets.all(0),
+                    clipBehavior: Clip.antiAlias,
+                    child: chat.otherUser.avatarURL == null
+                        ? Icon(Icons.person, size: 45)
+                        : Image.network(
+                            chat.otherUser.avatarURL!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
               ),
               SizedBox(width: 12),
@@ -55,7 +73,7 @@ class ChatDisplay extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.secondary
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                           ],
@@ -67,7 +85,7 @@ class ChatDisplay extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.secondary
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                           ],
@@ -75,7 +93,10 @@ class ChatDisplay extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.primary,),
+              Icon(
+                Icons.chevron_right,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ],
           ),
         ),

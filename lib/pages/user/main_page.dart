@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/pages/chat/main_page.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'package:proxima/pages/user/components/location.dart';
 import 'package:proxima/pages/user/controller.dart';
@@ -35,7 +37,31 @@ class _UserMainPageState extends State<UserMainPage> {
             children: [
               SizedBox(height: 24),
               Center(child: AvatarWidget(avatarURL: widget.user.avatarURL)),
-              SizedBox(height: 24),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChatMainPage(otherUser: controller.user);
+                          },
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.message, size: 25),
+                  ),
+                  SizedBox(width: 16),
+                  OutlinedButton(
+                    onPressed: null,
+                    child: Icon(Icons.video_camera_front_rounded, size: 25),
+                  ),
+                ],
+              ),
+              SizedBox(height: 12,),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -46,16 +72,20 @@ class _UserMainPageState extends State<UserMainPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 16),
               LocationInfo(user: widget.user),
-              Center(child: InterestChips(listOfInterests: widget.user.interests)),
-              (widget.user.description != null && widget.user.description!.isNotEmpty)
+              Center(
+                child: InterestChips(listOfInterests: widget.user.interests),
+              ),
+              (widget.user.description != null &&
+                      widget.user.description!.isNotEmpty)
                   ? Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
+                        width: double.infinity,
                         child: Card(
                           child: Padding(
-                            padding: EdgeInsets.all(12),
+                            padding: EdgeInsets.all(16),
                             child: Text(
                               widget.user.description!,
                               style: Theme.of(context).textTheme.titleMedium,
@@ -70,7 +100,7 @@ class _UserMainPageState extends State<UserMainPage> {
             ],
           ),
         );
-      }
+      },
     );
   }
 }

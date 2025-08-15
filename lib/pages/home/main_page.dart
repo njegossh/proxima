@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/account/components/edit_sheet.dart';
 import 'package:proxima/pages/account/controller.dart';
+import 'package:proxima/pages/account/main_page.dart';
 import 'package:proxima/pages/calendar/components/calendar_body.dart';
 import 'package:proxima/pages/chat_list/main_page.dart';
 import 'package:proxima/pages/course_creation/main_page.dart';
@@ -52,7 +53,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
               SuggestedCoursesMainPage(),
               ChatList(),
               CalendarBody(user: currentUser),
-              EditAccountSheet(controller: AccountController()),
+              AccountMainPage(controller: AccountController()),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

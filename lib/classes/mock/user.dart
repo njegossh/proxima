@@ -10,6 +10,7 @@ final users = [
 
 final nikolaNikolic = User(
   id: '4444-abc',
+  range: 0.0,
   locationX: 21,
   locationY: 23,
   name: 'Nikola',
@@ -31,6 +32,7 @@ final nikolaNikolic = User(
 
 final peraPeric = User(
   id: 'adsdas',
+  range: 0.0,
   locationX: 51,
   locationY: 12,
   name: 'Pera',
@@ -46,6 +48,7 @@ final peraPeric = User(
 
 final goranEdman = User(
   id: 'cc-5679-zz',
+  range: 0.0,
   locationX: -22.302962,
   locationY: -49.061220,
   name: 'Goran',
@@ -55,6 +58,7 @@ final goranEdman = User(
 
 final howieSimon = User(
   id: '34560-c4',
+  range: 0.0,
   locationX: -22.304803,
   locationY: -49.062652,
   name: 'Howie',
@@ -64,6 +68,7 @@ final howieSimon = User(
 
 final fredrikAkesson = User(
   id: '65430-c55',
+  range: 0.0,
   locationX: -22.295501,
   locationY: -49.055607,
   name: 'Fredrik',
@@ -73,6 +78,7 @@ final fredrikAkesson = User(
 
 final ryotaHayami = User(
   id: '34560-c4',
+  range: 0.0,
   locationX: 35.679591,
   locationY: 139.770380,
   name: 'Ryota',

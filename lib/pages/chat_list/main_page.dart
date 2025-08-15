@@ -58,7 +58,7 @@ class _ChatListState extends State<ChatList> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.cancel_presentation_sharp),
+                        Icon(Icons.search_off, size: 50,),
                         Text('Nema rezultata!'),
                       ],
                     ))

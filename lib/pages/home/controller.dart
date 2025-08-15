@@ -28,8 +28,8 @@ class HomeController extends ChangeNotifier {
   Future<void> scrollTo(int newPage) {
     return pageController.animateToPage( 
       newPage, 
-      duration: const Duration(milliseconds: 300), 
-      curve: Curves.easeIn,
+      duration: const Duration(milliseconds: 200), 
+      curve: Curves.bounceIn,
     );
   }
 }
