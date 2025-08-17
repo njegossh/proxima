@@ -27,9 +27,9 @@ class _HomeMainPageState extends State<HomeMainPage> {
         return Scaffold( 
           appBar: AppBar(
             title: Text({
-              HomePage.courses:   'Home',
-              HomePage.chats:     'Chats',
-              HomePage.calendar:  'Calendar',
+              HomePage.courses:   'Home'.tr,
+              HomePage.chats:     'Chats'.tr,
+              HomePage.calendar:  'Calendar'.tr,
               HomePage.account:   currentUser.name,
             }[controller.page]!),
             actions: [
