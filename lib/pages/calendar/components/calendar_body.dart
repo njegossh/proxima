@@ -33,7 +33,7 @@ class _CalendarBodyState extends State<CalendarBody> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: controller.user,
+      listenable: controller.calendarKey,
       builder: (context, child) {
         if( controller.user.appointments == null) {
           return Center( 
@@ -41,7 +41,7 @@ class _CalendarBodyState extends State<CalendarBody> {
           );
         } else {
           return sync.SfCalendar(
-            key: controller.calendarKey,
+            key: controller.calendarKey.value,
             allowedViews: sync.CalendarView.values,
             view: sync.CalendarView.schedule,
             showNavigationArrow: true,

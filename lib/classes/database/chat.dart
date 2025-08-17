@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:proxima/classes/models/chat.dart';
+import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/main.dart';
 import '../models/message.dart';
 import 'database.dart';
@@ -18,6 +19,7 @@ extension ChatDatabase on Database {
   ) async {
     final chatDoc = chats.doc(chatIDFrom(userIDs));
     await chatDoc.collection('messages').add(data);
+    chatDoc.set({'userIDs': userIDs});
   }
 
   Stream<List<Message>> openChatConnection(List<String> userIDs){
@@ -33,14 +35,24 @@ extension ChatDatabase on Database {
   }
 
   Future<List<Chat>> fetchAllChats() async {
-    if(currentUser.followedUsers == null){
-      await currentUser.reloadFollowedUsers();
+    final query = chats.where(
+      'userIDs', arrayContains: currentUser.id,
+    );
+    final result = await query.get();
+    List<User> otherUsers = [];
+
+    for(final doc in result.docs){
+      List<String> userIDs = (doc['userIDs'] as List).map((i) => '$i').toList();
+      userIDs.remove(currentUser.id);
+      final otherUser = await fetchUserFromID(userIDs.first);
+      otherUsers.add(otherUser);
     }
-    return currentUser.followedUsers?.map((user){
-      return Chat(
-        otherUser: user, 
+    
+    return otherUsers.map((otherUser){
+      return Chat( 
+        otherUser: otherUser,
         messages: [],
       );
-    }).toList() ?? [];
+    }).toList();
   }
 }

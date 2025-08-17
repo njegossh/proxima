@@ -7,10 +7,10 @@ import 'package:proxima/classes/models/appointment.dart';
 
 enum AppointmentType { teachConfirmed, teachPending, attendConfirmed, attendPending }
 
-class CalendarMainController extends sync.CalendarDataSource<Appointment> {
+class CalendarMainController extends sync.CalendarDataSource<Appointment>{
   final User user;
   Map<String, Color> classColors = {};
-  Key calendarKey = UniqueKey();
+  final calendarKey = ValueNotifier(UniqueKey());
 
   CalendarMainController({required this.user}){
     init();
@@ -18,15 +18,15 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment> {
 
   Future<void> init() async {
     appointments = user.calendarAppointments;
-    user.addListener((){
-      appointments = user.calendarAppointments;
-      calendarKey = UniqueKey();
-    });
     await user.reload();
     for(final app in user.calendarAppointments){
-      app.reload();
+      await app.reload();
     }
-    calendarKey = UniqueKey();
+    calendarKey.value = UniqueKey();
+    user.addListener((){
+      appointments = user.calendarAppointments;
+      calendarKey.value = UniqueKey();
+    });
   }
 
   AppointmentType appTypeFor(Appointment app) {
