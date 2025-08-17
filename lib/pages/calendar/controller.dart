@@ -1,23 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'dart:math';
 import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/classes/models/appointment.dart';
 
+enum AppointmentType { teachConfirmed, teachPending, attendConfirmed, attendPending }
 
 class CalendarMainController extends sync.CalendarDataSource<Appointment> {
   final User user;
   Map<String, Color> classColors = {};
+  Key calendarKey = UniqueKey();
 
   CalendarMainController({required this.user}){
     init();
   }
 
   Future<void> init() async {
-    appointments = user.appointments;
-    await user.reloadAppointments();
-    for(final app in user.appointments!){
+    appointments = user.calendarAppointments;
+    user.addListener((){
+      appointments = user.calendarAppointments;
+      calendarKey = UniqueKey();
+    });
+    await user.reload();
+    for(final app in user.calendarAppointments){
       app.reload();
+    }
+    calendarKey = UniqueKey();
+  }
+
+  AppointmentType appTypeFor(Appointment app) {
+    if( user.appointments?.contains(app) ?? false ){
+      if(app.confirmed) {
+        return AppointmentType.teachConfirmed;
+      } else {
+        return AppointmentType.teachPending;
+      }
+    } else {
+      if(app.confirmed) {
+        return AppointmentType.attendConfirmed;
+      } else {
+        return AppointmentType.attendPending;
+      }
     }
   }
 
@@ -33,7 +57,16 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment> {
 
   @override
   getSubject(int index) {
-    return this[index].name;
+    switch(appTypeFor(this[index])){
+      case AppointmentType.teachConfirmed:
+        return this[index].name;
+      case AppointmentType.teachPending: 
+        return '${'Confirm for'.tr} ${this[index].name}';
+      case AppointmentType.attendConfirmed:
+        return this[index].name;
+      default: 
+      return '${'Waiting for'.tr} ${this[index].name}';
+    }
   }
 
   @override
@@ -50,7 +83,7 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment> {
   }
 
   Appointment operator [](int index) {
-    return (user.appointments ?? [])[index];
+    return user.calendarAppointments[index];
   }
 
   @override

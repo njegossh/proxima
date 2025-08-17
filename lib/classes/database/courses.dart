@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:proxima/classes/models/course.dart';
-import 'package:proxima/main.dart';
+import 'package:proxima/classes/models/course_tag.dart';
 import 'database.dart';
 
 extension CoursesDB on Database {
 
   CollectionReference get courses => firestore.collection('courses');
+  CollectionReference get courseTagGroups => firestore.collection('course_tags');
+  
 
   Future<Course> fetchCourseFromID(String courseID) async {
     final snap = await courses.doc(courseID).get();
@@ -30,15 +32,32 @@ extension CoursesDB on Database {
   }
 
   Future<List<Course>> fetchCoursesInterestedIn() async {
-    Query query = courses;
+    Query query = courses.limit(20);
+    /*
     if(currentUser.interests.isNotEmpty){
       query = query.where(
         'tags', arrayContainsAny: currentUser.interests,
+      ).where(
+        'locationX', 
+        isLessThan: currentUser.locationX + currentUser.range,
+        isGreaterThan: currentUser.locationX - currentUser.range,
+      ).where(
+        'locationY',
+        isLessThan: currentUser.locationY + currentUser.range,
+        isGreaterThan: currentUser.locationY - currentUser.range,
       );
     }
+  */
     final result = await query.get();
     return result.docs.map((doc){
       return Course.fromJson(doc.data() as Map, doc.id);
+    }).toList();
+  }
+
+  Future<List<CourseTagGroup>> fetchAllCourseTagGroups() async {
+    final result = await courseTagGroups.get();
+    return result.docs.map((doc){
+      return CourseTagGroup.fromJson(doc.data() as Map);
     }).toList();
   }
 

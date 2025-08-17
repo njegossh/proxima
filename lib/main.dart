@@ -5,10 +5,21 @@ import 'package:proxima/pages/home/main_page.dart';
 import 'package:proxima/pages/init_account/main_page.dart';
 import 'classes/database/database.dart';
 import 'classes/models/user.dart';
-import 'pages/account/main_page.dart';
 import 'pages/welcome/main_page.dart';
 
 late User currentUser;
+
+
+extension Translation on String {
+  String get tr {
+    try{
+      //final locale = currentUser.locale;
+      return this;
+    } catch (e) {
+      return this;
+    }
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

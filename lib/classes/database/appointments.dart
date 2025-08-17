@@ -20,8 +20,23 @@ extension AppointmentsDB on Database {
     await appointments.doc(appointment.id).update(appointment.toJson());
   }
 
-  Future<List<Appointment>> fetchAppointmentsForUserID(String userID) async {
-    final query = appointments.where('userID', isEqualTo: userID);
+  Future<void> deleteAppointment(Appointment appointment) async {
+    await appointments.doc(appointment.id).delete();
+  }
+
+  Future<List<Appointment>> fetchAppointmentsForCourseIDs(Iterable<String> courseIDs) async {
+    if ( courseIDs.isEmpty ) return [];
+    final query = appointments.where('courseID', whereIn: courseIDs);
+    final result = await query.get();
+    return result.docs.map((doc){
+      return Appointment.fromJson(doc.data() as Map, doc.id);
+    }).toList();
+  }
+
+  Future<List<Appointment>> fetchAttendingForUserID(String userID) async {
+    final query = appointments.where(
+      'studentID', isEqualTo: userID,
+    );
     final result = await query.get();
     return result.docs.map((doc){
       return Appointment.fromJson(doc.data() as Map, doc.id);

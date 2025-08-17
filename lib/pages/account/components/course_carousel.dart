@@ -22,7 +22,7 @@ class CourseCarousel extends StatelessWidget {
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: Card(
-              margin: EdgeInsets.zero,
+              margin: EdgeInsets.only(bottom: 10),
               clipBehavior: Clip.antiAlias,
               child: Stack(
                 children: [

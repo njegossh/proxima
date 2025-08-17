@@ -166,6 +166,18 @@ ThemeData generateTheme({
         ),
       ),
     ),
+    datePickerTheme: DatePickerThemeData( 
+      cancelButtonStyle: ButtonStyle( 
+        textStyle: WidgetStateProperty.all(
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+      confirmButtonStyle: ButtonStyle( 
+        textStyle: WidgetStateProperty.all(
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: WidgetStateProperty.all(

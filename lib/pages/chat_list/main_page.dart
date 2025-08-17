@@ -11,21 +11,15 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   final controller = ChatListController();
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     controller.init();
-    _searchController.addListener(() {
-
-      controller.filterChats(_searchController.text);
-    });
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     controller.dispose();
     super.dispose();
   }
@@ -35,7 +29,7 @@ class _ChatListState extends State<ChatList> {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        if (controller.isLoading) CircularProgressIndicator();
+        if (controller.chatList == null) CircularProgressIndicator();
 
         return  Column(
             children: [
@@ -43,7 +37,7 @@ class _ChatListState extends State<ChatList> {
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: TextField(
-                  controller: _searchController,
+                  controller: controller.searchController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: 'Pretrazi...',

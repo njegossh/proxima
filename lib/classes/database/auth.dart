@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'database.dart';
 
 enum AuthStatus { unauthenticated, pendingProfile, active }
@@ -29,8 +30,13 @@ class Auth {
     return true;
   }
 
-  Future<void> continueWith(String email, String password) async {
+  Future<void> logout() async {
+    await auth.signOut();
+    await navigateToRootAndAuth();
+  }
 
+  Future<void> continueWith(String email, String password) async {
+    //TODO email verify
     try {
       try {
         await auth.createUserWithEmailAndPassword(

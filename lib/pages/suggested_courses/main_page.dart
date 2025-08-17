@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/pages/course/main_page.dart';
+import 'package:proxima/pages/search/components/course_card.dart';
 import 'controller.dart';
 
 class SuggestedCoursesMainPage extends StatefulWidget {
@@ -19,7 +20,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
@@ -33,14 +33,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
             itemCount: courses.length,
             itemBuilder: (context, index){
               final course = courses[index];
-              return ListTile( 
-                title: Text(course.name),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CourseMainPage(course: course);
-                  }));
-                },
-              );
+              return CourseCard(course: course);
             },
           );
         }

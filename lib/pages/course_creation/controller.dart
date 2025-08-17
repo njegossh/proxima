@@ -25,6 +25,8 @@ class CourseCreationController extends ChangeNotifier {
       description: description.text,
       videoURL: videoURL.text,
       thumbnailURL: thumbnailURL.text,
+      locationX: currentUser.locationX,
+      locationY: currentUser.locationY,
     );
 
     await Database().createCourse(newCourse!);

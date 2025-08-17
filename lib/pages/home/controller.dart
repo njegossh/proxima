@@ -1,35 +1,14 @@
-
 import 'package:flutter/material.dart';
-import 'package:proxima/main.dart';
+
+enum HomePage { courses, chats, calendar, account }
 
 class HomeController extends ChangeNotifier {
+  int pageIndex = 0;
 
-  final pageController = PageController();
+  HomePage get page => HomePage.values[pageIndex];
 
-  int get page {
-    try { return pageController.page!.toInt();
-    } catch ( e ){ return 0; }
-  }
-
-  String get title {
-    return {
-      1: 'Chats',
-      2: 'Calendar',
-      3: currentUser.name,
-    }[page] ?? 'Home';
-  }
-
-  HomeController(){
-    pageController.addListener((){
-      notifyListeners();
-    });
-  }
-
-  Future<void> scrollTo(int newPage) {
-    return pageController.animateToPage( 
-      newPage, 
-      duration: const Duration(milliseconds: 200), 
-      curve: Curves.bounceIn,
-    );
+  void setPageIndex(int i){
+    pageIndex = i;
+    notifyListeners();
   }
 }

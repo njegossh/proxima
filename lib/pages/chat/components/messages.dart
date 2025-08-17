@@ -50,7 +50,7 @@ class ChatMessages extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 child: Text(
-                  message.formmatedTime,
+                  message.timestamp.prettified,
                   style: TextStyle(
                     color: colorScheme.primary,
                     fontSize: 12,

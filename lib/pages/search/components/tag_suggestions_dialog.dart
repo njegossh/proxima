@@ -21,7 +21,7 @@ class TagSuggestionsDialog extends StatelessWidget {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        final availableTags = controller.getAllAvailableTags()
+        final availableTags = controller.allAvailableTags
             .where((tag) => !controller.selectedTags.contains(tag))
             .toList();
 

@@ -32,6 +32,7 @@ class Database with ChangeNotifier {
   Future<bool> tryFetchingCurrentUser() async {
     try{
       currentUser = await fetchUserFromID(Auth().userUID);
+      currentUser.reload(notify: false);
       return true;
     } catch (e) {
       try{

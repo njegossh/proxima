@@ -12,6 +12,16 @@ class SearchMainController extends ChangeNotifier {
   List<String> _selectedTags = [];
   List<String> get selectedTags => _selectedTags;
 
+  List<String> allAvailableTags = [];
+
+  SearchMainController() {
+    init();
+  }
+
+  Future<void> init() async {
+    await fetchAllAvailableTags();
+  }
+
   double _minPrice = 0;
   double get minPrice => _minPrice;
   set minPrice(double value) {
@@ -115,10 +125,10 @@ class SearchMainController extends ChangeNotifier {
     _applyFilters();
   }
   
-  List<String> getAllAvailableTags() {
-    //TODO Videcemo za ovo kako cemo
-    return [];
-    //return courses.map((e) => e.tags).expand((element) => element).toList();
+  Future<void> fetchAllAvailableTags() async {
+    final groups = await Database().fetchAllCourseTagGroups();
+    allAvailableTags = groups.expand((group) => group.items).toList();
+    notifyListeners();
   }
 
   @override

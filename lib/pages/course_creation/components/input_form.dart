@@ -21,33 +21,28 @@ class _InputFormState extends State<InputForm> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: ListView(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Coursedisplayimage(
-                    displayImageURL: widget.controller.thumbnailURL.text,
+              CourseDisplayimage(
+                displayImageURL: widget.controller.thumbnailURL.text,
+              ),
+              SizedBox(height: 12),
+              TextField(
+                maxLines: 1,
+                controller: widget.controller.thumbnailURL,
+                onChanged: (_) => setState(() {}),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+                decoration: InputDecoration(
+                  labelText: 'URL do slike kursa',
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 14,
                   ),
-                  SizedBox(height: 12),
-                  TextField(
-                    maxLines: 1,
-                    controller: widget.controller.thumbnailURL,
-                    onChanged: (_) => setState(() {}),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w100,
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'URL do slike kursa',
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
               SizedBox(height: 12,),
               TextField(

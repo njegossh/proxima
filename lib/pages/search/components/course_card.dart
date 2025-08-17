@@ -1,6 +1,7 @@
 // widgets/course_card.dart
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
@@ -9,26 +10,33 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildThumbnail(),
-                const SizedBox(width: 12),
-                _buildCourseInfo(context),
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return CourseMainPage(course: course);
+        }));
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildThumbnail(),
+                  const SizedBox(width: 12),
+                  _buildCourseInfo(context),
+                ],
+              ),
+              if (course.tags.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                _buildTags(context),
               ],
-            ),
-            if (course.tags.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              _buildTags(context),
             ],
-          ],
+          ),
         ),
       ),
     );

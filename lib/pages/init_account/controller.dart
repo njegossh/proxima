@@ -35,6 +35,7 @@ class InitAccountController extends ChangeNotifier {
       surname: lastNameCtrl.text,
       avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
       description: descriptionCtrl.text,
+      followedCourseIDs: [],
       locationX: position?.latitude ?? currentUser.locationX,
       locationY: position?.longitude ?? currentUser.locationY,
       locationDesc: locationDescCtrl.text.isEmpty
@@ -44,7 +45,7 @@ class InitAccountController extends ChangeNotifier {
           .split(',')
           .map((e) => e.trim())
           .where((e) => e.isNotEmpty)
-          .toList(), 
+          .toList(),
       range: -1, //TODO 
     ));      
     navigateToRootAndAuth();

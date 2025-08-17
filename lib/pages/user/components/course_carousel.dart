@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/components/course_card.dart';
+import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCarousel extends StatelessWidget {
   final List<Course> courses;
@@ -19,58 +21,7 @@ class CourseCarousel extends StatelessWidget {
           height: 180
         ),
         items: courses.map((course) {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: Card(
-              margin: EdgeInsets.zero,
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: (course.thumbnailURL == null || course.thumbnailURL!.isEmpty)
-                        ? Icon(Icons.image, size: 75)
-                        : Image.network(
-                            course.thumbnailURL!,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withValues(alpha: 0.6),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 12,
-                    left: 12,
-                    right: 12,
-                    child: Text(
-                      course.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontSize: 18,
-                        shadows: [
-                          const Shadow(
-                            blurRadius: 4,
-                            color: Colors.black54,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return CourseCard(course: course);
         }).toList(),
       ),
     );

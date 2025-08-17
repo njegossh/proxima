@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course_creation/components/input_form.dart';
 import 'package:proxima/pages/course_creation/controller.dart';
 
@@ -25,12 +24,7 @@ class _CourseCreationMainPageState extends State<CourseCreationMainPage> {
       builder: (context, index) {
         return Scaffold(
           appBar: AppBar(elevation: 0, title: Text("Kreiraj novi kurs:")),
-          body: ListView(
-            children: [
-              SizedBox(height: 32),
-              InputForm(controller: controller),
-            ],
-          ),
+          body: InputForm(controller: controller),
         );
       },
     );

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:proxima/classes/models/chat.dart';
-import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
 import '../models/message.dart';
 import 'database.dart';
 
@@ -32,21 +32,15 @@ extension ChatDatabase on Database {
     });
   }
 
-  Future<List<User>> fetchUsersChattedWith() async {
-    final query = users.where('name', isNull: false);
-    final result = await query.get();
-    return result.docs.map((doc){
-      return User.fromJson(doc.data() as Map, doc.id);
-    }).toList();
-  }
-
   Future<List<Chat>> fetchAllChats() async {
-    final users = await fetchUsersChattedWith();
-    return users.map((user){
+    if(currentUser.followedUsers == null){
+      await currentUser.reloadFollowedUsers();
+    }
+    return currentUser.followedUsers?.map((user){
       return Chat(
         otherUser: user, 
         messages: [],
       );
-    }).toList();
+    }).toList() ?? [];
   }
 }

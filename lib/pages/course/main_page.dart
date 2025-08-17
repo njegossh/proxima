@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
+import 'package:proxima/pages/appointment_creation/main_sheet.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
@@ -33,6 +35,14 @@ class _CourseMainPageState extends State<CourseMainPage> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(elevation: 0),
+          floatingActionButton: FloatingActionButton.extended(
+              label: Text('Zahtev za novi termin'),
+              icon: Icon(Icons.event),
+              onPressed: () => showModalBottomSheet(
+                context: context, 
+                builder: (_) => AppointmentCreationMainSheet(course: widget.course),
+              ),
+            ),
           body: ListView(
             children: [
               SizedBox(height: 24),

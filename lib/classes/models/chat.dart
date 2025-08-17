@@ -11,20 +11,36 @@ class Chat extends ChangeNotifier {
   User otherUser;
   List<Message> messages;
 
+
+  Message? get lastMessage {
+    if(messages.isEmpty) return null;
+    messages.sort((a, b){
+      return a.timestamp.compareTo(b.timestamp);
+    });
+    return messages.last;
+  }
+
   Chat({
     required this.otherUser,
     required this.messages,
   });
 
+  Future<void> closeConnection() async {
+    connection?.cancel();
+  }
+
   Future<void> openConnection() async {
+    if(connection != null) return;
     connection = Database().openChatConnection([
       currentUser.id,
       otherUser.id,
     ]).listen(appendNewMessages);
   }
 
-  void closeConnection(){
-    connection?.cancel();
+  @override 
+  void dispose() {
+    closeConnection();
+    super.dispose();
   }
 
   void appendNewMessages(List<Message> newMessages){

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
-import 'package:proxima/pages/account/components/edit_sheet.dart';
-import 'package:proxima/pages/account/controller.dart';
 import 'package:proxima/pages/account/main_page.dart';
 import 'package:proxima/pages/calendar/components/calendar_body.dart';
 import 'package:proxima/pages/chat_list/main_page.dart';
-import 'package:proxima/pages/course_creation/main_page.dart';
 import 'package:proxima/pages/home/controller.dart';
 import 'package:proxima/pages/search/main_page.dart';
 import 'package:proxima/pages/suggested_courses/main_page.dart';
+
+import 'components/fab.dart';
 
 class HomeMainPage extends StatefulWidget {
   const HomeMainPage({super.key});
@@ -27,7 +26,12 @@ class _HomeMainPageState extends State<HomeMainPage> {
       builder: (context, child) {
         return Scaffold( 
           appBar: AppBar(
-            title: Text(controller.title),
+            title: Text({
+              HomePage.courses:   'Home',
+              HomePage.chats:     'Chats',
+              HomePage.calendar:  'Calendar',
+              HomePage.account:   currentUser.name,
+            }[controller.page]!),
             actions: [
               IconButton(
                 icon: Icon(Icons.search_rounded),
@@ -39,26 +43,16 @@ class _HomeMainPageState extends State<HomeMainPage> {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CourseCreationMainPage();
-              }));
-            },
-          ),
-          body: PageView( 
-            controller: controller.pageController,
-            children: [
-              SuggestedCoursesMainPage(),
-              ChatList(),
-              CalendarBody(user: currentUser),
-              AccountMainPage(controller: AccountController()),
-            ],
-          ),
+          floatingActionButton: HomeFAB(controller: controller),
+          body: {
+            HomePage.courses:   SuggestedCoursesMainPage(),
+            HomePage.chats:     ChatList(),
+            HomePage.calendar:  CalendarBody(user: currentUser),
+            HomePage.account:   AccountMainPage(),
+          }[controller.page]!,
           bottomNavigationBar: BottomNavigationBar(
-            onTap: controller.scrollTo,
-            currentIndex: controller.page,
+            onTap: controller.setPageIndex,
+            currentIndex: controller.pageIndex,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),

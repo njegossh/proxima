@@ -17,7 +17,10 @@ class ChatDisplay extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ChatMainPage(otherUser: chat.otherUser);
+                return ChatMainPage(
+                  otherUser: chat.otherUser,
+                  chat: chat,
+                );
               },
             ),
           );

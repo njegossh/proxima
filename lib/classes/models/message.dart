@@ -34,13 +34,6 @@ class Message {
     };
   }
 
-  String get formmatedTime {
-    final date = timestamp.toDate();
-    final hour = date.hour.toString();
-    final min = date.minute.toString();
-    return "${hour.padLeft(2, '0')}:${min.padLeft(2, '0')}";
-  }
-
   Future<void> send() => Database().sendMessage(
     [fromUserID, toUserID], 
     toMap(),

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
+import 'package:proxima/pages/calendar/main_page.dart';
 import 'package:proxima/pages/chat/main_page.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'package:proxima/pages/user/components/location.dart';
@@ -37,9 +38,17 @@ class _UserMainPageState extends State<UserMainPage> {
             children: [
               SizedBox(height: 24),
               Center(child: AvatarWidget(avatarURL: widget.user.avatarURL)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ElevatedButton(
+                  onPressed: controller.unFollow, 
+                  child: Text(widget.user.followingThisUser ? 'Following'.tr : 'Follow'.tr),
+                ),
+              ),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
                 children: [
                   OutlinedButton(
                     onPressed: () {
@@ -54,14 +63,24 @@ class _UserMainPageState extends State<UserMainPage> {
                     },
                     child: Icon(Icons.message, size: 25),
                   ),
-                  SizedBox(width: 16),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return CalendarMainPage(user: controller.user);
+                          },
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.calendar_month, size: 25),
+                  ),
                   OutlinedButton(
                     onPressed: null,
                     child: Icon(Icons.video_camera_front_rounded, size: 25),
                   ),
                 ],
               ),
-              SizedBox(height: 12,),
+              SizedBox(height: 12),
               Align(
                 alignment: Alignment.center,
                 child: Padding(

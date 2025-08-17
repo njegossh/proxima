@@ -6,6 +6,9 @@ class Appointment extends ChangeNotifier {
   String? id;
   DateTime from, to;
   String courseID;
+  bool confirmed;
+  String studentID;
+
   Course? course;
 
   Appointment({
@@ -14,6 +17,8 @@ class Appointment extends ChangeNotifier {
     required this.from,
     required this.to,
     required this.courseID,
+    required this.confirmed,
+    required this.studentID,
   });
 
   String get name {
@@ -27,6 +32,8 @@ class Appointment extends ChangeNotifier {
       from: DateTime.parse(json['from'] ?? ''), 
       to: DateTime.parse(json['to'] ?? ''), 
       courseID: json['courseID'],
+      confirmed: json['confirmed'] ?? false,
+      studentID: json['studentID'],
     );
   }
 
@@ -35,6 +42,8 @@ class Appointment extends ChangeNotifier {
       'from' : from.toIso8601String(),
       'to': to.toIso8601String(),
       'courseID': courseID,
+      'confirmed': confirmed,
+      'studentID': studentID,
     };
   }
 

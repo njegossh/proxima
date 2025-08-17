@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/database/auth.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:geolocator/geolocator.dart';
@@ -31,6 +32,7 @@ class AccountController extends ChangeNotifier {
 
     await Database().updateUser(User(
       id: currentUser.id,
+      followedUserIDs: currentUser.followedUserIDs,
       name: firstNameCtrl.text,
       surname: lastNameCtrl.text,
       avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
@@ -74,6 +76,10 @@ class AccountController extends ChangeNotifier {
     return await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
     );
+  }
+
+  Future<void> logout() async {
+    await Auth().logout();
   }
 
   @override

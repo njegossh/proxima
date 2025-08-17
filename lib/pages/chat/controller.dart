@@ -4,6 +4,7 @@ import 'package:proxima/classes/models/chat.dart';
 import 'package:proxima/classes/models/message.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/main.dart';
+import 'package:proxima/pages/appointment_creation/controller.dart';
 
 class ChatController extends ChangeNotifier {
   final Chat chat;
@@ -11,6 +12,7 @@ class ChatController extends ChangeNotifier {
   final input = TextEditingController();
 
   List<Message> get messages => chat.messages;
+  User get otherUser => chat.otherUser;
 
   static ChatController fromOtherUser(User otherUser){
     return ChatController(chat: Chat(
@@ -45,8 +47,12 @@ class ChatController extends ChangeNotifier {
   }
 
   @override
-    void dispose() {
-      chat.closeConnection();
-      super.dispose();
-    }
+  void dispose() {
+    chat.dispose();
+    super.dispose();
+  }
+}
+
+extension PrettyDate on Timestamp {
+  String get prettified => toDate().prettified;
 }
