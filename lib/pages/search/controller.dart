@@ -65,7 +65,10 @@ class SearchMainController extends ChangeNotifier {
       minPrice: _minPrice,
       maxPrice: _maxPrice,
       tags: _selectedTags,
+      sortBy: _sortBy,
     );
+    print("I'm here, reaching far across this new frontiers!");
+    print(_filteredCourses.toList());
     /*
     _filteredCourses = courses.where((course) {
       final matchesName = course.name.toLowerCase().contains(query);
@@ -90,12 +93,12 @@ class SearchMainController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTag(String tag) {
+  void addTag(String tag) async {
     final lowerTag = tag.trim().toLowerCase();
     if (lowerTag.isNotEmpty && !_selectedTags.any((t) => t.toLowerCase() == lowerTag)) {
       _selectedTags.add(tag);
       tagController.clear();
-      _applyFilters();
+      await _applyFilters();
     }
   }
 

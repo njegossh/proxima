@@ -106,6 +106,7 @@ extension CoursesDB on Database {
     } else if (sortBy == 'price_high') {
       query = query.orderBy('pricePerHour', descending: true);
     }
+
     final result = await query.limit(20).get();
     return result.docs.map((doc) {
       return Course.fromJson(doc.data() as Map, doc.id);
