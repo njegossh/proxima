@@ -10,7 +10,6 @@ import 'pages/welcome/main_page.dart';
 
 late User currentUser;
 
-
 extension Translation on String {
   String get tr {
     try{
@@ -34,7 +33,7 @@ Future<void> navigateToRootAndAuth() async {
 
   final home = {
     AuthStatus.unauthenticated: WelcomeMainPage(),
-    AuthStatus.pendingProfile: InitAccountMainPage(),
+    AuthStatus.pendingProfile: InitAccountMainPage(isInitialized: false,),
     AuthStatus.active: HomeMainPage(),
   }[authStatus]!;
 

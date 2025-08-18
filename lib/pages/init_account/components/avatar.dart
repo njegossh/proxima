@@ -16,14 +16,16 @@ class AvatarWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         clipBehavior: Clip.hardEdge,
-        child: avatarURL == null
-            ? Center(child: Icon(Icons.person, size: 120))
-            : Image.network(
-                avatarURL!,
-                width: 160,
-                height: 160,
-                fit: BoxFit.cover,
-              ),
+        child: Image.network(
+          avatarURL ?? '',
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) {
+            return SizedBox(
+              width: double.infinity,
+              child: Icon(Icons.image_rounded, size: 100),
+            );
+          },
+        ),
       ),
     );
   }

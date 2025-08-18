@@ -6,7 +6,8 @@ import 'package:proxima/main.dart';
 import 'package:oktoast/oktoast.dart';
 
 class InitAccountController extends ChangeNotifier {
-  bool trackLocation = false;
+  bool isInitialized;
+  bool trackLocation = true;
 
   double _range = 10; // in km
 
@@ -30,10 +31,15 @@ class InitAccountController extends ChangeNotifier {
 
   User get account => currentUser;
 
-  InitAccountController();
+  InitAccountController({required this.isInitialized}) {
+    avatarUrlCtrl.addListener(() {
+      notifyListeners();
+    });
+  }
 
   void trackLocationChange(bool? val) {
     trackLocation = val ?? false;
+    //print("CHECK JE ${trackLocation}");
     notifyListeners();
   }
 
@@ -43,22 +49,29 @@ class InitAccountController extends ChangeNotifier {
     if (trackLocation) {
       try {
         position = await _getUserLocation();
-        print("POZICIJA LATITUDE JEEEEEEE ${position.latitude}");
-        print("POZICIJA LONGITUDE JEEEEEEE ${position.longitude}");
-        if (position.longitude == -1 || position.latitude == -1) {
-          throw Exception("Location not measured!");
-        }
       } catch (e) {
         showToast(
-          "Could not get location. Please enable location services.",
+          e.toString(),
           duration: const Duration(seconds: 2),
           position: ToastPosition.bottom,
           backgroundColor: Colors.black54,
-          textStyle: const TextStyle(color: Colors.white, fontSize: 16),
+          textStyle: const TextStyle(color: Colors.white, fontSize: 18),
         );
         return;
       }
     }
+
+    double newLocX = trackLocation && position != null
+        ? position.latitude
+        : currentUser.locationX;
+
+    //print("trackLoc ${trackLocation} | position.latitude ${position?.latitude} | currentUser.locationX ${currentUser.locationX} | newLocY ${newLocX}");
+
+    double newLocY = trackLocation && position != null
+        ? position.longitude
+        : currentUser.locationY;
+
+    //print("trackLoc ${trackLocation} | position.longitude ${position?.longitude} | currentUser.locationY ${currentUser.locationY} | newLocY ${newLocY}");
 
     await Database().updateUser(
       User(
@@ -68,8 +81,8 @@ class InitAccountController extends ChangeNotifier {
         avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
         description: descriptionCtrl.text,
         followedUserIDs: [],
-        locationX: position?.latitude ?? currentUser.locationX,
-        locationY: position?.longitude ?? currentUser.locationY,
+        locationX: newLocX,
+        locationY: newLocY,
         locationDesc: locationDescCtrl.text.isEmpty
             ? null
             : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
@@ -93,19 +106,19 @@ class InitAccountController extends ChangeNotifier {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      return Future.error('Location services are disabled.'.tr);
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied.');
+        return Future.error('Location permissions are denied.'.tr);
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied.');
+      return Future.error('Location permissions are permanently denied.'.tr);
     }
 
     return await Geolocator.getCurrentPosition(

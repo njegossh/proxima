@@ -3,27 +3,33 @@ import 'package:proxima/pages/init_account/controller.dart';
 import 'components/avatar.dart';
 
 class InitAccountMainPage extends StatefulWidget {
-  const InitAccountMainPage({super.key});
+  bool isInitialized;
+  InitAccountMainPage({super.key, required this.isInitialized});
 
   @override
   State<InitAccountMainPage> createState() => _InitAccountMainPageState();
 }
 
 class _InitAccountMainPageState extends State<InitAccountMainPage> {
-  final controller = InitAccountController();
+  late final InitAccountController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = InitAccountController(isInitialized: widget.isInitialized);
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, index) {
-        final account = controller.account;
         return Scaffold(
           appBar: AppBar(elevation: 0, title: Text("Podesite profil")),
           body: ListView(
             children: [
               SizedBox(height: 24),
-              Center(child: AvatarWidget(avatarURL: account.avatarURL)),
+              Center(child: AvatarWidget(avatarURL: controller.avatarUrlCtrl.text)),
               SizedBox(height: 24),
               Padding(
                 padding: EdgeInsets.only(
@@ -41,6 +47,22 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(height: 24),
+                          TextField(
+                            controller: controller.avatarUrlCtrl,
+                            decoration: InputDecoration(
+                              labelText: 'Profilna slika',
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(height: 12),
                           TextField(
                             controller: controller.firstNameCtrl,
                             decoration: InputDecoration(
@@ -78,22 +100,6 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                             maxLines: 4,
                             decoration: InputDecoration(
                               labelText: 'Opis',
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          TextField(
-                            controller: controller.avatarUrlCtrl,
-                            decoration: InputDecoration(
-                              labelText: 'Profilna slika',
                               labelStyle: TextStyle(
                                 color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 16,
@@ -170,13 +176,13 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                               ],
                             ),
                             value: controller.trackLocation,
-                            onChanged: controller.trackLocationChange,
+                            onChanged: controller.isInitialized ? controller.trackLocationChange : null,
                           ),
                           SizedBox(height: 24),
-                          ElevatedButton(
+                          OutlinedButton(
                             onPressed: () {
                               controller.updateAccount();
-                              //Navigator.pop(context); //TODO MARKO Ovde popuje i kad se inicijalizuje acc i kad se edituje, a treba samo kad se edituje
+                              controller.isInitialized ? Navigator.pop(context) : null; //TODO MARKO Ovde popuje i kad se inicijalizuje acc i kad se edituje, a treba samo kad se edituje
                             },
                             child: Row(
                               children: [

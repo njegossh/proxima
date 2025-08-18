@@ -51,16 +51,6 @@ extension CoursesDB on Database {
       final latDelta = kmToLatDelta(currentUser.range);
       final lngDelta = kmToLngDelta(currentUser.range, lat);
 
-      //Za testiranje printovi:
-
-      print("lng ${lng}");
-      print("lat ${lat}");
-
-      print("lng + lngDelta ${lng + lngDelta}");
-      print("lng - lngDelta ${lng - lngDelta}");
-      print("lat + latDelta ${lat + latDelta}");
-      print("lat - latDelta ${lat - latDelta}");
-
       query = query
           .where('tags', arrayContainsAny: currentUser.interests)
           .where(
@@ -76,7 +66,6 @@ extension CoursesDB on Database {
     }
 
     final result = await query.get();
-    print("Result: ${result.docs.length}");
     return result.docs.map((doc) {
       return Course.fromJson(doc.data() as Map, doc.id);
     }).toList();

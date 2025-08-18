@@ -33,7 +33,7 @@ class HomeFAB extends StatelessWidget {
               icon: Icon(Icons.edit),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return InitAccountMainPage();
+                  return InitAccountMainPage(isInitialized: true,);
                 }));
               },
             );

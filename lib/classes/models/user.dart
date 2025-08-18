@@ -57,7 +57,7 @@ class User extends ChangeNotifier {
     this.locationDesc,
     required this.name,
     required this.surname,
-    this.range = 0.5, //TODO da se vidi 100km u trazeno
+    this.range = 100, //km
     this.avatarURL,
     this.description,
     required this.interests,
@@ -65,12 +65,13 @@ class User extends ChangeNotifier {
     required this.followedUserIDs,
   }) {
     //TODO MARKO  ovde stavlja svim app u appointments! listener ali je null pri inicijalizaciji ja sam stavio proveru
-    if (appointments != null)
+    if (appointments != null) {
       addListener(() {
         for (final app in appointments!) {
           app.addListener(notifyListeners);
         }
       });
+    }
   }
 
   static User fromJson(Map json, String id) {
