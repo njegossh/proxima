@@ -47,32 +47,58 @@ class _AccountMainPageState extends State<AccountMainPage> {
             SizedBox(height: 12),
             LocationInfo(account: account),
             Center(child: InterestChips(listOfInterests: account.interests)),
-          (account.description != null && account.description!.isNotEmpty)
-            ? Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                width: double.infinity,
-                child: Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      account.description ?? 'a',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.justify,
+            (account.description != null && account.description!.isNotEmpty)
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            account.description ?? 'a',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            )
-            : SizedBox.shrink(),
+                  )
+                : SizedBox.shrink(),
             CourseCarousel(courses: account.courses ?? []),
+            SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: ElevatedButton(
-                onPressed: controller.logout, 
+              child: OutlinedButton(
+                onPressed: () async {
+                  final shouldLogout = await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Confirm Logout'.tr),
+                        content: Text('Are you sure you want to log out?'.tr),
+                        actions: [
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.of(context).pop(false),
+                            child: Text('Cancel'.tr, style: TextStyle(color: Theme.of(context).colorScheme.surface)),
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.of(context).pop(true),
+                            child: Text('Yes'.tr, style: TextStyle(color: Theme.of(context).colorScheme.surface),),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  if (shouldLogout ?? false) {
+                    controller.logout();
+                  }
+                },
                 child: Text('Logout'.tr),
               ),
-            )
+            ),
           ],
         );
       },

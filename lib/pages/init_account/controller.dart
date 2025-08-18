@@ -3,17 +3,29 @@ import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:proxima/main.dart';
+import 'package:oktoast/oktoast.dart';
 
 class InitAccountController extends ChangeNotifier {
   bool trackLocation = false;
 
+  double _range = 10; // in km
+
+  double get range => _range;
+
+  set range(double value) {
+    _range = value;
+    notifyListeners();
+  }
+
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
   final avatarUrlCtrl = TextEditingController(text: currentUser.avatarURL);
-  final locXCtrl = TextEditingController(text: currentUser.locationX.toString());
-  final locYCtrl = TextEditingController(text: currentUser.locationY.toString());
-  final locationDescCtrl = TextEditingController(text: currentUser.locationDesc?.join(', ') ?? '');
-  final interestsCtrl = TextEditingController(text: currentUser.interests.join(', '));
+  final locationDescCtrl = TextEditingController(
+    text: currentUser.locationDesc?.join(', ') ?? '',
+  );
+  final interestsCtrl = TextEditingController(
+    text: currentUser.interests.join(', '),
+  );
   final descriptionCtrl = TextEditingController(text: currentUser.description);
 
   User get account => currentUser;
@@ -27,28 +39,52 @@ class InitAccountController extends ChangeNotifier {
 
   Future<void> updateAccount() async {
     Position? position;
-    if(trackLocation) position = await _getUserLocation();
 
-    await Database().updateUser(User(
-      id: currentUser.id,
-      name: firstNameCtrl.text,
-      surname: lastNameCtrl.text,
-      avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
-      description: descriptionCtrl.text,
-      followedCourseIDs: [],
-      locationX: position?.latitude ?? currentUser.locationX,
-      locationY: position?.longitude ?? currentUser.locationY,
-      locationDesc: locationDescCtrl.text.isEmpty
-          ? null
-          : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
-      interests: interestsCtrl.text
-          .split(',')
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList(),
-      range: -1, //TODO 
-    ));      
-    navigateToRootAndAuth();
+    if (trackLocation) {
+      try {
+        position = await _getUserLocation();
+        print("POZICIJA LATITUDE JEEEEEEE ${position.latitude}");
+        print("POZICIJA LONGITUDE JEEEEEEE ${position.longitude}");
+        if (position.longitude == -1 || position.latitude == -1) {
+          throw Exception("Location not measured!");
+        }
+      } catch (e) {
+        showToast(
+          "Could not get location. Please enable location services.",
+          duration: const Duration(seconds: 2),
+          position: ToastPosition.bottom,
+          backgroundColor: Colors.black54,
+          textStyle: const TextStyle(color: Colors.white, fontSize: 16),
+        );
+        return;
+      }
+    }
+
+    await Database().updateUser(
+      User(
+        id: currentUser.id,
+        name: firstNameCtrl.text,
+        surname: lastNameCtrl.text,
+        avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
+        description: descriptionCtrl.text,
+        followedUserIDs: [],
+        locationX: position?.latitude ?? currentUser.locationX,
+        locationY: position?.longitude ?? currentUser.locationY,
+        locationDesc: locationDescCtrl.text.isEmpty
+            ? null
+            : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
+        interests: interestsCtrl.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
+        range: _range,
+      ),
+    );
+
+    if ((trackLocation && position != null) || !trackLocation) {
+      navigateToRootAndAuth();
+    }
   }
 
   Future<Position> _getUserLocation() async {
@@ -73,7 +109,7 @@ class InitAccountController extends ChangeNotifier {
     }
 
     return await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
   }
 
@@ -82,8 +118,6 @@ class InitAccountController extends ChangeNotifier {
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
     avatarUrlCtrl.dispose();
-    locXCtrl.dispose();
-    locYCtrl.dispose();
     descriptionCtrl.dispose();
     locationDescCtrl.dispose();
     interestsCtrl.dispose();

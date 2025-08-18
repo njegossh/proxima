@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:proxima/classes/database/auth.dart';
 import 'package:proxima/config/theme.dart';
 import 'package:proxima/pages/home/main_page.dart';
@@ -38,10 +39,12 @@ Future<void> navigateToRootAndAuth() async {
   }[authStatus]!;
 
   runApp(
-    MaterialApp(
-      theme: generateGreenTheme,
-      debugShowCheckedModeBanner: false,
-      home: home,
+    OKToast(
+      child: MaterialApp(
+        theme: generateGreenTheme,
+        debugShowCheckedModeBanner: false,
+        home: home,
+      ),
     ),
   );
 }

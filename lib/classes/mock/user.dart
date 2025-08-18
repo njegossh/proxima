@@ -26,6 +26,7 @@ final nikolaNikolic = User(
     'Matematika',
   ],
   locationDesc: ['Nis', 'Srbija'],
+  followedUserIDs: [],
   description:
       'Opis profila. Samo i iskljucivo u svrhe testiranja. Ovaj tekst ne sadrzi nikakve znacajne informacije i iskljucivo se koristi kao reprezentativan primer opisa profila nekog korisnika. Trudimo se da ovaj opis bude dovoljno opsiran.',
 );
@@ -42,6 +43,7 @@ final peraPeric = User(
     'Pecanje',
     'Ples'
   ],
+  followedUserIDs: [],
   locationDesc: ['Brus', 'Srbija'],
   description: 'Volim engleski jezik i pecanje! Plesem kad upecam ribu, naravno! Ako zelis da naucis tehnike kvalitetnog ribolova, ili mozda da pricas engleski, javi se!'
 );
@@ -53,6 +55,7 @@ final goranEdman = User(
   locationY: -49.061220,
   name: 'Goran',
   surname: 'Edman',
+  followedUserIDs: [],
   interests: ['Music', 'Singing'],
 );
 
@@ -63,6 +66,7 @@ final howieSimon = User(
   locationY: -49.062652,
   name: 'Howie',
   surname: 'Simon',
+  followedUserIDs: [],
   interests: ['Music', 'Singing', 'Guitar'],
 );
 
@@ -73,6 +77,7 @@ final fredrikAkesson = User(
   locationY: -49.055607,
   name: 'Fredrik',
   surname: 'Akesson',
+  followedUserIDs: [],
   interests: ['Music', 'Singing', 'Guitar'],
 );
 
@@ -83,5 +88,6 @@ final ryotaHayami = User(
   locationY: 139.770380,
   name: 'Ryota',
   surname: 'Hayami',
+  followedUserIDs: [],
   interests: ['Music', 'Singing', 'Guitar'],
 );

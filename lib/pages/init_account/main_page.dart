@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/pages/account/components/edit_button.dart';
-import 'package:proxima/pages/account/components/edit_sheet.dart';
-import 'package:proxima/pages/account/components/location.dart';
-import 'package:proxima/pages/account/controller.dart';
-import 'package:proxima/pages/user/components/course_carousel.dart';
+import 'package:proxima/pages/init_account/controller.dart';
 import 'components/avatar.dart';
-import 'components/interest_chips.dart';
 
 class InitAccountMainPage extends StatefulWidget {
   const InitAccountMainPage({super.key});
@@ -15,7 +10,7 @@ class InitAccountMainPage extends StatefulWidget {
 }
 
 class _InitAccountMainPageState extends State<InitAccountMainPage> {
-  final controller = AccountController();
+  final controller = InitAccountController();
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +137,25 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                               fontSize: 16,
                             ),
                           ),
+                          SizedBox(height: 32),
+                          Text(
+                            "Radijus pretrage kurseva: ${controller.range.toStringAsFixed(0)} km",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Slider(
+                            min: 1,
+                            max: 100,
+                            divisions: 99,
+                            value: controller.range,
+                            label: "${controller.range.toStringAsFixed(0)} km",
+                            onChanged: (value) {
+                              controller.range = value;
+                            },
+                          ),
                           SizedBox(height: 16),
                           CheckboxListTile(
                             title: Row(
@@ -162,13 +176,16 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                           ElevatedButton(
                             onPressed: () {
                               controller.updateAccount();
+                              //Navigator.pop(context); //TODO MARKO Ovde popuje i kad se inicijalizuje acc i kad se edituje, a treba samo kad se edituje
                             },
                             child: Row(
-
                               children: [
                                 Text('Nastavi'),
                                 Spacer(),
-                                Icon(Icons.arrow_forward_ios_rounded, color: Theme.of(context).colorScheme.surface,)
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
                               ],
                             ),
                           ),

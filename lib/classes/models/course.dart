@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:proxima/classes/database/database.dart';
-import 'package:proxima/main.dart';
 import 'user.dart';
 
 class Course extends ChangeNotifier {
@@ -57,6 +56,8 @@ class Course extends ChangeNotifier {
       'averageReview': averageReview,
       'description': description,
       'videoURL': videoURL,
+      'locationX': locationX,
+      'locationY': locationY,
       'thumbnailURL': thumbnailURL,
     };
   }

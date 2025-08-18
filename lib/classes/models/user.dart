@@ -5,7 +5,6 @@ import 'appointment.dart';
 import 'course.dart';
 
 class User extends ChangeNotifier {
-
   static late User current;
 
   String id;
@@ -24,7 +23,6 @@ class User extends ChangeNotifier {
   List<Course>? courses;
   List<User>? followedUsers;
 
-
   bool get followingThisUser {
     return currentUser.followedUserIDs.contains(id);
   }
@@ -37,16 +35,19 @@ class User extends ChangeNotifier {
   }
 
   List<Appointment> get pendingAttending {
-    return attending?.where((app) => !app.confirmed).toList() ?? []; 
+    return attending?.where((app) => !app.confirmed).toList() ?? [];
   }
+
   List<Appointment> get confirmedAttending {
-    return attending?.where((app) => app.confirmed).toList() ?? []; 
+    return attending?.where((app) => app.confirmed).toList() ?? [];
   }
+
   List<Appointment> get pendingAppointments {
-    return appointments?.where((app) => !app.confirmed).toList() ?? []; 
+    return appointments?.where((app) => !app.confirmed).toList() ?? [];
   }
+
   List<Appointment> get confirmedAppointments {
-    return appointments?.where((app) => app.confirmed).toList() ?? []; 
+    return appointments?.where((app) => app.confirmed).toList() ?? [];
   }
 
   User({
@@ -62,28 +63,34 @@ class User extends ChangeNotifier {
     required this.interests,
     this.locale,
     required this.followedUserIDs,
-  }){
-    addListener((){
-      for( final app in appointments! ){
-        app.addListener(notifyListeners);
-      }
-    });
+  }) {
+    //TODO MARKO  ovde stavlja svim app u appointments! listener ali je null pri inicijalizaciji ja sam stavio proveru
+    if (appointments != null)
+      addListener(() {
+        for (final app in appointments!) {
+          app.addListener(notifyListeners);
+        }
+      });
   }
 
   static User fromJson(Map json, String id) {
     return User(
       id: id,
-      locationX: json['locationX'], 
-      locationY: json['locationY'], 
-      name: json['name'], 
+      locationX: json['locationX'],
+      locationY: json['locationY'],
+      name: json['name'],
       range: json['range'],
       surname: json['surname'],
-      locationDesc: (json['locationDesc'] as List? ?? []).map((i) => '$i').toList(),
+      locationDesc: (json['locationDesc'] as List? ?? [])
+          .map((i) => '$i')
+          .toList(),
       avatarURL: json['avatarURL'],
       description: json['description'],
       interests: (json['interests'] as List? ?? []).map((i) => '$i').toList(),
       locale: json['locale'],
-      followedUserIDs: (json['followedUserIDs'] as List? ?? []).map((i) => '$i').toList(),
+      followedUserIDs: (json['followedUserIDs'] as List? ?? [])
+          .map((i) => '$i')
+          .toList(),
     );
   }
 
@@ -104,7 +111,7 @@ class User extends ChangeNotifier {
   }
 
   static User blankWithID(String id) {
-    return User( 
+    return User(
       id: id,
       locationX: -1,
       locationY: -1,
@@ -119,32 +126,30 @@ class User extends ChangeNotifier {
   String get fullName => '$name $surname';
 
   Future reloadAppointments({bool notify = true}) async {
-    if(courses?.isEmpty ?? true) await reloadCourses();
+    if (courses?.isEmpty ?? true) await reloadCourses();
     appointments = await Database().fetchAppointmentsForCourseIDs(
       courses!.map((course) => course.id!),
     );
-    if(notify) notifyListeners();
+    if (notify) notifyListeners();
   }
 
   Future reloadAttending({bool notify = true}) async {
-    attending = await Database().fetchAttendingForUserID( 
-      currentUser.id,
-    );
-    if(notify) notifyListeners();
+    attending = await Database().fetchAttendingForUserID(currentUser.id);
+    if (notify) notifyListeners();
   }
 
   Future reloadFollowedUsers({bool notify = true}) async {
     final result = <User>[];
-    for(final userID in followedUserIDs) {
+    for (final userID in followedUserIDs) {
       result.add(await Database().fetchUserFromID(userID));
     }
     followedUsers = result;
-    if(notify) notifyListeners();
+    if (notify) notifyListeners();
   }
 
   Future reloadCourses({bool notify = true}) async {
     courses = await Database().fetchCoursesForUserID(id);
-    if(notify) notifyListeners();
+    if (notify) notifyListeners();
   }
 
   Future<void> reload({bool notify = true}) async {
@@ -155,7 +160,7 @@ class User extends ChangeNotifier {
   }
 
   String get formmatedLocationDesc {
-    if(locationDesc == null){
+    if (locationDesc == null) {
       return 'Nema podataka za lokaciju';
     } else {
       return locationDesc!.join(', ');

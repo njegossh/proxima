@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
-import 'package:proxima/main.dart';
 import 'package:proxima/pages/appointment_creation/main_sheet.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
@@ -104,7 +103,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                 },
               ),
               SizedBox(height: 32),
-              course.videoURL == null
+              (course.videoURL == null || course.videoURL == '')
                   ? SizedBox.shrink()
                   : Container(
                       padding: EdgeInsets.only(left: 16, right: 16),

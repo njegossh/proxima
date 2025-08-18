@@ -57,7 +57,7 @@ class _AppointmentConfirmationMainSheetState extends State<AppointmentConfirmati
                 Navigator.of(context).pop();
               },
             ),
-          ),
+          ), //TODO MARKO Nece da radi confirmation kad udjem na calendar pise confirm for... ali mi ulazi na kurs ne izbacuje mi sheet za confirm
         ],
       ),
     );
