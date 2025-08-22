@@ -38,12 +38,27 @@ class _UserMainPageState extends State<UserMainPage> {
             children: [
               SizedBox(height: 24),
               Center(child: AvatarWidget(avatarURL: widget.user.avatarURL)),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ElevatedButton(
-                  onPressed: controller.unFollow, 
-                  child: Text(widget.user.followingThisUser ? 'Following'.tr : 'Follow'.tr),
-                ),
+              SizedBox(height: 16),
+              Center(
+                child: widget.user.followingThisUser
+                    ? OutlinedButton(
+                        onPressed: controller.unFollow,
+                        child: Text(
+                          widget.user.followingThisUser
+                              ? 'Following'.tr
+                              : 'Follow'.tr,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    : ElevatedButton(
+                        onPressed: controller.unFollow,
+                        child: Text(
+                          widget.user.followingThisUser
+                              ? 'Following'.tr
+                              : 'Follow'.tr,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
               ),
               SizedBox(height: 16),
               Row(
@@ -65,7 +80,9 @@ class _UserMainPageState extends State<UserMainPage> {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
                           builder: (context) {
                             return CalendarMainPage(user: controller.user);
                           },
