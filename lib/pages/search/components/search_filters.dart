@@ -39,34 +39,86 @@ class _SearchFiltersState extends State<SearchFilters> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return ListenableBuilder(
       listenable: widget.controller,
       builder: (context, child) {
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTagInput(),
-              if (widget.controller.selectedTags.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                _buildSelectedTags(),
-              ],
-              const SizedBox(height: 16),
-              _buildPriceRange(),
-              const SizedBox(height: 16),
-              _buildSortOptions(context),
-              const SizedBox(height: 8),
-              _buildClearFiltersButton(),
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withAlpha(25),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
             ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildSectionHeader("Tagovi", Icons.tag),
+                const SizedBox(height: 12),
+                _buildTagInput(),
+                if (widget.controller.selectedTags.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  _buildSelectedTags(),
+                ],
+                const SizedBox(height: 24),
+                _buildSectionHeader("Opseg cena", Icons.euro),
+                const SizedBox(height: 12),
+                _buildPriceRange(),
+                const SizedBox(height: 24),
+                _buildSectionHeader("Sortiranje", Icons.sort),
+                const SizedBox(height: 12),
+                _buildSortOptions(theme),
+                const SizedBox(height: 24),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: widget.controller.clearFilters,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'Poništi filtere',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSectionHeader(String title, IconData icon) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Icon(icon, size: 24, color: theme.colorScheme.primary),
+        const SizedBox(width: 12),
+        Text(
+          title,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.onSurface,
+          ),
+        ),
+      ],
     );
   }
 
@@ -78,14 +130,22 @@ class _SearchFiltersState extends State<SearchFilters> {
             controller: widget.controller.tagController,
             decoration: InputDecoration(
               hintText: 'Dodaj tag...',
+              filled: true,
+              fillColor: Theme.of(context)
+                  .colorScheme
+                  .surfaceContainerHighest
+                  .withAlpha(30),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.add),
-                    onPressed: () => widget.controller.addTag(
-                      widget.controller.tagController.text,
-                    ),
+                    onPressed: () => widget.controller
+                        .addTag(widget.controller.tagController.text),
                   ),
                   IconButton(
                     icon: const Icon(Icons.list),
@@ -130,9 +190,16 @@ class _SearchFiltersState extends State<SearchFilters> {
               child: TextField(
                 controller: minPriceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Minimalna cena',
-                  border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Theme.of(context)
+                      .colorScheme
+                      .surfaceContainerHighest
+                      .withAlpha(30),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 onChanged: (value) {
                   final min = double.tryParse(value) ?? 0;
@@ -148,9 +215,16 @@ class _SearchFiltersState extends State<SearchFilters> {
               child: TextField(
                 controller: maxPriceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Maksimalna cena',
-                  border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Theme.of(context)
+                      .colorScheme
+                      .surfaceContainerHighest
+                      .withAlpha(30),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 onChanged: (value) {
                   final max =
@@ -168,42 +242,18 @@ class _SearchFiltersState extends State<SearchFilters> {
     );
   }
 
-  Widget _buildSortOptions(BuildContext context) {
-    return Row(
-      children: [
-        const Text('Sortiraj po: '),
-        Expanded(
-          child: DropdownButton<String>(
-            value: widget.controller.sortBy,
-            isExpanded: true,
-            items: const [
-              DropdownMenuItem(value: 'name', child: Text('Imenu')),
-              DropdownMenuItem(
-                value: 'price_low',
-                child: Text('Ceni rastuće'),
-              ),
-              DropdownMenuItem(
-                value: 'price_high',
-                child: Text('Ceni opadajuće'),
-              ),
-            ],
-            onChanged: (value) {
-              if (value != null) {
-                widget.controller.sortBy = value;
-              }
-            },
-          ),
-        ),
+  Widget _buildSortOptions(ThemeData theme) {
+    return DropdownButton<String>(
+      value: widget.controller.sortBy,
+      isExpanded: true,
+      items: const [
+        DropdownMenuItem(value: 'name', child: Text('Po nazivu')),
+        DropdownMenuItem(value: 'price_low', child: Text('Ceni rastuće')),
+        DropdownMenuItem(value: 'price_high', child: Text('Ceni opadajuće')),
       ],
-    );
-  }
-
-  Widget _buildClearFiltersButton() {
-    return Center(
-      child: ElevatedButton(
-        onPressed: widget.controller.clearFilters,
-        child: const Text('Poništi filtere'),
-      ),
+      onChanged: (value) {
+        if (value != null) widget.controller.sortBy = value;
+      },
     );
   }
 }

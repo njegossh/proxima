@@ -127,7 +127,7 @@ class User extends ChangeNotifier {
   String get fullName => '$name $surname';
 
   Future reloadAppointments({bool notify = true}) async {
-    if (courses?.isEmpty ?? true) await reloadCourses();
+    if (courses?.isEmpty ?? true) await reloadCourses(notify: notify);
     appointments = await Database().fetchAppointmentsForCourseIDs(
       courses!.map((course) => course.id!),
     );

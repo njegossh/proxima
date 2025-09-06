@@ -11,18 +11,43 @@ class SearchMainPage extends StatefulWidget {
   State<SearchMainPage> createState() => _SearchMainPageState();
 }
 
-class _SearchMainPageState extends State<SearchMainPage> {
+class _SearchMainPageState extends State<SearchMainPage>
+    with TickerProviderStateMixin {
   late SearchMainController controller;
+  late AnimationController _filterAnimationController;
+  late Animation<double> _filterAnimation;
 
   @override
   void initState() {
     super.initState();
     controller = SearchMainController();
     controller.searchCourses(controller.searchController.text);
+
+    // Initialize animation controller
+    _filterAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    // Create slide animation
+    _filterAnimation = CurvedAnimation(
+      parent: _filterAnimationController,
+      curve: Curves.easeInOut,
+    );
+
+    // Listen to controller changes to trigger animation
+    controller.addListener(() {
+      if (controller.showFilters) {
+        _filterAnimationController.forward();
+      } else {
+        _filterAnimationController.reverse();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _filterAnimationController.dispose();
     controller.dispose();
     super.dispose();
   }
@@ -41,13 +66,7 @@ class _SearchMainPageState extends State<SearchMainPage> {
           body: Column(
             children: [
               _buildSearchBar(),
-              if (controller.showFilters) ...[
-                SearchFilters(
-                  controller: controller,
-                  onShowTagSuggestions: _showTagSuggestions,
-                ),
-                const SizedBox(height: 16),
-              ],
+              _buildAnimatedFilters(),
               _buildResultsCount(),
               const SizedBox(height: 8),
               _buildCourseList(),
@@ -62,12 +81,23 @@ class _SearchMainPageState extends State<SearchMainPage> {
     return AppBar(
       title: const Text('Search'),
       actions: [
-        IconButton(
-          icon: Icon(
-            controller.showFilters ? Icons.filter_list_off : Icons.filter_list,
-          ),
-          onPressed: () {
-            controller.showFilters = !controller.showFilters;
+        AnimatedBuilder(
+          animation: _filterAnimationController,
+          builder: (context, child) {
+            return IconButton(
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  controller.showFilters
+                      ? Icons.filter_list_off
+                      : Icons.filter_list,
+                  key: ValueKey(controller.showFilters),
+                ),
+              ),
+              onPressed: () {
+                controller.showFilters = !controller.showFilters;
+              },
+            );
           },
         ),
       ],
@@ -91,9 +121,7 @@ class _SearchMainPageState extends State<SearchMainPage> {
                   },
                 )
               : null,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
         ),
         onChanged: (value) {
           controller.searchCourses(value);
@@ -102,14 +130,46 @@ class _SearchMainPageState extends State<SearchMainPage> {
     );
   }
 
+  Widget _buildAnimatedFilters() {
+    return SizeTransition(
+      sizeFactor: _filterAnimation,
+      child: FadeTransition(
+        opacity: _filterAnimation,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, -0.5),
+            end: Offset.zero,
+          ).animate(_filterAnimation),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              children: [
+                SearchFilters(
+                  controller: controller,
+                  onShowTagSuggestions: _showTagSuggestions,
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildResultsCount() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: controller.showFilters ? 0 : 8,
+      ),
       child: Row(
         children: [
-          Text(
-            'Broj kurseva: ${controller.filteredCourses.length}',
-            style: Theme.of(context).textTheme.titleSmall,
+          AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 200),
+            style: Theme.of(context).textTheme.titleSmall!,
+            child: Text('Broj kurseva: ${controller.filteredCourses.length}'),
           ),
         ],
       ),
@@ -118,31 +178,40 @@ class _SearchMainPageState extends State<SearchMainPage> {
 
   Widget _buildCourseList() {
     return Expanded(
-      child: controller.filteredCourses.isEmpty
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.search_off, size: 64, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text(
-                    'Nema pronađenih kurseva',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                  Text(
-                    'Promenite parameter i pokušajte ponovo',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: controller.filteredCourses.isEmpty
+            ? const Center(
+                key: ValueKey('empty'),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search_off, size: 64, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text(
+                      'Nema pronađenih kurseva',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    Text(
+                      'Promenite parameter i pokušajte ponovo',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                key: const ValueKey('list'),
+                itemCount: controller.filteredCourses.length,
+                itemBuilder: (context, index) {
+                  final course = controller.filteredCourses[index];
+                  return AnimatedContainer(
+                    duration: Duration(milliseconds: 100 + (index * 50)),
+                    curve: Curves.easeOut,
+                    child: CourseCard(course: course),
+                  );
+                },
               ),
-            )
-          : ListView.builder(
-              itemCount: controller.filteredCourses.length,
-              itemBuilder: (context, index) {
-                final course = controller.filteredCourses[index];
-                return CourseCard(course: course);
-              },
-            ),
+      ),
     );
   }
 }

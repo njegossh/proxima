@@ -8,6 +8,7 @@ import 'package:proxima/classes/models/appointment.dart';
 enum AppointmentType { teachConfirmed, teachPending, attendConfirmed, attendPending }
 
 class CalendarMainController extends sync.CalendarDataSource<Appointment>{
+  //TODO MARKO Syncfusion flesuje za azuriranja
   final User user;
   Map<String, Color> classColors = {};
   final calendarKey = ValueNotifier(UniqueKey());
