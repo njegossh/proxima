@@ -64,14 +64,11 @@ class User extends ChangeNotifier {
     this.locale,
     required this.followedUserIDs,
   }) {
-    //TODO MARKO  ovde stavlja svim app u appointments! listener ali je null pri inicijalizaciji ja sam stavio proveru
-    if (appointments != null) {
-      addListener(() {
-        for (final app in appointments!) {
-          app.addListener(notifyListeners);
-        }
-      });
-    }
+    addListener(() {
+      for (final app in appointments!) {
+        app.addListener(notifyListeners);
+      }
+    });
   }
 
   static User fromJson(Map json, String id) {
