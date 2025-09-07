@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/components/course_card.dart';
+import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCarousel extends StatelessWidget {
   final List<Course> courses;
@@ -17,7 +18,7 @@ class CourseCarousel extends StatelessWidget {
           autoPlay: true,
           enlargeCenterPage: true,
           padEnds: false,
-          height: 180
+          height: 180,
         ),
         items: courses.map((course) {
           return CourseCard(course: course);

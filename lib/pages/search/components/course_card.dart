@@ -1,4 +1,4 @@
-// widgets/course_card.dart
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/pages/course/main_page.dart';
@@ -8,10 +8,15 @@ class CourseCard extends StatelessWidget {
 
   const CourseCard({super.key, required this.course});
 
+  bool _isBase64(String? str) {
+    if (str == null || str.isEmpty) return false;
+    return !str.startsWith('http') && str.length > 50;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return CourseMainPage(course: course);
         }));
@@ -26,7 +31,7 @@ class CourseCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildThumbnail(),
+                  _buildThumbnail(context),
                   const SizedBox(width: 12),
                   _buildCourseInfo(context),
                 ],
@@ -42,20 +47,36 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget _buildThumbnail() {
+  Widget _buildThumbnail(BuildContext context) {
+    Widget imageWidget;
+
+    if (course.thumbnailURL == null || course.thumbnailURL!.isEmpty) {
+      imageWidget = const Icon(Icons.school, size: 50);
+    } else if (_isBase64(course.thumbnailURL)) {
+      try {
+        final bytes = base64Decode(course.thumbnailURL!);
+        imageWidget = Image.memory(
+          bytes,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 50),
+        );
+      } catch (_) {
+        imageWidget = const Icon(Icons.broken_image, size: 50);
+      }
+    } else {
+      imageWidget = Image.network(
+        course.thumbnailURL!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 50),
+      );
+    }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        course.thumbnailURL ?? '',
+      child: SizedBox(
         width: 80,
         height: 60,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => Container(
-          width: 80,
-          height: 60,
-          color: Theme.of(context).colorScheme.surface,
-          child: const Icon(Icons.school),
-        ),
+        child: imageWidget,
       ),
     );
   }
@@ -68,8 +89,8 @@ class CourseCard extends StatelessWidget {
           Text(
             course.name,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -81,7 +102,7 @@ class CourseCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             '${course.pricePerHour} € po satu',
-            style: Theme.of(context).textTheme.titleSmall
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ],
       ),
@@ -95,10 +116,7 @@ class CourseCard extends StatelessWidget {
       children: course.tags
           .map(
             (tag) => Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(12),

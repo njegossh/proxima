@@ -12,6 +12,7 @@ class Course extends ChangeNotifier {
   String? description;
   String? videoURL;
   String? thumbnailURL;
+  String? thumbnailString;
   double locationX, locationY;
 
   User? user;
@@ -28,6 +29,7 @@ class Course extends ChangeNotifier {
     this.averageReview,
     this.videoURL,
     this.thumbnailURL,
+    this.thumbnailString,
     this.user,
   });
 
@@ -44,6 +46,7 @@ class Course extends ChangeNotifier {
       locationX: json['locationX'] ?? 0,
       locationY: json['locationY'] ?? 0,
       thumbnailURL: json['thumbnailURL'],
+      thumbnailString: json['thumbnailString'],
     );
   }
 
@@ -59,6 +62,7 @@ class Course extends ChangeNotifier {
       'locationX': locationX,
       'locationY': locationY,
       'thumbnailURL': thumbnailURL,
+      'thumbnailString': thumbnailString,
     };
   }
 

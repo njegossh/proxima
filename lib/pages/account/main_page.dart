@@ -32,7 +32,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
           padding: EdgeInsets.only(bottom: 64),
           children: [
             SizedBox(height: 24),
-            Center(child: AvatarWidget(avatarURL: account.avatarURL)),
+            Center(child: AvatarWidget(imageString: account.imageString)),
             SizedBox(height: 24),
             Align(
               alignment: Alignment.center,

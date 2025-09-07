@@ -6,6 +6,7 @@ import 'package:proxima/main.dart';
 import 'package:oktoast/oktoast.dart';
 
 class InitAccountController extends ChangeNotifier {
+  String? imageString;
   bool isInitialized;
   bool trackLocation = true;
 
@@ -35,6 +36,7 @@ class InitAccountController extends ChangeNotifier {
     avatarUrlCtrl.addListener(() {
       notifyListeners();
     });
+    imageString = currentUser.imageString;
   }
 
   void trackLocationChange(bool? val) {
@@ -79,6 +81,7 @@ class InitAccountController extends ChangeNotifier {
         name: firstNameCtrl.text,
         surname: lastNameCtrl.text,
         avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
+        imageString: imageString,
         description: descriptionCtrl.text,
         followedUserIDs: [],
         locationX: newLocX,
@@ -98,6 +101,8 @@ class InitAccountController extends ChangeNotifier {
     if ((trackLocation && position != null) || !trackLocation) {
       navigateToRootAndAuth();
     }
+
+    notifyListeners();
   }
 
   Future<Position> _getUserLocation() async {

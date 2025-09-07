@@ -1,22 +1,51 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
-class Coursedisplayimage extends StatelessWidget {
-  final String? displayImageURL;
-  const Coursedisplayimage({super.key, this.displayImageURL});
+class CourseDisplayImage extends StatelessWidget {
+  final String? imageString;
+  const CourseDisplayImage({super.key, this.imageString});
+
+  bool _isBase64(String? str) {
+    if (str == null || str.isEmpty) return false;
+    return !str.startsWith('http') && str.length > 50;
+  }
 
   @override
   Widget build(BuildContext context) {
+    Widget imageWidget;
+
+    if (imageString == null || imageString!.isEmpty) {
+      imageWidget = const Icon(Icons.image_rounded, size: 100);
+    } else if (_isBase64(imageString)) {
+      try {
+        final bytes = base64Decode(imageString!);
+        imageWidget = Image.memory(
+          bytes,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) =>
+              const Icon(Icons.broken_image, size: 100),
+        );
+      } catch (_) {
+        imageWidget = const Icon(Icons.broken_image, size: 100);
+      }
+    } else {
+      imageWidget = Image.network(
+        imageString!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) =>
+            const Icon(Icons.broken_image, size: 100),
+      );
+    }
+
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Card(
         clipBehavior: Clip.antiAlias,
-        margin: EdgeInsets.all(0),
+        margin: EdgeInsets.zero,
         child: SizedBox(
-          height: 200,
-          child: displayImageURL == null ? Icon(
-            Icons.image_rounded, 
-            size: 100,
-          ) : Image.network(displayImageURL!, fit: BoxFit.cover,),
+          width: double.infinity,
+          height: 220,
+          child: imageWidget,
         ),
       ),
     );

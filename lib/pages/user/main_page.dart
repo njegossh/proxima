@@ -37,7 +37,7 @@ class _UserMainPageState extends State<UserMainPage> {
           body: ListView(
             children: [
               SizedBox(height: 24),
-              Center(child: AvatarWidget(avatarURL: widget.user.avatarURL)),
+              Center(child: AvatarWidget(imageString: widget.user.imageString)),
               SizedBox(height: 16),
               Center(
                 child: widget.user.followingThisUser

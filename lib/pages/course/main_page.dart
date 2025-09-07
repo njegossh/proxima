@@ -56,7 +56,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                 ),
               ),
               SizedBox(height: 24),
-              Coursedisplayimage(displayImageURL: course.thumbnailURL),
+              CourseDisplayImage(imageString: course.thumbnailString),
               SizedBox(height: 24),
               Center(child: TagsChips(tags: course.tags)),
               SizedBox(height: 24),
