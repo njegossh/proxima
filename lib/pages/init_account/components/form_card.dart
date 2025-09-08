@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/pages/init_account/components/interests.dart';
 import 'package:proxima/pages/init_account/controller.dart';
 import 'section_header.dart';
 import 'custom_text_field.dart';
@@ -24,6 +25,8 @@ class FormCard extends StatelessWidget {
 
     return Card(
       elevation: 2,
+      margin: EdgeInsets.all(0),
+      color: Theme.of(context).colorScheme.surface,
       shadowColor: colorScheme.shadow.withAlpha(25),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -97,12 +100,7 @@ class FormCard extends StatelessWidget {
           hint: 'npr. Niš, Srbija',
         ),
         const SizedBox(height: 16),
-        CustomTextField(
-          controller: controller.interestsCtrl,
-          label: 'Interesovanja',
-          icon: Icons.interests_outlined,
-          hint: 'npr. Programiranje, Matematika, Muzika',
-        ),
+        Interests(controller: controller),
       ],
     );
   }

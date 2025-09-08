@@ -4,22 +4,16 @@ import '../controller.dart';
 
 class ChatMessages extends StatelessWidget {
   final ChatController controller;
-  const ChatMessages({
-    super.key,
-    required this.controller,
-  });
+  const ChatMessages({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     final messages = controller.messages;
-    return ListView.builder( 
-      padding: EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 100,
-      ),
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 100),
       controller: controller.scroll,
       itemCount: messages.length,
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
         final message = messages[index];
         final mine = message.fromUserID == currentUser.id;
         final colorScheme = Theme.of(context).colorScheme;
@@ -31,7 +25,9 @@ class ChatMessages extends StatelessWidget {
             right: mine ? 0 : 64,
           ),
           child: Column(
-            crossAxisAlignment: mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment: mine
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
@@ -39,22 +35,34 @@ class ChatMessages extends StatelessWidget {
                   color: mine ? colorScheme.primary : colorScheme.secondary,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  message.content,
-                  style: TextStyle(
-                    color: mine ? colorScheme.secondary : colorScheme.primary,
-                  ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: Text(
-                  message.timestamp.prettified,
-                  style: TextStyle(
-                    color: colorScheme.primary,
-                    fontSize: 12,
-                  ),
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.end, // timestamp aligned to right
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      message.content,
+                      style: TextStyle(
+                        color: mine
+                            ? colorScheme.secondary
+                            : colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      message.timestamp.prettified,
+                      style: TextStyle(
+                        color:
+                            (mine ? colorScheme.secondary : colorScheme.primary)
+                                .withAlpha(150),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

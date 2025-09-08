@@ -78,18 +78,19 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
                   ],
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: FormCard(
-                  controller: controller,
-                  isInitialized: widget.isInitialized,
-                  onActionPressed: () {
-                    controller.updateAccount();
-                    if (controller.isInitialized) {
-                      Navigator.pop(context);
-                    }
-                    // TODO MARKO: Fix navigation logic
-                  },
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: FormCard(
+                    controller: controller,
+                    isInitialized: widget.isInitialized,
+                    onActionPressed: () {
+                      controller.updateAccount();
+                      if (controller.isInitialized) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ),
             ],

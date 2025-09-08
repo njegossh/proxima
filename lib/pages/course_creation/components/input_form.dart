@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proxima/pages/course_creation/components/tags.dart';
 import 'package:proxima/pages/course_creation/controller.dart';
 import '../../init_account/components/custom_text_field.dart';
 
@@ -19,12 +20,7 @@ class InputForm extends StatelessWidget {
           hint: "Unesite naziv",
         ),
         const SizedBox(height: 16),
-        CustomTextField(
-          controller: controller.tags,
-          label: "Tagovi",
-          icon: Icons.tag,
-          hint: "Unesite tagove odvojene zarezom",
-        ),
+        TagsInput(controller: controller),
         const SizedBox(height: 16),
         CustomTextField(
           controller: controller.pricePerHour,

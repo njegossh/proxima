@@ -19,10 +19,8 @@ class _ChatMainPageState extends State<ChatMainPage> {
 
   @override
   void initState() {
-    if(widget.chat == null) {
-    controller = ChatController.fromOtherUser(
-      widget.otherUser,
-    );
+    if (widget.chat == null) {
+      controller = ChatController.fromOtherUser(widget.otherUser);
     } else {
       controller = ChatController(chat: widget.chat!);
     }
@@ -31,45 +29,42 @@ class _ChatMainPageState extends State<ChatMainPage> {
 
   @override
   void dispose() {
-    if(widget.chat == null){
+    if (widget.chat == null) {
       controller.dispose();
     }
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        return Scaffold( 
+        return Scaffold(
           appBar: AppBar(
-            title:  Text(widget.otherUser.fullName),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: CircleAvatar(
+            title: Row(
+              children: [
+                CircleAvatar(
                   foregroundImage: NetworkImage(
                     controller.otherUser.avatarURL ?? '',
                   ),
                   child: Icon(Icons.person),
                 ),
-              ),
-            ],
+                const SizedBox(width: 12),
+                Text(widget.otherUser.fullName),
+              ],
+            ),
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           ),
-          bottomSheet: ChatInput(controller: controller),
+          bottomSheet: Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: ChatInput(controller: controller),
+          ),
           body: Column(
-            children: [
-              Expanded(
-                child: ChatMessages(
-                  controller: controller,
-                ),
-              ),
-            ],
+            children: [Expanded(child: ChatMessages(controller: controller))],
           ),
         );
-      }
+      },
     );
   }
 }

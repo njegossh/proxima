@@ -21,7 +21,6 @@ class CourseMainController extends ChangeNotifier {
 
     reviewList = await Database().fetchReviewsForCourseID(course.id!);
 
-    //TODO videti da li ovo ostaje ispod
     reviewList.shuffle();
     reviewList = reviewList.take(2).toList();
 

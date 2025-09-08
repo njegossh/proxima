@@ -9,7 +9,7 @@ class InitAccountController extends ChangeNotifier {
   String? imageString;
   bool isInitialized;
   bool trackLocation = true;
-
+  List<String> interests = List.from(currentUser.interests);
   double _range = 10; // in km
 
   double get range => _range;
@@ -19,14 +19,24 @@ class InitAccountController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addInterest(String interest) {
+    final trimmed = interest.trim();
+    if (trimmed.isNotEmpty && !interests.contains(trimmed)) {
+      interests.add(trimmed);
+      notifyListeners();
+    }
+  }
+
+  void removeInterest(String interest) {
+    interests.remove(interest);
+    notifyListeners();
+  }
+
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
   final avatarUrlCtrl = TextEditingController(text: currentUser.avatarURL);
   final locationDescCtrl = TextEditingController(
     text: currentUser.locationDesc?.join(', ') ?? '',
-  );
-  final interestsCtrl = TextEditingController(
-    text: currentUser.interests.join(', '),
   );
   final descriptionCtrl = TextEditingController(text: currentUser.description);
 
@@ -41,7 +51,6 @@ class InitAccountController extends ChangeNotifier {
 
   void trackLocationChange(bool? val) {
     trackLocation = val ?? false;
-    //print("CHECK JE ${trackLocation}");
     notifyListeners();
   }
 
@@ -67,14 +76,9 @@ class InitAccountController extends ChangeNotifier {
         ? position.latitude
         : currentUser.locationX;
 
-    //print("trackLoc ${trackLocation} | position.latitude ${position?.latitude} | currentUser.locationX ${currentUser.locationX} | newLocY ${newLocX}");
-
     double newLocY = trackLocation && position != null
         ? position.longitude
         : currentUser.locationY;
-
-    //print("trackLoc ${trackLocation} | position.longitude ${position?.longitude} | currentUser.locationY ${currentUser.locationY} | newLocY ${newLocY}");
-
     await Database().updateUser(
       User(
         id: currentUser.id,
@@ -89,11 +93,7 @@ class InitAccountController extends ChangeNotifier {
         locationDesc: locationDescCtrl.text.isEmpty
             ? null
             : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
-        interests: interestsCtrl.text
-            .split(',')
-            .map((e) => e.trim())
-            .where((e) => e.isNotEmpty)
-            .toList(),
+        interests: List.from(interests),
         range: _range,
       ),
     );
@@ -138,7 +138,6 @@ class InitAccountController extends ChangeNotifier {
     avatarUrlCtrl.dispose();
     descriptionCtrl.dispose();
     locationDescCtrl.dispose();
-    interestsCtrl.dispose();
     super.dispose();
   }
 }
