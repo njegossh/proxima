@@ -30,12 +30,9 @@ class UserInfo extends StatelessWidget {
         return const Icon(Icons.broken_image, size: 45);
       }
     }
-
-    return Image.network(
-      avatarURL,
-      fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 45),
-    );
+    else {
+      return const Icon(Icons.broken_image, size: 45);
+    }
   }
 
   @override

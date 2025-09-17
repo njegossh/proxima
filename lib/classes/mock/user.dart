@@ -14,7 +14,6 @@ final nikolaNikolic = User(
   locationX: 21,
   locationY: 23,
   name: 'Nikola',
-  avatarURL: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.y_-RrO81dmnPR5dKO0GYWAHaHa%3Fpid%3DApi&f=1&ipt=b1838d508cf7ab8bd7cd26ec296ca178e050b871799c981492943e9b3b7e73a6&ipo=images",
   surname: 'Nikolic',
   interests: [
     'Sah',

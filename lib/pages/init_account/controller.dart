@@ -34,7 +34,6 @@ class InitAccountController extends ChangeNotifier {
 
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
-  final avatarUrlCtrl = TextEditingController(text: currentUser.avatarURL);
   final locationDescCtrl = TextEditingController(
     text: currentUser.locationDesc?.join(', ') ?? '',
   );
@@ -43,9 +42,6 @@ class InitAccountController extends ChangeNotifier {
   User get account => currentUser;
 
   InitAccountController({required this.isInitialized}) {
-    avatarUrlCtrl.addListener(() {
-      notifyListeners();
-    });
     imageString = currentUser.imageString;
   }
 
@@ -84,7 +80,6 @@ class InitAccountController extends ChangeNotifier {
         id: currentUser.id,
         name: firstNameCtrl.text,
         surname: lastNameCtrl.text,
-        avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
         imageString: imageString,
         description: descriptionCtrl.text,
         followedUserIDs: [],
@@ -135,7 +130,6 @@ class InitAccountController extends ChangeNotifier {
   void dispose() {
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
-    avatarUrlCtrl.dispose();
     descriptionCtrl.dispose();
     locationDescCtrl.dispose();
     super.dispose();

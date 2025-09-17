@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:easy_stars/easy_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/review.dart';
@@ -42,8 +43,8 @@ class ReviewCard extends StatelessWidget {
                   child: Card(
                     margin: EdgeInsets.all(0),
                     clipBehavior: Clip.antiAlias,
-                    child: Image.network(
-                      user.avatarURL ?? '',
+                    child: Image.memory(
+                      base64Decode(user.imageString ?? ''),
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           Icon(Icons.person, size: 45),

@@ -12,14 +12,14 @@ class CourseCard extends StatelessWidget {
     return !str.startsWith('http') && str.length > 50;
   }
 
-  Widget _buildImage(String? thumbnailURL) {
-    if (thumbnailURL == null || thumbnailURL.isEmpty) {
+  Widget _buildImage(String? thumbnailString) {
+    if (thumbnailString == null || thumbnailString.isEmpty) {
       return const Icon(Icons.image, size: 75);
     }
 
-    if (_isBase64(thumbnailURL)) {
+    if (_isBase64(thumbnailString)) {
       try {
-        final bytes = base64Decode(thumbnailURL);
+        final bytes = base64Decode(thumbnailString);
         return Image.memory(
           bytes,
           fit: BoxFit.cover,
@@ -32,7 +32,7 @@ class CourseCard extends StatelessWidget {
     }
 
     return Image.network(
-      thumbnailURL,
+      thumbnailString,
       fit: BoxFit.cover,
       errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 75),
     );
@@ -47,7 +47,7 @@ class CourseCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: Stack(
           children: [
-            Positioned.fill(child: _buildImage(course.thumbnailURL)),
+            Positioned.fill(child: _buildImage(course.thumbnailString)),
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(

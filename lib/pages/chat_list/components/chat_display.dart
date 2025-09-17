@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/chat.dart';
 import 'package:proxima/pages/chat/main_page.dart';
@@ -47,10 +48,10 @@ class ChatDisplay extends StatelessWidget {
                   child: Card(
                     margin: EdgeInsets.all(0),
                     clipBehavior: Clip.antiAlias,
-                    child: chat.otherUser.avatarURL == null
+                    child: chat.otherUser.imageString == null
                         ? Icon(Icons.person, size: 45)
-                        : Image.network(
-                            chat.otherUser.avatarURL!,
+                        : Image.memory(
+                            base64Decode(chat.otherUser.imageString!),
                             fit: BoxFit.cover,
                           ),
                   ),

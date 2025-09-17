@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/chat.dart';
 import 'package:proxima/classes/models/user.dart';
@@ -45,8 +46,8 @@ class _ChatMainPageState extends State<ChatMainPage> {
             title: Row(
               children: [
                 CircleAvatar(
-                  foregroundImage: NetworkImage(
-                    controller.otherUser.avatarURL ?? '',
+                  foregroundImage: MemoryImage(
+                    base64Decode(controller.otherUser.imageString ?? ''),
                   ),
                   child: Icon(Icons.person),
                 ),

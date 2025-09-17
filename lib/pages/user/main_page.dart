@@ -33,7 +33,7 @@ class _UserMainPageState extends State<UserMainPage> {
       listenable: controller,
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(elevation: 0),
+          appBar: AppBar(elevation: 0, title: Text(controller.user.fullName)),
           body: ListView(
             children: [
               SizedBox(height: 24),
@@ -96,17 +96,6 @@ class _UserMainPageState extends State<UserMainPage> {
                     child: Icon(Icons.video_camera_front_rounded, size: 25),
                   ),
                 ],
-              ),
-              SizedBox(height: 12),
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16, left: 16),
-                  child: Text(
-                    widget.user.fullName,
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
-                  ),
-                ),
               ),
               SizedBox(height: 16),
               LocationInfo(user: widget.user),

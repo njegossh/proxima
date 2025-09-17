@@ -33,28 +33,18 @@ class _CourseMainPageState extends State<CourseMainPage> {
       listenable: controller,
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(elevation: 0),
+          appBar: AppBar(elevation: 0, title: Text(controller.course.name)),
           floatingActionButton: FloatingActionButton.extended(
-              label: Text('Zahtev za novi termin'),
-              icon: Icon(Icons.event),
-              onPressed: () => showModalBottomSheet(
-                context: context, 
-                builder: (_) => AppointmentCreationMainSheet(course: widget.course),
-              ),
+            label: Text('Zahtev za novi termin'),
+            icon: Icon(Icons.event),
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              builder: (_) =>
+                  AppointmentCreationMainSheet(course: widget.course),
             ),
+          ),
           body: ListView(
             children: [
-              SizedBox(height: 24),
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 16, left: 16),
-                  child: Text(
-                    course.name,
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
-                  ),
-                ),
-              ),
               SizedBox(height: 24),
               CourseDisplayImage(imageString: course.thumbnailString),
               SizedBox(height: 24),
@@ -98,7 +88,10 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   if (controller.isLoading) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return ReviewsPreview(reviews: controller.reviewList, course: controller.course,);
+                    return ReviewsPreview(
+                      reviews: controller.reviewList,
+                      course: controller.course,
+                    );
                   }
                 },
               ),
@@ -114,7 +107,10 @@ class _CourseMainPageState extends State<CourseMainPage> {
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.all(8),
-                            child: Videoshowcase(videoURL: course.videoURL!),
+                            child: ClipRRect(
+                              borderRadius: BorderRadiusGeometry.circular(20.0),
+                              child: Videoshowcase(videoURL: course.videoURL!),
+                            ),
                           ),
                         ),
                       ),

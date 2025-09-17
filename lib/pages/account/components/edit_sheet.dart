@@ -73,19 +73,6 @@ class EditAccountSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 TextField(
-                  controller: controller.avatarUrlCtrl,
-                  decoration: InputDecoration(
-                    labelText: 'Profilna slika',
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: TextStyle(fontWeight: FontWeight.w200, fontSize: 16),
-                ),
-                SizedBox(height: 12),
-                TextField(
                   controller: controller.locationDescCtrl,
                   decoration: InputDecoration(
                     labelText: 'Grad i drzava',

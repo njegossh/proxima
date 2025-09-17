@@ -13,7 +13,6 @@ class User extends ChangeNotifier {
   List<String>? locationDesc;
   String name, surname;
   String? description;
-  String? avatarURL;
   String? imageString;
   String? locale;
   List<String> interests;
@@ -59,7 +58,6 @@ class User extends ChangeNotifier {
     required this.name,
     required this.surname,
     this.range = 100, //km
-    this.avatarURL,
     this.imageString,
     this.description,
     required this.interests,
@@ -84,7 +82,6 @@ class User extends ChangeNotifier {
       locationDesc: (json['locationDesc'] as List? ?? [])
           .map((i) => '$i')
           .toList(),
-      avatarURL: json['avatarURL'],
       imageString: json['imageString'],
       description: json['description'],
       interests: (json['interests'] as List? ?? []).map((i) => '$i').toList(),
@@ -102,7 +99,6 @@ class User extends ChangeNotifier {
       'name': name,
       'surname': surname,
       'locationDesc': locationDesc,
-      'avatarURL': avatarURL,
       'imageString': imageString,
       'description': description,
       'interests': interests,

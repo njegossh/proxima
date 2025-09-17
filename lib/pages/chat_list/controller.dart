@@ -26,9 +26,9 @@ class ChatListController extends ChangeNotifier {
     chatList = await Database().fetchAllChats();
     for(final chat in chatList!){
       chat.openConnection();
-      Future.delayed(const Duration(seconds: 1)).then((_){
-        chat.closeConnection();
-      });
+      // Future.delayed(const Duration(seconds: 1)).then((_){
+      //   chat.closeConnection();
+      // });
       chat.addListener(notifyListeners);
     }
     notifyListeners();

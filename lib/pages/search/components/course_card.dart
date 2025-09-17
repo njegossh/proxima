@@ -50,11 +50,11 @@ class CourseCard extends StatelessWidget {
   Widget _buildThumbnail(BuildContext context) {
     Widget imageWidget;
 
-    if (course.thumbnailURL == null || course.thumbnailURL!.isEmpty) {
+    if (course.thumbnailString == null || course.thumbnailString!.isEmpty) {
       imageWidget = const Icon(Icons.school, size: 50);
-    } else if (_isBase64(course.thumbnailURL)) {
+    } else if (_isBase64(course.thumbnailString)) {
       try {
-        final bytes = base64Decode(course.thumbnailURL!);
+        final bytes = base64Decode(course.thumbnailString!);
         imageWidget = Image.memory(
           bytes,
           fit: BoxFit.cover,
@@ -65,7 +65,7 @@ class CourseCard extends StatelessWidget {
       }
     } else {
       imageWidget = Image.network(
-        course.thumbnailURL!,
+        course.thumbnailString!,
         fit: BoxFit.cover,
         errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 50),
       );

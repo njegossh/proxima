@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCarousel extends StatelessWidget {
   final List<Course> courses;
@@ -12,14 +13,14 @@ class CourseCarousel extends StatelessWidget {
     return !str.startsWith('http') && str.length > 50;
   }
 
-  Widget _buildImage(String? thumbnailURL) {
-    if (thumbnailURL == null || thumbnailURL.isEmpty) {
+  Widget _buildImage(String? thumbnailString) {
+    if (thumbnailString == null || thumbnailString.isEmpty) {
       return const Icon(Icons.image, size: 75);
     }
 
-    if (_isBase64(thumbnailURL)) {
+    if (_isBase64(thumbnailString)) {
       try {
-        final bytes = base64Decode(thumbnailURL);
+        final bytes = base64Decode(thumbnailString);
         return Image.memory(
           bytes,
           fit: BoxFit.cover,
@@ -29,13 +30,9 @@ class CourseCarousel extends StatelessWidget {
       } catch (_) {
         return const Icon(Icons.broken_image, size: 75);
       }
+    } else {
+      return const Icon(Icons.broken_image, size: 75);
     }
-
-    return Image.network(
-      thumbnailURL,
-      fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 75),
-    );
   }
 
   @override
@@ -53,46 +50,53 @@ class CourseCarousel extends StatelessWidget {
         items: courses.map((course) {
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 10),
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                children: [
-                  Positioned.fill(child: _buildImage(course.thumbnailURL)),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withValues(alpha: 0.6),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CourseMainPage(course: course),
+                ),
+              ),
+              child: Card(
+                margin: const EdgeInsets.only(bottom: 10),
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: [
+                    Positioned.fill(child: _buildImage(course.thumbnailString)),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.6),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 12,
-                    left: 12,
-                    right: 12,
-                    child: Text(
-                      course.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontSize: 18,
-                        shadows: const [
-                          Shadow(
-                            blurRadius: 4,
-                            color: Colors.black54,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      right: 12,
+                      child: Text(
+                        course.name,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontSize: 18,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 4,
+                              color: Colors.black54,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

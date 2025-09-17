@@ -10,7 +10,6 @@ class AccountController extends ChangeNotifier {
 
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
-  final avatarUrlCtrl = TextEditingController(text: currentUser.avatarURL);
   final locXCtrl = TextEditingController(text: currentUser.locationX.toString());
   final locYCtrl = TextEditingController(text: currentUser.locationY.toString());
   final locationDescCtrl = TextEditingController(text: currentUser.locationDesc?.join(', ') ?? '');
@@ -35,7 +34,6 @@ class AccountController extends ChangeNotifier {
       followedUserIDs: currentUser.followedUserIDs,
       name: firstNameCtrl.text,
       surname: lastNameCtrl.text,
-      avatarURL: avatarUrlCtrl.text.isEmpty ? null : avatarUrlCtrl.text,
       description: descriptionCtrl.text,
       locationX: position?.latitude ?? currentUser.locationX,
       locationY: position?.longitude ?? currentUser.locationY,
@@ -86,7 +84,6 @@ class AccountController extends ChangeNotifier {
   void dispose() {
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
-    avatarUrlCtrl.dispose();
     locXCtrl.dispose();
     locYCtrl.dispose();
     descriptionCtrl.dispose();
