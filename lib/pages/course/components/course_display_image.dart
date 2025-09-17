@@ -29,12 +29,7 @@ class CourseDisplayImage extends StatelessWidget {
         imageWidget = const Icon(Icons.broken_image, size: 100);
       }
     } else {
-      imageWidget = Image.network(
-        imageString!,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) =>
-            const Icon(Icons.broken_image, size: 100),
-      );
+      imageWidget = const Icon(Icons.broken_image, size: 100);
     }
 
     return Padding(

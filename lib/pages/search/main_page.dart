@@ -140,7 +140,7 @@ class _SearchMainPageState extends State<SearchMainPage>
             begin: const Offset(0, -0.5),
             end: Offset.zero,
           ).animate(_filterAnimation),
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: Column(
               children: [

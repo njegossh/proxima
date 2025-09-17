@@ -67,8 +67,6 @@ class SearchMainController extends ChangeNotifier {
       tags: _selectedTags,
       sortBy: _sortBy,
     );
-    print("I'm here, reaching far across this new frontiers!");
-    print(_filteredCourses.toList());
     /*
     _filteredCourses = courses.where((course) {
       final matchesName = course.name.toLowerCase().contains(query);

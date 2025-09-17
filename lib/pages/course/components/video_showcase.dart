@@ -38,24 +38,40 @@ class _VideoshowcaseState extends State<Videoshowcase> {
             ),
           ),
         ),
-        widget.videoURL != null
-            ? YoutubePlayer(controller: _controller)
-            : Column(
-                children: [
-                  Text(
-                    "Jos uvek nema dodatnog videa za ovaj kurs!",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            margin: EdgeInsets.zero,
+            child: SizedBox(
+              width: double.infinity,
+              height: 220,
+              child: widget.videoURL != null
+                  ? YoutubePlayer(controller: _controller)
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.slow_motion_video_outlined,
+                            size: 50,
+                            color: Colors.indigo,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Jos uvek nema dodatnog videa za ovaj kurs!",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Icon(
-                    Icons.slow_motion_video_outlined,
-                    size: 50,
-                    color: Colors.indigo,
-                  ),
-                ],
-              ),
+            ),
+          ),
+        ),
       ],
     );
   }
