@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
-import 'package:proxima/pages/account/controller.dart';
 import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCarousel extends StatelessWidget {
