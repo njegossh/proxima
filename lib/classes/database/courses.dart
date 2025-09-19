@@ -25,6 +25,28 @@ extension CoursesDB on Database {
     await courses.doc(course.id).update(course.toJson());
   }
 
+  Future<void> deleteCourse(String courseId) async {
+    if (courseId.isEmpty) return;
+
+    // Brisanje povezanih appointmenta
+    final appointmentsQuery =
+        await firestore.collection('appointments').where('courseID', isEqualTo: courseId).get();
+
+    for (final doc in appointmentsQuery.docs) {
+      await doc.reference.delete();
+    }
+
+    // Brisanje povezanih reviews
+    final reviewsQuery =
+        await firestore.collection('reviews').where('courseID', isEqualTo: courseId).get();
+
+    for (final doc in reviewsQuery.docs) {
+      await doc.reference.delete();
+    }
+
+    await courses.doc(courseId).delete();
+  }
+
   Future<List<Course>> fetchCoursesForUserID(String userID) async {
     final query = courses.where('userID', isEqualTo: userID);
     final result = await query.get();

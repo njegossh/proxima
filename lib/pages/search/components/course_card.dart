@@ -17,9 +17,14 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CourseMainPage(course: course);
-        }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return CourseMainPage(course: course);
+            },
+          ),
+        );
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -58,7 +63,8 @@ class CourseCard extends StatelessWidget {
         imageWidget = Image.memory(
           bytes,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 50),
+          errorBuilder: (_, __, ___) =>
+              const Icon(Icons.broken_image, size: 50),
         );
       } catch (_) {
         imageWidget = const Icon(Icons.broken_image, size: 50);
@@ -73,11 +79,7 @@ class CourseCard extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        width: 80,
-        height: 60,
-        child: imageWidget,
-      ),
+      child: SizedBox(width: 80, height: 60, child: imageWidget),
     );
   }
 
@@ -88,9 +90,9 @@ class CourseCard extends StatelessWidget {
         children: [
           Text(
             course.name,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
@@ -115,18 +117,16 @@ class CourseCard extends StatelessWidget {
       runSpacing: 4,
       children: course.tags
           .map(
-            (tag) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
+            (tag) => Chip(
+              label: Text(
                 tag,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.primary,
+                style: Theme.of(context).chipTheme.labelStyle!.copyWith(
+                  fontSize: 11,
                 ),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 2,
+                vertical: 1,
               ),
             ),
           )

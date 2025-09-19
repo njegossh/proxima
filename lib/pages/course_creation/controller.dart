@@ -5,8 +5,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/main.dart';
+
 class CourseCreationController extends ChangeNotifier {
   Course? newCourse;
+  final Course? existingCourse;
 
   final name = TextEditingController();
   final pricePerHour = TextEditingController();
@@ -14,11 +16,19 @@ class CourseCreationController extends ChangeNotifier {
   final videoURL = TextEditingController();
 
   String? thumbnailString;
-
-  // real-time tags list
   List<String> tagsList = [];
 
-  // Add a tag
+  CourseCreationController({this.existingCourse}) {
+    if (existingCourse != null) {
+      name.text = existingCourse!.name;
+      pricePerHour.text = existingCourse!.pricePerHour.toString();
+      description.text = existingCourse!.description ?? '';
+      videoURL.text = existingCourse!.videoURL ?? '';
+      thumbnailString = existingCourse!.thumbnailString;
+      tagsList = List.from(existingCourse!.tags);
+    }
+  }
+
   void addTag(String tag) {
     final trimmed = tag.trim();
     if (trimmed.isNotEmpty && !tagsList.contains(trimmed)) {
@@ -27,7 +37,6 @@ class CourseCreationController extends ChangeNotifier {
     }
   }
 
-  // Remove a tag
   void removeTag(String tag) {
     tagsList.remove(tag);
     notifyListeners();
@@ -44,21 +53,33 @@ class CourseCreationController extends ChangeNotifier {
     }
   }
 
-  Future<void> createCourse() async {
-    newCourse = Course(
-      name: name.text,
-      userID: currentUser.id,
-      tags: List.from(tagsList), // use the tagsList directly
-      pricePerHour: double.tryParse(pricePerHour.text) ?? 0,
-      averageReview: 0,
-      description: description.text,
-      videoURL: videoURL.text,
-      thumbnailString: thumbnailString,
-      locationX: currentUser.locationX,
-      locationY: currentUser.locationY,
-    );
+  Future<void> saveCourse() async {
+    if (existingCourse == null) { //Create
+      newCourse = Course(
+        name: name.text,
+        userID: currentUser.id,
+        tags: List.from(tagsList),
+        pricePerHour: double.tryParse(pricePerHour.text) ?? 0,
+        averageReview: 0,
+        description: description.text,
+        videoURL: videoURL.text,
+        thumbnailString: thumbnailString,
+        locationX: currentUser.locationX,
+        locationY: currentUser.locationY,
+      );
+      await Database().createCourse(newCourse!);
+    } else { //Edit
+      existingCourse!
+        ..name = name.text
+        ..pricePerHour = double.tryParse(pricePerHour.text) ?? 0
+        ..description = description.text
+        ..videoURL = videoURL.text
+        ..thumbnailString = thumbnailString
+        ..tags = List.from(tagsList);
 
-    await Database().createCourse(newCourse!);
+      await Database().updateCourse(existingCourse!);
+    }
+
     await currentUser.reload();
     notifyListeners();
   }

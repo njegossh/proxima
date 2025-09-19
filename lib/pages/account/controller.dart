@@ -10,10 +10,18 @@ class AccountController extends ChangeNotifier {
 
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
-  final locXCtrl = TextEditingController(text: currentUser.locationX.toString());
-  final locYCtrl = TextEditingController(text: currentUser.locationY.toString());
-  final locationDescCtrl = TextEditingController(text: currentUser.locationDesc?.join(', ') ?? '');
-  final interestsCtrl = TextEditingController(text: currentUser.interests.join(', '));
+  final locXCtrl = TextEditingController(
+    text: currentUser.locationX.toString(),
+  );
+  final locYCtrl = TextEditingController(
+    text: currentUser.locationY.toString(),
+  );
+  final locationDescCtrl = TextEditingController(
+    text: currentUser.locationDesc?.join(', ') ?? '',
+  );
+  final interestsCtrl = TextEditingController(
+    text: currentUser.interests.join(', '),
+  );
   final descriptionCtrl = TextEditingController(text: currentUser.description);
 
   User get account => currentUser;
@@ -27,26 +35,28 @@ class AccountController extends ChangeNotifier {
 
   Future<void> updateAccount() async {
     Position? position;
-    if(trackLocation) position = await _getUserLocation();
+    if (trackLocation) position = await _getUserLocation();
 
-    await Database().updateUser(User(
-      id: currentUser.id,
-      followedUserIDs: currentUser.followedUserIDs,
-      name: firstNameCtrl.text,
-      surname: lastNameCtrl.text,
-      description: descriptionCtrl.text,
-      locationX: position?.latitude ?? currentUser.locationX,
-      locationY: position?.longitude ?? currentUser.locationY,
-      locationDesc: locationDescCtrl.text.isEmpty
-          ? null
-          : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
-      interests: interestsCtrl.text
-          .split(',')
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList(), 
-      range: -1, //TODO 
-    ));      
+    await Database().updateUser(
+      User(
+        id: currentUser.id,
+        followedUserIDs: currentUser.followedUserIDs,
+        name: firstNameCtrl.text,
+        surname: lastNameCtrl.text,
+        description: descriptionCtrl.text,
+        locationX: position?.latitude ?? currentUser.locationX,
+        locationY: position?.longitude ?? currentUser.locationY,
+        locationDesc: locationDescCtrl.text.isEmpty
+            ? null
+            : locationDescCtrl.text.split(',').map((e) => e.trim()).toList(),
+        interests: interestsCtrl.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
+        range: -1, //TODO
+      ),
+    );
     navigateToRootAndAuth();
   }
 
@@ -90,5 +100,10 @@ class AccountController extends ChangeNotifier {
     locationDescCtrl.dispose();
     interestsCtrl.dispose();
     super.dispose();
+  }
+
+  Future<void> reloadAccount() async {
+    currentUser = await Database().fetchUserFromID(currentUser.id);
+    notifyListeners();
   }
 }

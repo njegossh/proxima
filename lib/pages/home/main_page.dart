@@ -53,6 +53,8 @@ class _HomeMainPageState extends State<HomeMainPage> {
           bottomNavigationBar: BottomNavigationBar(
             onTap: controller.setPageIndex,
             currentIndex: controller.pageIndex,
+            selectedItemColor: Theme.of(context).colorScheme.secondary,
+            unselectedItemColor: Theme.of(context).colorScheme.primary,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),

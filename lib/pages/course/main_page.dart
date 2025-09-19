@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/appointment_creation/main_sheet.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
 import 'package:proxima/pages/course/components/video_showcase.dart';
 import 'package:proxima/pages/course/controller.dart';
+import 'package:proxima/pages/course_creation/main_page.dart';
 import 'components/tags_chips.dart';
 
 class CourseMainPage extends StatefulWidget {
   final Course course;
-  const CourseMainPage({super.key, required this.course});
+  final VoidCallback? onChanged;
+  const CourseMainPage({
+    super.key,
+    required this.course,
+    this.onChanged,
+  });
 
   @override
   State<CourseMainPage> createState() => _CourseMainPageState();
@@ -34,15 +41,56 @@ class _CourseMainPageState extends State<CourseMainPage> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(elevation: 0, title: Text(controller.course.name)),
-          floatingActionButton: FloatingActionButton.extended(
-            label: Text('Zahtev za novi termin'),
-            icon: Icon(Icons.event),
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              builder: (_) =>
-                  AppointmentCreationMainSheet(course: widget.course),
-            ),
-          ),
+          floatingActionButton: (controller.course.user?.id == currentUser?.id)
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FloatingActionButton.extended(
+                      label: Text('Edit'.tr),
+                      heroTag: 'edit_fab',
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CourseCreationMainPage(
+                              course: controller.course,
+                            ),
+                          ),
+                        ).then((_) async {
+                          await controller.course.reload();
+                          controller.notifyListeners();
+                          widget.onChanged?.call();
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    FloatingActionButton.extended(
+                      label: Text('Delete'.tr),
+                      heroTag: 'delete_fab',
+                      icon: Icon(Icons.delete),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      onPressed: () async {
+                        final deleted = await controller.deleteCourse(context);
+                        if (deleted) {
+                          widget.onChanged?.call();
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ],
+                )
+              : FloatingActionButton.extended(
+                  label: Text("Request appointment".tr),
+                  icon: Icon(Icons.event),
+                  heroTag: 'request_fab',
+                  onPressed: () => showModalBottomSheet(
+                    context: context,
+                    builder: (_) =>
+                        AppointmentCreationMainSheet(course: widget.course),
+                  ),
+                ),
           body: ListView(
             children: [
               SizedBox(height: 24),

@@ -6,7 +6,8 @@ import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCarousel extends StatelessWidget {
   final List<Course> courses;
-  const CourseCarousel({super.key, required this.courses});
+  final VoidCallback? onChanged;
+  const CourseCarousel({super.key, required this.courses, this.onChanged});
 
   bool _isBase64(String? str) {
     if (str == null || str.isEmpty) return false;
@@ -51,11 +52,17 @@ class CourseCarousel extends StatelessWidget {
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CourseMainPage(course: course),
-                ),
-              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CourseMainPage(
+                      course: course,
+                      onChanged: onChanged,
+                    ),
+                  ),
+                );
+              },
               child: Card(
                 margin: const EdgeInsets.only(bottom: 10),
                 clipBehavior: Clip.antiAlias,

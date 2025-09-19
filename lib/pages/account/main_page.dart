@@ -65,7 +65,13 @@ class _AccountMainPageState extends State<AccountMainPage> {
                     ),
                   )
                 : SizedBox.shrink(),
-            CourseCarousel(courses: account.courses ?? []),
+            CourseCarousel(
+              courses: account.courses ?? [],
+              onChanged: () async {
+                await controller.reloadAccount();
+                setState(() {});
+              },
+            ),
             SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.all(8),
@@ -79,14 +85,22 @@ class _AccountMainPageState extends State<AccountMainPage> {
                         content: Text('Are you sure you want to log out?'.tr),
                         actions: [
                           TextButton(
-                            onPressed: () =>
-                                Navigator.of(context).pop(false),
-                            child: Text('Cancel'.tr, style: TextStyle(color: Theme.of(context).colorScheme.surface)),
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text(
+                              'Cancel'.tr,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                            ),
                           ),
                           TextButton(
-                            onPressed: () =>
-                                Navigator.of(context).pop(true),
-                            child: Text('Yes'.tr, style: TextStyle(color: Theme.of(context).colorScheme.surface),),
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text(
+                              'Yes'.tr,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                            ),
                           ),
                         ],
                       );

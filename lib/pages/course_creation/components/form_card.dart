@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/course_creation/controller.dart';
 import 'input_form.dart';
 import 'action_button.dart';
@@ -32,9 +33,9 @@ class FormCard extends StatelessWidget {
           InputForm(controller: controller),
           const SizedBox(height: 24),
           ActionButton(
-            text: 'Kreirajte kurs',
+            text: 'Save'.tr,
             onPressed: () {
-              controller.createCourse();
+              controller.saveCourse();
               Navigator.pop(context);
             },
           ),

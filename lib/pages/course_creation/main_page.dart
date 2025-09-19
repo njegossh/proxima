@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/pages/course_creation/components/course_image_section.dart';
 import 'package:proxima/pages/course_creation/controller.dart';
 import 'components/form_card.dart';
 
 class CourseCreationMainPage extends StatefulWidget {
-  const CourseCreationMainPage({super.key});
+  final Course? course;
+
+  const CourseCreationMainPage({super.key, this.course});
 
   @override
   State<CourseCreationMainPage> createState() => _CourseCreationMainPageState();
 }
 
 class _CourseCreationMainPageState extends State<CourseCreationMainPage> {
-  final controller = CourseCreationController();
+  late final CourseCreationController controller;
   final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller = CourseCreationController(existingCourse: widget.course);
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -33,7 +43,7 @@ class _CourseCreationMainPageState extends State<CourseCreationMainPage> {
           appBar: AppBar(
             elevation: 0,
             title: Text(
-              "Kreiraj novi kurs",
+              widget.course == null ? "Kreiraj novi kurs" : "Izmeni kurs",
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),

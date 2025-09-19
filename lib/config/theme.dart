@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 ThemeData get generateGreenTheme {
   return generateTheme(
-    primary: Color(0xFF351C1D),
-    primaryAccent: Color.fromARGB(255, 102, 56, 59),
+    primary: Color(0xFF000000),
+    primaryAccent: Color(0xFFA61012),
     textPrimary: Color(0xFFFFFFFF),
-    secondary: Color(0xFFB28F5F),
-    secondaryAccent: Color(0xFFDAB986),
+    secondary: Color(0xFFB65000),
+    secondaryAccent: Color.fromARGB(255, 134, 191, 218),
     textSecondary: Color(0xFF000000),
     tertiaty: Color(0xFF1F1F1F),
     tertiaryAccent: Color(0xFF383838),
-    surface: Color(0xFFFFFFF5),
-    secondarySurface: Color(0xFFFFFFFD),
-    error: Color(0xFF4E0000),
+    surface: Color(0xFFFEFFFF),
+    secondarySurface: Color(0xFFFDFFFF),
+    error: Color.fromARGB(255, 148, 0, 0),
   );
 }
 
@@ -71,7 +71,7 @@ ThemeData generateTheme({
         fontSize: 14,
         leadingDistribution: TextLeadingDistribution.even,
       ),
-      titleLarge: TextStyle(fontWeight: FontWeight.w600, color: textSecondary, ),
+      titleLarge: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
       titleSmall: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
       bodySmall: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
       bodyMedium: TextStyle(fontWeight: FontWeight.w600, color: textSecondary),
@@ -130,7 +130,7 @@ ThemeData generateTheme({
         fontWeight: FontWeight.w700,
         fontFamily: 'Inter',
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     listTileTheme: ListTileThemeData(
       textColor: primary,
@@ -144,8 +144,8 @@ ThemeData generateTheme({
       margin: const EdgeInsets.only(left: 16, right: 16),
       color: secondarySurface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: primary, width: 2),
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: primary, width: 1),
       ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -166,13 +166,13 @@ ThemeData generateTheme({
         ),
       ),
     ),
-    datePickerTheme: DatePickerThemeData( 
-      cancelButtonStyle: ButtonStyle( 
+    datePickerTheme: DatePickerThemeData(
+      cancelButtonStyle: ButtonStyle(
         textStyle: WidgetStateProperty.all(
           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ),
-      confirmButtonStyle: ButtonStyle( 
+      confirmButtonStyle: ButtonStyle(
         textStyle: WidgetStateProperty.all(
           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
@@ -190,7 +190,7 @@ ThemeData generateTheme({
         ),
       ),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData( 
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       selectedItemColor: primary,
       unselectedItemColor: secondary,
       backgroundColor: tertiaty,
