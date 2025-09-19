@@ -18,10 +18,7 @@ class ChatDisplay extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ChatMainPage(
-                  otherUser: chat.otherUser,
-                  chat: chat,
-                );
+                return ChatMainPage(otherUser: chat.otherUser, chat: chat);
               },
             ),
           );
@@ -31,7 +28,8 @@ class ChatDisplay extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              InkWell( //Klik na sliku vodi do profila (user page)
+              InkWell(
+                //Klik na sliku vodi do profila (user page)
                 onTap: () {
                   Navigator.push(
                     context,
@@ -58,43 +56,42 @@ class ChatDisplay extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    chat.otherUser.fullName,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      chat.otherUser.fullName,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  chat.messages.isNotEmpty
-                      ? Row(
-                          children: [
-                            Text(
-                              chat.messages.last.content,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                    const SizedBox(height: 2),
+                    chat.messages.isNotEmpty
+                        ? Text(
+                            chat.messages.last.content,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Text(
-                              "Jos uvek nema poruka.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                          )
+                        : Text(
+                            "Jos uvek nema poruka.",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
-                          ],
-                        ),
-                ],
+                          ),
+                  ],
+                ),
               ),
               Spacer(),
               Icon(

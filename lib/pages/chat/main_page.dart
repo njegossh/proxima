@@ -61,8 +61,11 @@ class _ChatMainPageState extends State<ChatMainPage> {
             padding: const EdgeInsets.only(bottom: 16),
             child: ChatInput(controller: controller),
           ),
-          body: Column(
-            children: [Expanded(child: ChatMessages(controller: controller))],
+          body: Padding(
+            padding: const EdgeInsets.only(bottom: 64.0),
+            child: Column(
+              children: [Expanded(child: ChatMessages(controller: controller))],
+            ),
           ),
         );
       },

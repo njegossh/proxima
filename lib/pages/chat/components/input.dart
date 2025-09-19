@@ -15,6 +15,8 @@ class ChatInput extends StatelessWidget {
             Expanded(
               child: TextField( 
                 controller: controller.input,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 onSubmitted: (val) => controller.send(),
                 decoration: InputDecoration(
                   enabledBorder: InputBorder.none,

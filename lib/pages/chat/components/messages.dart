@@ -10,7 +10,7 @@ class ChatMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     final messages = controller.messages;
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 100),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       controller: controller.scroll,
       itemCount: messages.length,
       itemBuilder: (context, index) {
@@ -20,7 +20,7 @@ class ChatMessages extends StatelessWidget {
 
         return Container(
           padding: EdgeInsets.only(
-            bottom: 4,
+            bottom: 8, 
             left: mine ? 64 : 0,
             right: mine ? 0 : 64,
           ),
@@ -36,12 +36,11 @@ class ChatMessages extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
+                  horizontal: 12,
+                  vertical: 8,
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.end, // timestamp aligned to right
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
@@ -56,9 +55,8 @@ class ChatMessages extends StatelessWidget {
                     Text(
                       message.timestamp.prettified,
                       style: TextStyle(
-                        color:
-                            (mine ? colorScheme.secondary : colorScheme.primary)
-                                .withAlpha(150),
+                        color: (mine ? colorScheme.secondary : colorScheme.primary)
+                            .withAlpha(150),
                         fontSize: 10,
                       ),
                     ),

@@ -45,7 +45,7 @@ class _ChatListState extends State<ChatList> {
                   ),
                 ),
               ),
-              SizedBox(height: 16,),
+              SizedBox(height: 16),
               Expanded(
                 child: controller.filteredChatList.isEmpty
                     ? Center(child: Column(

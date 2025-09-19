@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/main.dart';
@@ -41,7 +43,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(elevation: 0, title: Text(controller.course.name)),
-          floatingActionButton: (controller.course.user?.id == currentUser?.id)
+          floatingActionButton: (controller.course.user?.id == currentUser.id)
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
@@ -60,7 +62,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                           ),
                         ).then((_) async {
                           await controller.course.reload();
-                          controller.notifyListeners();
+                          controller.refresh();
                           widget.onChanged?.call();
                         });
                       },
@@ -75,7 +77,9 @@ class _CourseMainPageState extends State<CourseMainPage> {
                         final deleted = await controller.deleteCourse(context);
                         if (deleted) {
                           widget.onChanged?.call();
-                          Navigator.pop(context);
+                          scheduleMicrotask(() {
+                            Navigator.pop(context);
+                          });
                         }
                       },
                     ),

@@ -17,6 +17,7 @@ extension ChatDatabase on Database {
     List<String> userIDs, 
     Map<String, dynamic> data,
   ) async {
+    data['timestamp'] = FieldValue.serverTimestamp();
     final chatDoc = chats.doc(chatIDFrom(userIDs));
     await chatDoc.collection('messages').add(data);
     chatDoc.set({'userIDs': userIDs});

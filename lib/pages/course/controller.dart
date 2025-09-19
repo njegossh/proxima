@@ -3,7 +3,6 @@ import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/database/reviews.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/classes/models/review.dart';
-import 'package:proxima/main.dart';
 
 class CourseMainController extends ChangeNotifier {
   final Course course;
@@ -59,4 +58,9 @@ class CourseMainController extends ChangeNotifier {
 
     return true;
   }
+
+  void refresh() {
+    notifyListeners();
+  }
+
 }
