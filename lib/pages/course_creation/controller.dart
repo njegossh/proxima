@@ -82,7 +82,6 @@ class CourseCreationController extends ChangeNotifier {
 
     await currentUser.reload();
     notifyListeners();
-    Navigator.pop(context, true);
   }
 
   @override

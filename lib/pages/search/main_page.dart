@@ -23,19 +23,16 @@ class _SearchMainPageState extends State<SearchMainPage>
     controller = SearchMainController();
     controller.searchCourses(controller.searchController.text);
 
-    // Initialize animation controller
     _filterAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
-    // Create slide animation
     _filterAnimation = CurvedAnimation(
       parent: _filterAnimationController,
       curve: Curves.easeInOut,
     );
 
-    // Listen to controller changes to trigger animation
     controller.addListener(() {
       if (controller.showFilters) {
         _filterAnimationController.forward();
