@@ -32,16 +32,6 @@ class _HomeMainPageState extends State<HomeMainPage> {
               HomePage.calendar:  'Calendar'.tr,
               HomePage.account:   currentUser.name,
             }[controller.page]!),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search_rounded),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return SearchMainPage();
-                  }));
-                },
-              ),
-            ],
           ),
           floatingActionButton: HomeFAB(controller: controller),
           body: {
@@ -65,7 +55,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
                 label: 'Chats'  
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_view_month),
+                icon: Icon(Icons.calendar_month),
                 label: 'Calendar'  
               ),
               BottomNavigationBarItem(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/course_creation/main_page.dart';
 import 'package:proxima/pages/init_account/main_page.dart';
+import 'package:proxima/pages/search/main_page.dart';
 import '../controller.dart';
 
 class HomeFAB extends StatelessWidget {
@@ -15,12 +17,12 @@ class HomeFAB extends StatelessWidget {
         switch(controller.page) {
           case HomePage.courses: 
             return FloatingActionButton.extended(
-              label: Text('Novi kurs'),
-              icon: Icon(Icons.class_rounded),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return CourseCreationMainPage();
-                }));
+              label: Text('Search'.tr),
+              icon: Icon(Icons.search),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return SearchMainPage();
+                  }));
               },
             );
           case HomePage.chats: 
@@ -29,7 +31,7 @@ class HomeFAB extends StatelessWidget {
             return Container();
           case HomePage.account: 
             return FloatingActionButton.extended(
-              label: Text('Izmeni'),
+              label: Text('Edit'.tr), //TODO dodaj obavezno za kreiranje kursa!
               icon: Icon(Icons.edit),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
