@@ -35,8 +35,7 @@ class FormCard extends StatelessWidget {
           ActionButton(
             text: 'Save'.tr,
             onPressed: () {
-              controller.saveCourse();
-              Navigator.pop(context);
+              controller.saveCourse(context);
             },
           ),
         ],

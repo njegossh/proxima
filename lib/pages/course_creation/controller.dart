@@ -53,7 +53,7 @@ class CourseCreationController extends ChangeNotifier {
     }
   }
 
-  Future<void> saveCourse() async {
+  Future<void> saveCourse(BuildContext context) async {
     if (existingCourse == null) { //Create
       newCourse = Course(
         name: name.text,
@@ -82,6 +82,7 @@ class CourseCreationController extends ChangeNotifier {
 
     await currentUser.reload();
     notifyListeners();
+    Navigator.pop(context, true);
   }
 
   @override

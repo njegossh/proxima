@@ -69,7 +69,6 @@ class _AccountMainPageState extends State<AccountMainPage> {
               courses: account.courses ?? [],
               onChanged: () async {
                 await controller.reloadAccount();
-                setState(() {});
               },
             ),
             SizedBox(height: 32),

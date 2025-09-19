@@ -104,6 +104,7 @@ class AccountController extends ChangeNotifier {
 
   Future<void> reloadAccount() async {
     currentUser = await Database().fetchUserFromID(currentUser.id);
+    await currentUser.reloadCourses();
     notifyListeners();
   }
 }
