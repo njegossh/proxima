@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
-import 'package:proxima/pages/course_creation/main_page.dart';
 import 'package:proxima/pages/init_account/main_page.dart';
 import 'package:proxima/pages/search/main_page.dart';
 import '../controller.dart';

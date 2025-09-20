@@ -3,44 +3,32 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:proxima/classes/database/database.dart';
+import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/classes/models/user.dart';
 
 class MainMapController extends ChangeNotifier {
-final MapController mapController = MapController();
+  final MapController mapController = MapController();
   double radius = 1500;
   bool instructorsSheetVisible = false;
 
   List<User> instructors = [];
+  List<Course> courses = [];
 
   LatLng userLocation = LatLng(0, 0);
 
   Future<void> init() async {
-    getInstructorsWithinRadius();
+    courses = await getCoursesWithingRadius();
   }
 
-  Future<List<User>> getInstructorsWithinRadius() {
-    return Database().getInstructorsWithinRadius( 
+  Future<List<Course>> getCoursesWithingRadius() async {
+    return await Database().getCoursesWithinRadius(
       userLocation.latitude,
       userLocation.longitude,
       radius,
     );
-    /*
-    final Distance distance = Distance();
-    return instructors
-        .where(
-          (instructor) =>
-              distance.as(
-                LengthUnit.Meter,
-                userLocation,
-                LatLng(instructor.locationX, instructor.locationY),
-              ) <=
-              radius,
-        )
-        .toList();
-    */ //TODO  Ristic
   }
 
-  void setRadius(double val){
+  void setRadius(double val) {
     radius = val;
     notifyListeners();
   }
@@ -54,27 +42,27 @@ final MapController mapController = MapController();
   }
 
   Future<Position> getCurrentPosition() async {
-  bool serviceEnabled;
-  LocationPermission permission;
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  // Check if location services are enabled
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    return Future.error('Location services are disabled.');
-  }
-
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      return Future.error('Location permission denied.');
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
     }
-  }
 
-  if (permission == LocationPermission.deniedForever) {
-    return Future.error('Location permission permanently denied.');
-  }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission denied.');
+      }
+    }
 
-  return await Geolocator.getCurrentPosition();
-}
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permission permanently denied.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
 }

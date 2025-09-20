@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:proxima/pages/map/components/instructor_bottom_sheet.dart';
-
+import 'package:proxima/pages/map/components/courses_bottom_sheet.dart';
 import 'controller.dart';
 
 class MapMainPage extends StatefulWidget {
@@ -110,14 +109,14 @@ class _MapMainPageState extends State<MapMainPage> {
                           value: controller.radius,
                           onChanged: controller.setRadius,
                           onChangeEnd: (value) async {
-                            final updated = await controller.getInstructorsWithinRadius();
+                            final updated = await controller.getCoursesWithingRadius();
+                            print(updated);
                             if (updated.isNotEmpty && !controller.instructorsSheetVisible) {
                               controller.instructorsSheetVisible = true;
                               await showModalBottomSheet(
-                                // ignore: use_build_context_synchronously
                                 context: context,
                                 builder: (_) =>
-                                    InstructorsBottomSheet(instructors: updated),
+                                    CoursesBottomSheet(courses: updated),
                               );
                               controller.instructorsSheetVisible = false;
                             }

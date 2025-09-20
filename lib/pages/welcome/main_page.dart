@@ -22,7 +22,7 @@ class _WelcomeMainPageState extends State<WelcomeMainPage> {
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () async {
               final error = await controller.actionClick();
-              if( error != null){
+              if (error != null){
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(error)),
                 );
