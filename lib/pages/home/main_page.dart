@@ -34,8 +34,10 @@ class _HomeMainPageState extends State<HomeMainPage> {
               }[controller.page]!,
             ),
             actions: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
-              IconButton(
+              Container(
+                height: 30,
+                margin: EdgeInsets.only(left: 8, right: 8),
+                child: OutlinedButton(
                   onPressed: () async {
                     final shouldLogout = await showDialog<bool>(
                       context: context,
@@ -70,9 +72,10 @@ class _HomeMainPageState extends State<HomeMainPage> {
                       controller.logout();
                     }
                   },
-                  icon: Icon(Icons.logout),
+                  child: Text('Logout'.tr, style: TextStyle(fontSize: 12),),
                 ),
-            ]
+              ),
+            ],
           ),
           floatingActionButton: HomeFAB(controller: controller),
           body: {

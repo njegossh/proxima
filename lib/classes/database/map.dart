@@ -38,10 +38,8 @@ extension MapDatabase on Database {
         "lessThanLAT $lessThanLat greaterThanLAT $greaterThanLat");
 
     query = query
-        .where('locationY', isLessThanOrEqualTo: lessThanLng)
-        .where('locationY', isGreaterThanOrEqualTo: greaterThanLng)
-        .where('locationX', isLessThanOrEqualTo: lessThanLat)
-        .where('locationX', isGreaterThanOrEqualTo: greaterThanLat);
+        .where('locationY', isLessThanOrEqualTo: lessThanLng, isGreaterThanOrEqualTo: greaterThanLng)
+        .where('locationX', isLessThanOrEqualTo: lessThanLat, isGreaterThanOrEqualTo: greaterThanLat);
 
     final result = await query.get();
 
