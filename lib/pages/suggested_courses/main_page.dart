@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/components/course_display_card.dart';
 import 'package:proxima/components/frosted_glass.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/map/main_page.dart';
@@ -31,14 +32,15 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
           backgroundColor: Colors.transparent,
           body: ListView(
             children: [
+              // Greeting card
               Container(
-                margin: EdgeInsets.only(right: 16, left: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: FrostedGlassCard(
                   height: 80,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 24),
+                      const SizedBox(width: 24),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +66,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                           ),
                         ],
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Icon(
                         Icons.waving_hand_rounded,
                         size: 35,
@@ -74,22 +76,28 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+
+              const SizedBox(height: 12),
+
+              // Illustration
               Container(
-                margin: EdgeInsets.only(bottom: 8),
+                margin: const EdgeInsets.only(bottom: 8),
                 height: 230,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/illustration.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
+
+              // Two-column section
               Container(
-                margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Left card
                     Expanded(
                       flex: 1,
                       child: SizedBox(
@@ -106,12 +114,12 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     context,
                                   ).colorScheme.secondary,
                                 ),
-                                Text(
-                                  "Upcoming class!".tr,
+                                const Text(
+                                  "Upcoming class!",
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.all(2),
+                                  margin: const EdgeInsets.all(2),
                                   width: 150,
                                   decoration: BoxDecoration(
                                     border: Border(
@@ -124,7 +132,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ),
                                   ),
                                 ),
-                                //TODO Napraviti ovde upcoming class ili staviti da nema nista ako nema
+                                // TODO: Show class info or nothing if no class
                               ],
                             ),
                           ),
@@ -133,6 +141,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                     ),
 
                     const SizedBox(width: 16),
+
+                    // Right column
                     Expanded(
                       flex: 1,
                       child: Column(
@@ -150,9 +160,9 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                       context,
                                     ).colorScheme.tertiary,
                                   ),
-                                  Text("Bonus tip!".tr),
+                                  const Text("Bonus tip!"),
                                   Container(
-                                    margin: EdgeInsets.all(2),
+                                    margin: const EdgeInsets.all(2),
                                     width: 150,
                                     decoration: BoxDecoration(
                                       border: Border(
@@ -166,12 +176,11 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(
-                                      left: 16,
-                                      right: 16,
-                                      top: 2,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 2,
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       "You can create your own courses!",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 12),
@@ -181,11 +190,14 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+
+                          const SizedBox(height: 10),
+
+                          // Map card
                           InkWell(
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => MapMainPage(),
+                                builder: (context) => const MapMainPage(),
                               ),
                             ),
                             child: Container(
@@ -212,12 +224,12 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ).colorScheme.surface,
                                     size: 30,
                                   ),
-                                  Text(
-                                    "Search the map!".tr,
+                                  const Text(
+                                    "Search the map!",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.all(2),
+                                    margin: const EdgeInsets.all(2),
                                     width: 150,
                                     decoration: BoxDecoration(
                                       border: Border(
@@ -231,13 +243,12 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(
-                                      left: 16,
-                                      right: 16,
-                                      top: 2,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 2,
                                     ),
-                                    child: Text(
-                                      "Search the courses on the map.".tr,
+                                    child: const Text(
+                                      "Search the courses on the map.",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -248,102 +259,105 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 16),
-                Container(
-                  margin: EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.near_me_rounded,
-                        size: 30,
-                        color: Theme.of(context).colorScheme.tertiary,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        "Courses in your neibourhood:".tr,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ...[
-                  if (courses == null)
-                    Center(child: CircularProgressIndicator())
-                  else if (courses.isEmpty)
-                    Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 8),
-                          height: 230,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                "assets/images/illustrationNoResult.jpg",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
                           ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "It seems there is nothing around!".tr,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "No courses that match your interests in the given radius"
-                              .tr,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 64),
-                      ],
-                    )
-                  else
-                    Container(
-                      // only side + top margin, no bottom margin
-                      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-                      padding: EdgeInsets.only(
-                        top: 12,
-                        left: 12,
-                        right: 12,
-                        bottom: 24,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Theme.of(context).colorScheme.secondary,
-                            Theme.of(context).colorScheme.tertiary,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
-                        ),
-                      ),
-                      child: Column(
-                        children: courses!
-                            .map((course) => CourseCard(course: course))
-                            .toList(),
+                        ],
                       ),
                     ),
-                ],
-              ],
-            ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Section title
+              Container(
+                margin: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.near_me_rounded,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    const SizedBox(width: 4),
+                    const Text(
+                      "Courses in your neighbourhood:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Courses
+              if (courses == null)
+                const Center(child: CircularProgressIndicator())
+              else if (courses.isEmpty)
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      height: 230,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/images/illustrationNoResult.jpg",
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "It seems there is nothing around!".tr,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      "No courses that match your interests in the given radius"
+                          .tr,
+                      style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 64),
+                  ],
+                )
+              else
+                Container(
+                  // only side + top margin, no bottom margin
+                  margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                    bottom: 24,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.secondary,
+                        Theme.of(context).colorScheme.tertiary,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: Column(
+                    children: courses
+                        .map((course) => CourseCard(course: course))
+                        .toList(),
+                  ),
+                ),
+            ],
           ),
         );
       },
