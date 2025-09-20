@@ -19,7 +19,6 @@ class UserMainPage extends StatefulWidget {
 
 class _UserMainPageState extends State<UserMainPage> {
   late UserController controller;
-
   @override
   void initState() {
     controller = UserController(widget.user);
@@ -36,69 +35,118 @@ class _UserMainPageState extends State<UserMainPage> {
           appBar: AppBar(elevation: 0, title: Text(controller.user.fullName)),
           body: ListView(
             children: [
-              SizedBox(height: 24),
-              Center(child: AvatarWidget(imageString: widget.user.imageString)),
-              SizedBox(height: 16),
-              Center(
-                child: widget.user.followingThisUser
-                    ? OutlinedButton(
-                        onPressed: controller.unFollow,
-                        child: Text(
-                          widget.user.followingThisUser
-                              ? 'Following'.tr
-                              : 'Follow'.tr,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      )
-                    : ElevatedButton(
-                        onPressed: controller.unFollow,
-                        child: Text(
-                          widget.user.followingThisUser
-                              ? 'Following'.tr
-                              : 'Follow'.tr,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-              ),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 16,
+              Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ChatMainPage(otherUser: controller.user);
-                          },
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.message, size: 25),
+                  Container(
+                    height: 250,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.secondary,
+                          Theme.of(context).colorScheme.tertiary,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                    ),
                   ),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CalendarMainPage(user: controller.user);
-                          },
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.calendar_month, size: 25),
+
+                  Positioned(
+                    top: 150,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Container(width: 500, height: 270, child: Card()),
+                    ),
                   ),
-                  OutlinedButton(
-                    onPressed: null,
-                    child: Icon(Icons.video_camera_front_rounded, size: 25),
+
+                  Positioned(
+                    top: 70,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: AvatarWidget(imageString: widget.user.imageString),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 240,
+                    left: 0,
+                    right: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              widget.user.fullName,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 16,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ChatMainPage(
+                                        otherUser: controller.user,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Icon(Icons.message, size: 25),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return CalendarMainPage(
+                                        user: controller.user,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Icon(Icons.calendar_month, size: 25),
+                            ),
+                            OutlinedButton(
+                              onPressed: null,
+                              child: Icon(
+                                Icons.video_camera_front_rounded,
+                                size: 25,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        LocationInfo(user: widget.user),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              LocationInfo(user: widget.user),
+              SizedBox(height: 164),
               Center(
                 child: InterestChips(listOfInterests: widget.user.interests),
               ),

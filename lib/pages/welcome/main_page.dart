@@ -23,7 +23,6 @@ class _WelcomeMainPageState extends State<WelcomeMainPage> {
             onPressed: () async {
               final error = await controller.actionClick();
               if( error != null){
-                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(error)),
                 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
+import 'package:proxima/pages/course_creation/main_page.dart';
 import 'components/course_carousel.dart';
 import 'components/interest_chips.dart';
 import 'components/location.dart';
@@ -28,88 +29,160 @@ class _AccountMainPageState extends State<AccountMainPage> {
       listenable: controller,
       builder: (context, index) {
         final account = controller.account;
+
         return ListView(
           padding: EdgeInsets.only(bottom: 64),
           children: [
-            SizedBox(height: 24),
-            Center(child: AvatarWidget(imageString: account.imageString)),
-            SizedBox(height: 24),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.secondary,
+                        Theme.of(context).colorScheme.tertiary,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: 75,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: AvatarWidget(imageString: account.imageString),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 48),
             Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.only(right: 16, left: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   account.fullName,
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
                 ),
               ),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 8),
+
             LocationInfo(account: account),
+            SizedBox(height: 32),
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.interests_outlined,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  SizedBox(width: 8),
+                  Text("Interests:".tr, style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            ),
             Center(child: InterestChips(listOfInterests: account.interests)),
-            (account.description != null && account.description!.isNotEmpty)
-                ? Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            account.description ?? 'a',
-                            style: Theme.of(context).textTheme.titleMedium,
-                            textAlign: TextAlign.justify,
-                          ),
-                        ),
+            SizedBox(height: 16),
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.description_outlined,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  SizedBox(width: 8),
+                  Text("About:".tr, style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            ),
+            if (account.description != null && account.description!.isNotEmpty)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Card(
+                    margin: EdgeInsets.all(16),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        account.description!,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.justify,
                       ),
                     ),
-                  )
-                : SizedBox.shrink(),
-            CourseCarousel(
-              courses: account.courses ?? [],
-              onChanged: () async {
-                await controller.reloadAccount();
-              },
+                  ),
+                ),
+              ),
+
+            SizedBox(height: 16),
+
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.menu_book_rounded,
+                    size: 25,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  SizedBox(width: 8),
+                  Text("My courses:".tr, style: TextStyle(fontSize: 18)),
+                ],
+              ),
             ),
-            SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: OutlinedButton(
-                onPressed: () async {
-                  final shouldLogout = await showDialog<bool>(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Confirm Logout'.tr),
-                        content: Text('Are you sure you want to log out?'.tr),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: Text(
-                              'Cancel'.tr,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: Text(
-                              'Yes'.tr,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  if (shouldLogout ?? false) {
-                    controller.logout();
-                  }
+
+            if (account.courses != null && !account.courses!.isEmpty) ...[
+              SizedBox(height: 16),
+              
+              CourseCarousel(
+                courses: account.courses ?? [],
+                onChanged: () async {
+                  await controller.reloadAccount();
                 },
-                child: Text('Logout'.tr),
+              ),
+            ],
+
+            Container(
+              margin: EdgeInsets.all(16),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CourseCreationMainPage();
+                      },
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.add,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Create course".tr),
+                  ],
+                ),
               ),
             ),
           ],

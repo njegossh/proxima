@@ -39,7 +39,7 @@ class CourseCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 48, left: 2, right: 2),
+      padding: const EdgeInsets.only(left: 2, right: 2),
       child: CarouselSlider(
         options: CarouselOptions(
           viewportFraction: 0.6,

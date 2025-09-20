@@ -9,16 +9,14 @@ class WelcomeGreetPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 20,
       children: [
-        Icon(
-          Icons.waving_hand_rounded,
-          size: 60,
-        ),
-        Text( 
-          'Welcome to Proxima',
-          style: TextStyle( 
-            fontSize: 20,
+        Center(
+          child: Image.asset(
+            "assets/animations/logoAnimated.gif",
+            height: 200,
+            fit: BoxFit.cover,
           ),
         ),
+        Text('Welcome to Proxima', style: TextStyle(fontSize: 20)),
       ],
     );
   }

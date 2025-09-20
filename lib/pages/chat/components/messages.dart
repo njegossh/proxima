@@ -47,15 +47,15 @@ class ChatMessages extends StatelessWidget {
                       message.content,
                       style: TextStyle(
                         color: mine
-                            ? colorScheme.secondary
-                            : colorScheme.primary,
+                            ? Colors.white //Ostavljeno za slucaj da planiramo da nam poruke budu razlicitih boja
+                            : Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       message.timestamp.prettified,
                       style: TextStyle(
-                        color: (mine ? colorScheme.secondary : colorScheme.primary)
+                        color: (mine ? Colors.white : Colors.white)
                             .withAlpha(150),
                         fontSize: 10,
                       ),

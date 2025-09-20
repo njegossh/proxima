@@ -31,7 +31,7 @@ class HomeFAB extends StatelessWidget {
             return Container();
           case HomePage.account: 
             return FloatingActionButton.extended(
-              label: Text('Edit'.tr), //TODO dodaj obavezno za kreiranje kursa!
+              label: Text('Edit'.tr),
               icon: Icon(Icons.edit),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context){

@@ -86,10 +86,6 @@ class AccountController extends ChangeNotifier {
     );
   }
 
-  Future<void> logout() async {
-    await Auth().logout();
-  }
-
   @override
   void dispose() {
     firstNameCtrl.dispose();

@@ -24,48 +24,112 @@ class _HomeMainPageState extends State<HomeMainPage> {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        return Scaffold( 
+        return Scaffold(
           appBar: AppBar(
-            title: Text({
-              HomePage.courses:   'Home'.tr,
-              HomePage.chats:     'Chats'.tr,
-              HomePage.calendar:  'Calendar'.tr,
-              HomePage.account:   currentUser.name,
-            }[controller.page]!),
-          ),
-          floatingActionButton: HomeFAB(controller: controller),
-          body: {
-            HomePage.courses:   SuggestedCoursesMainPage(),
-            HomePage.chats:     ChatList(),
-            HomePage.calendar:  CalendarBody(user: currentUser),
-            HomePage.account:   AccountMainPage(),
-          }[controller.page]!,
-          bottomNavigationBar: BottomNavigationBar(
-            onTap: controller.setPageIndex,
-            currentIndex: controller.pageIndex,
-            selectedItemColor: Theme.of(context).colorScheme.secondary,
-            unselectedItemColor: Theme.of(context).colorScheme.primary,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home'  
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Chats'  
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month),
-                label: 'Calendar'  
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: currentUser.name,  
+            title: Text(
+              {
+                HomePage.courses: 'Home'.tr,
+                HomePage.chats: 'Chats'.tr,
+                HomePage.calendar: 'Calendar'.tr,
+                HomePage.account: "Account".tr,
+              }[controller.page]!,
+            ),
+            actions: [
+              Container(
+                height: 30,
+                margin: EdgeInsets.only(left: 8, right: 8),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    final shouldLogout = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Confirm Logout'.tr),
+                          content: Text('Are you sure you want to log out?'.tr),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: Text(
+                                'Cancel'.tr,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text(
+                                'Yes'.tr,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (shouldLogout ?? false) {
+                      controller.logout();
+                    }
+                  },
+                  child: Text('Logout'.tr, style: TextStyle(fontSize: 12),),
+                ),
               ),
             ],
           ),
+          floatingActionButton: HomeFAB(controller: controller),
+          body: {
+            HomePage.courses: SuggestedCoursesMainPage(),
+            HomePage.chats: ChatList(),
+            HomePage.calendar: CalendarBody(user: currentUser),
+            HomePage.account: AccountMainPage(),
+          }[controller.page]!,
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1), // shadow color
+                  blurRadius: 10, // soften the shadow
+                  offset: Offset(0, -2), // shadow direction: up
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: BottomNavigationBar(
+                onTap: controller.setPageIndex,
+                currentIndex: controller.pageIndex,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                elevation: 0, // remove default navbar shadow
+                selectedItemColor: Theme.of(context).colorScheme.secondary,
+                unselectedItemColor: Theme.of(context).colorScheme.primary,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.chat),
+                    label: 'Chats',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month),
+                    label: 'Calendar',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: currentUser.name,
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
-      }
+      },
     );
   }
 }
