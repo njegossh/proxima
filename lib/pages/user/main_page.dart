@@ -6,6 +6,7 @@ import 'package:proxima/pages/chat/main_page.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'package:proxima/pages/user/components/location.dart';
 import 'package:proxima/pages/user/controller.dart';
+import 'package:proxima/pages/video_call/main_page.dart';
 import 'components/avatar.dart';
 import 'components/interest_chips.dart';
 
@@ -118,7 +119,16 @@ class _UserMainPageState extends State<UserMainPage> {
                     child: Icon(Icons.calendar_month, size: 25),
                   ),
                   OutlinedButton(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return VideoCallMainPage(otherUser: widget.user);
+                          },
+                        ),
+                      );
+                    },
                     child: Icon(Icons.video_camera_front_rounded, size: 25),
                   ),
                 ],

@@ -29,7 +29,8 @@ dependencies:
   image: ^4.5.4
   flutter_svg: ^2.2.1
   lottie: ^3.1.0
-  # zego_uikit_prebuilt_call: ^4.17.7
+  zego_uikit_prebuilt_call: ^4.17.7
+  floating: ^6.0.0
 
 dev_dependencies:
   flutter_test:

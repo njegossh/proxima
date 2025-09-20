@@ -8,6 +8,6 @@ class VideoCallController extends ChangeNotifier {
   VideoCallController({required this.otherUser});
 
   String get callID {
-    return ([otherUser, currentUser]..sort()).join('_');
+    return ([otherUser.id, currentUser.id]..sort()).join('_');
   }
 }
