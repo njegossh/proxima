@@ -31,18 +31,18 @@ class Course extends ChangeNotifier {
     this.user,
   });
 
-  static Course fromJson(Map json, String? id){
+  static Course fromJson(Map json, String? id) {
     return Course(
       id: id,
       name: json['name'] ?? '?',
       userID: json['userID'],
       tags: (json['tags'] as List? ?? []).map((i) => '$i').toList(),
-      pricePerHour: json['pricePerHour'],
-      averageReview: json['averageReview'],
-      description: json['description'],
+      pricePerHour: (json['pricePerHour'] as num?)?.toDouble() ?? 0.0,
+      averageReview: (json['averageReview'] as num?)?.toDouble() ?? 0.0,
+      description: json['description'] ?? '',
       videoURL: json['videoURL'],
-      locationX: json['locationX'] ?? 0,
-      locationY: json['locationY'] ?? 0,
+      locationX: (json['locationX'] as num?)?.toDouble() ?? 0.0,
+      locationY: (json['locationY'] as num?)?.toDouble() ?? 0.0,
       thumbnailString: json['thumbnailString'],
     );
   }

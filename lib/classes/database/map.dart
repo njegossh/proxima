@@ -19,36 +19,32 @@ extension MapDatabase on Database {
   ) async {
     Query query = courses;
 
-    final lat = userLatitude; // latitude
-    final lng = userLongitude; // longitude
+    final lat = userLatitude;
+    final lng = userLongitude;
 
-    print("user latitude ${lat}, and logitude: ${lng}, radiusinkm: ${radiusInKilometers}");
+    print("user latitude $lat, and longitude: $lng, radiusinkm: $radiusInKilometers");
 
     final latDelta = kmToLatDelta(radiusInKilometers);
     final lngDelta = kmToLngDelta(radiusInKilometers, lat);
 
-    print("user latitude delta ${latDelta}, and logitude delta: ${lngDelta}");
+    print("user latitude delta $latDelta, and longitude delta: $lngDelta");
 
     final lessThanLng = lng + lngDelta;
     final greaterThanLng = lng - lngDelta;
     final lessThanLat = lat + latDelta;
     final greaterThanLat = lat - latDelta;
 
-    print("lessThan long ${lessThanLng} greaterThanLong ${greaterThanLng} | lessthanLAT ${lessThanLat} greateThanLAT ${greaterThanLat}");
+    print("lessThan long $lessThanLng greaterThanLong $greaterThanLng | "
+        "lessThanLAT $lessThanLat greaterThanLAT $greaterThanLat");
 
     query = query
-        .where(
-          'locationX',
-          isLessThan: lessThanLng,
-          isGreaterThan: greaterThanLng,
-        )
-        .where(
-          'locationY',
-          isLessThan: lessThanLat,
-          isGreaterThan: greaterThanLat,
-        )
-        ;
+        .where('locationY', isLessThanOrEqualTo: lessThanLng)
+        .where('locationY', isGreaterThanOrEqualTo: greaterThanLng)
+        .where('locationX', isLessThanOrEqualTo: lessThanLat)
+        .where('locationX', isGreaterThanOrEqualTo: greaterThanLat);
+
     final result = await query.get();
+
     print("SLEDE REZULTATI");
     return result.docs.map((doc) {
       return Course.fromJson(doc.data() as Map, doc.id);

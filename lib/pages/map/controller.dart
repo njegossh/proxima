@@ -17,6 +17,7 @@ class MainMapController extends ChangeNotifier {
   LatLng userLocation = LatLng(0, 0);
 
   Future<void> init() async {
+    getCurrentLocation();
     courses = await getCoursesWithingRadius();
   }
 
