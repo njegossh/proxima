@@ -4,7 +4,6 @@ import 'package:proxima/pages/account/main_page.dart';
 import 'package:proxima/pages/calendar/components/calendar_body.dart';
 import 'package:proxima/pages/chat_list/main_page.dart';
 import 'package:proxima/pages/home/controller.dart';
-import 'package:proxima/pages/search/main_page.dart';
 import 'package:proxima/pages/suggested_courses/main_page.dart';
 
 import 'components/fab.dart';
@@ -89,7 +88,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1), // shadow color
+                  color: Colors.black.withValues(alpha: 0.1), // shadow color
                   blurRadius: 10, // soften the shadow
                   offset: Offset(0, -2), // shadow direction: up
                 ),

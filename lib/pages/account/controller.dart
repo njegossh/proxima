@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/classes/database/auth.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:geolocator/geolocator.dart';
