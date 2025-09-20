@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/components/frosted_glass.dart';
 import 'package:proxima/main.dart';
-import 'package:proxima/pages/search/components/course_card.dart';
+import 'package:proxima/components/course_display_card.dart';
 import 'controller.dart';
 
 class SuggestedCoursesMainPage extends StatefulWidget {
@@ -192,7 +192,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     Theme.of(context).colorScheme.secondary,
                                   ],
                                   begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight
+                                  end: Alignment.bottomRight,
                                 ),
                                 borderRadius: BorderRadius.circular(24),
                               ),
@@ -248,50 +248,94 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 16),
                 Container(
                   margin: EdgeInsets.all(16),
-                  child: Text(
-                    "Courses in your neibourhood:".tr,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 12),
-                if (courses == null)
-                  Center(child: CircularProgressIndicator())
-                else if (courses!.isEmpty)
-                  Column(
+                  child: Row(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        height: 230,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/illustrationNoResult.jpg",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                      Icon(
+                        Icons.near_me_rounded,
+                        size: 30,
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(width: 4),
                       Text(
-                        "It seems there is nothing around!".tr,
+                        "Courses in your neibourhood:".tr,
                         style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                      Text(
-                        "No courses that match your interests in the given radius"
-                            .tr,
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 64),
                     ],
                   ),
+                ),
+                ...[
+                  if (courses == null)
+                    Center(child: CircularProgressIndicator())
+                  else if (courses.isEmpty)
+                    Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          height: 230,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                "assets/images/illustrationNoResult.jpg",
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "It seems there is nothing around!".tr,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "No courses that match your interests in the given radius"
+                              .tr,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 64),
+                      ],
+                    )
+                  else
+                    Container(
+                      // only side + top margin, no bottom margin
+                      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                      padding: EdgeInsets.only(
+                        top: 12,
+                        left: 12,
+                        right: 12,
+                        bottom: 24,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).colorScheme.secondary,
+                            Theme.of(context).colorScheme.tertiary,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: Column(
+                        children: courses!
+                            .map((course) => CourseCard(course: course))
+                            .toList(),
+                      ),
+                    ),
+                ],
               ],
             ),
           ),
