@@ -62,7 +62,7 @@ class _UserMainPageState extends State<UserMainPage> {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: Container(width: 500, height: 270, child: Card()),
+                      child: SizedBox(width: 500, height: 275, child: Card()),
                     ),
                   ),
 
@@ -74,102 +74,134 @@ class _UserMainPageState extends State<UserMainPage> {
                       child: AvatarWidget(imageString: widget.user.imageString),
                     ),
                   ),
-
-                  Positioned(
-                    top: 240,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              widget.user.fullName,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                          ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    widget.user.fullName,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChatMainPage(otherUser: controller.user);
+                          },
                         ),
-                        SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 16,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return ChatMainPage(
-                                        otherUser: controller.user,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Icon(Icons.message, size: 25),
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return CalendarMainPage(
-                                        user: controller.user,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Icon(Icons.calendar_month, size: 25),
-                            ),
-                            OutlinedButton(
-                              onPressed: null,
-                              child: Icon(
-                                Icons.video_camera_front_rounded,
-                                size: 25,
-                              ),
-                            ),
-                          ],
+                      );
+                    },
+                    child: Icon(Icons.message, size: 25),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CalendarMainPage(user: controller.user);
+                          },
                         ),
-                        SizedBox(height: 16),
-                        LocationInfo(user: widget.user),
-                      ],
-                    ),
+                      );
+                    },
+                    child: Icon(Icons.calendar_month, size: 25),
+                  ),
+                  OutlinedButton(
+                    onPressed: null,
+                    child: Icon(Icons.video_camera_front_rounded, size: 25),
                   ),
                 ],
               ),
-              SizedBox(height: 164),
+              SizedBox(height: 16),
+              LocationInfo(user: widget.user),
+              SizedBox(height: 48),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.interests_outlined,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Interests:".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8),
               Center(
                 child: InterestChips(listOfInterests: widget.user.interests),
               ),
-              (widget.user.description != null &&
+              SizedBox(height: 16),
+              ...(widget.user.description != null &&
                       widget.user.description!.isNotEmpty)
-                  ? Align(
-                      alignment: Alignment.centerLeft,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Card(
-                          child: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Text(
-                              widget.user.description!,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              textAlign: TextAlign.justify,
+                  ? [
+                      Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.description_outlined,
+                              size: 25,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            SizedBox(width: 8),
+                            Text("About:".tr, style: TextStyle(fontSize: 18)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Card(
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                widget.user.description!,
+                                style: Theme.of(context).textTheme.titleMedium,
+                                textAlign: TextAlign.justify,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    )
-                  : SizedBox.shrink(),
-              CourseCarousel(courses: widget.user.courses ?? []),
+                    ]
+                  : [],
+              SizedBox(height: 16),
+
+              if (widget.user.courses != null &&
+                  widget.user.courses!.isNotEmpty) ...[
+                Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.menu_book_rounded,
+                        size: 25,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
+                      SizedBox(width: 8),
+                      Text("Courses:".tr, style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                CourseCarousel(courses: widget.user.courses ?? []),
+              ],
             ],
           ),
         );

@@ -146,7 +146,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
               ),
             ),
 
-            if (account.courses != null && !account.courses!.isEmpty) ...[
+            if (account.courses != null && account.courses!.isNotEmpty) ...[
               SizedBox(height: 16),
               
               CourseCarousel(

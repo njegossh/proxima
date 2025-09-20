@@ -7,7 +7,7 @@ class InterestChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.only(left: 16, right: 16),
       scrollDirection: Axis.horizontal,
       child: Row(
         children:
