@@ -38,6 +38,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
               children: [
                 Container(
                   height: 200,
+                  margin: EdgeInsets.only(left: 8, right: 8),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -49,8 +50,8 @@ class _AccountMainPageState extends State<AccountMainPage> {
                       end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
+                      bottomLeft: Radius.circular(24),
+                      bottomRight: Radius.circular(24),
                     ),
                   ),
                 ),

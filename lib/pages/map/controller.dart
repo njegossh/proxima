@@ -21,10 +21,12 @@ class MainMapController extends ChangeNotifier {
   }
 
   Future<List<Course>> getCoursesWithingRadius() async {
+      print("Radius: " + "${radius}");
+      print("Radius/1000: " + "${radius/1000}");
     return await Database().getCoursesWithinRadius(
       userLocation.latitude,
       userLocation.longitude,
-      radius,
+      radius / 1000, //radius je ovde u metrima a f-ja prima km
     );
   }
 

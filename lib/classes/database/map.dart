@@ -17,27 +17,39 @@ extension MapDatabase on Database {
     double userLongitude,
     double radiusInKilometers,
   ) async {
-    Query query = courses.limit(20);
+    Query query = courses;
 
     final lat = userLatitude; // latitude
     final lng = userLongitude; // longitude
 
+    print("user latitude ${lat}, and logitude: ${lng}, radiusinkm: ${radiusInKilometers}");
+
     final latDelta = kmToLatDelta(radiusInKilometers);
     final lngDelta = kmToLngDelta(radiusInKilometers, lat);
+
+    print("user latitude delta ${latDelta}, and logitude delta: ${lngDelta}");
+
+    final lessThanLng = lng + lngDelta;
+    final greaterThanLng = lng - lngDelta;
+    final lessThanLat = lat + latDelta;
+    final greaterThanLat = lat - latDelta;
+
+    print("lessThan long ${lessThanLng} greaterThanLong ${greaterThanLng} | lessthanLAT ${lessThanLat} greateThanLAT ${greaterThanLat}");
 
     query = query
         .where(
           'locationX',
-          isLessThan: lng + lngDelta,
-          isGreaterThan: lng - lngDelta,
+          isLessThan: lessThanLng,
+          isGreaterThan: greaterThanLng,
         )
         .where(
           'locationY',
-          isLessThan: lat + latDelta,
-          isGreaterThan: lat - latDelta,
-        );
-
+          isLessThan: lessThanLat,
+          isGreaterThan: greaterThanLat,
+        )
+        ;
     final result = await query.get();
+    print("SLEDE REZULTATI");
     return result.docs.map((doc) {
       return Course.fromJson(doc.data() as Map, doc.id);
     }).toList();
