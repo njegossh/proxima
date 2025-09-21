@@ -21,4 +21,13 @@ class Report {
       date: DateTime.parse(json['date']),
     );
   }
+
+  Map<String, Object?> toJson() {
+    return {
+      'fromUserID': fromUserID,
+      'toUserID': toUserID,
+      'desc': desc,
+      'date': date.toIso8601String(),
+    };
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/database.dart';
+import 'package:proxima/classes/database/report.dart';
+import 'package:proxima/classes/models/report.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/main.dart';
 
@@ -24,5 +26,9 @@ class UserController extends ChangeNotifier {
     await Database().updateUser(currentUser);
     await currentUser.reload();
     notifyListeners();
+  }
+
+  Future<void> sendReport(Report report) async {
+    await Database().sendReport(report);
   }
 }

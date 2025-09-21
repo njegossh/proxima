@@ -5,6 +5,7 @@ import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/appointment_creation/main_sheet.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
+import 'package:proxima/pages/user/components/report_page.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
 import 'package:proxima/pages/course/components/video_showcase.dart';
@@ -153,7 +154,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 32),
               Container(
                 margin: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
@@ -168,7 +169,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 16),
               Builder(
                 builder: (context) {
                   if (course.user == null) {
@@ -178,7 +179,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   }
                 },
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 32),
               Container(
                 margin: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
@@ -245,7 +246,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 16,),
+              SizedBox(height: 16),
               Builder(
                 builder: (context) {
                   if (controller.isLoading) {

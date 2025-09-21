@@ -5,6 +5,7 @@ import 'package:proxima/pages/calendar/main_page.dart';
 import 'package:proxima/pages/chat/main_page.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'package:proxima/pages/user/components/location.dart';
+import 'package:proxima/pages/user/components/report_page.dart';
 import 'package:proxima/pages/user/controller.dart';
 import 'package:proxima/pages/video_call/main_page.dart';
 import 'components/avatar.dart';
@@ -92,26 +93,26 @@ class _UserMainPageState extends State<UserMainPage> {
               Center(
                 child: widget.user.followingThisUser
                     ? SizedBox(
-                      height: 30,
-                      child: OutlinedButton(
+                        height: 30,
+                        child: OutlinedButton(
                           onPressed: controller.unFollow,
-                      
+
                           child: Text(
                             "Following".tr,
                             style: TextStyle(fontSize: 13),
                           ),
                         ),
-                    )
+                      )
                     : SizedBox(
-                      height: 30,
-                      child: FilledButton(
+                        height: 30,
+                        child: FilledButton(
                           onPressed: controller.unFollow,
                           child: Text(
                             "Follow".tr,
                             style: TextStyle(fontSize: 13),
                           ),
                         ),
-                    ),
+                      ),
               ),
               SizedBox(height: 16),
               Row(
@@ -226,7 +227,47 @@ class _UserMainPageState extends State<UserMainPage> {
                       ),
                     ]
                   : [],
-
+              SizedBox(height: 32),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_drop_down_circle,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Options".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.surface,
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ReportPage(userController: controller),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.report),
+                      SizedBox(width: 8),
+                      Text("Report".tr),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 20),
               if (widget.user.courses != null &&
                   widget.user.courses!.isNotEmpty) ...[
