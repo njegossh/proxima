@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:proxima/classes/database/auth.dart';
 import 'package:proxima/config/theme.dart';
+import 'package:proxima/config/translation.dart';
 import 'package:proxima/pages/home/main_page.dart';
 import 'package:proxima/pages/init_account/main_page.dart';
 import 'classes/database/database.dart';
@@ -11,42 +12,42 @@ import 'pages/welcome/main_page.dart';
 late User currentUser;
 
 extension Translation on String {
-  String get tr {
-    try{
-      //final locale = currentUser.locale;
-      return this;
-    } catch (e) {
-      return this;
-    }
-  }
+  String get tr => TranslationService.instance.translate(this);
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Database().init();
   await navigateToRootAndAuth();
+  await TranslationService.instance.load(currentUser.locale ?? 'en');
 }
 
 Future<void> navigateToRootAndAuth() async {
-
   final authStatus = await Auth().status;
-
-  final home = {
-    AuthStatus.unauthenticated: WelcomeMainPage(),
-    AuthStatus.pendingProfile: InitAccountMainPage(isInitialized: false,),
-    AuthStatus.active: HomeMainPage(),
-  }[authStatus]!;
 
   runApp(
     OKToast(
-      child: MaterialApp(
-        theme: generateGreenTheme,
-        debugShowCheckedModeBanner: false,
-        home: home,
+      child: ListenableBuilder(
+        listenable: TranslationService.instance,
+        builder: (context, _) {
+          final home = {
+            AuthStatus.unauthenticated: WelcomeMainPage(),
+            AuthStatus.pendingProfile: InitAccountMainPage(isInitialized: false),
+            AuthStatus.active: HomeMainPage(),
+          }[authStatus]!;
+
+          return MaterialApp(
+            theme: generateGreenTheme,
+            debugShowCheckedModeBanner: false,
+            home: home,
+            locale: Locale(TranslationService.instance.currentLocale),
+          );
+        },
       ),
     ),
   );
 }
+
 
 // Initial debug home page
 /*

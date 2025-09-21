@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:proxima/classes/database/database.dart';
+import 'package:proxima/config/translation.dart';
+import 'package:proxima/main.dart';
 
 class SettingsController {
-  // Currently selected language (for UI only)
-  String selectedLanguage = 'en';
+  String selectedLanguage = currentUser.locale ?? 'en';
 
-  // List of languages with names and flag emojis
   final Map<String, Map<String, String>> languages = {
     'ar': {'name': 'Arabic', 'flag': '🇸🇦'},
     'ch': {'name': 'Chinese', 'flag': '🇨🇳'},
@@ -28,8 +28,10 @@ class SettingsController {
     'uk': {'name': 'Ukrainian', 'flag': '🇺🇦'},
   };
 
-  // Update the selected language (UI only)
-  void selectLanguage(String code) {
+  void selectLanguage(String code) async {
     selectedLanguage = code;
+    currentUser.locale = code;
+    await Database().updateUser(currentUser);
+    await TranslationService.instance.load(code);
   }
 }

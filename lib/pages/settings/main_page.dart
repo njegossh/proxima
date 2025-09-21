@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/config/translation.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/settings/controller.dart';
 
@@ -15,7 +16,7 @@ class _SettingsMainPageState extends State<SettingsMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings")),
+      appBar: AppBar(title: Text("Settings".tr)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
