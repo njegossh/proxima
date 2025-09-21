@@ -10,7 +10,7 @@ class CalendarMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(user.name)),
-      body: CalendarBody(user: user),
+      body: CalendarMainBody(user: user),
     );
   }
 }

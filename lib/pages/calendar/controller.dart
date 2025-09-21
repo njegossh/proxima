@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:kalender/kalender.dart';
 import 'package:proxima/main.dart';
 import 'dart:math';
-import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/classes/models/appointment.dart';
 
 enum AppointmentType { teachConfirmed, teachPending, attendConfirmed, attendPending }
 
-class CalendarMainController extends sync.CalendarDataSource<Appointment>{
-  //TODO MARKO Syncfusion flesuje za azuriranja
+class CalendarMainController extends ChangeNotifier {
+
+  final events = DefaultEventsController<Appointment>();
+  final calendar = CalendarController<Appointment>();
+
   final User user;
   Map<String, Color> classColors = {};
   final calendarKey = ValueNotifier(UniqueKey());
@@ -18,16 +21,25 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment>{
   }
 
   Future<void> init() async {
-    appointments = user.calendarAppointments;
     await user.reload();
-    for(final app in user.calendarAppointments){
+    for (final app in user.calendarAppointments) {
       await app.reload();
     }
+
+    refresh();
+
+    user.addListener(refresh);
+  }
+
+  void refresh() {
+    events.clearEvents();
+    events.addEvents(user.calendarAppointments.map((app) {
+      return CalendarEvent(
+        dateTimeRange: DateTimeRange(start: app.from, end: app.to),
+        data: app,
+      );
+    }).toList());
     calendarKey.value = UniqueKey();
-    user.addListener((){
-      appointments = user.calendarAppointments;
-      calendarKey.value = UniqueKey();
-    });
   }
 
   AppointmentType appTypeFor(Appointment app) {
@@ -46,33 +58,28 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment>{
     }
   }
 
-  @override
-  getStartTime(int index) {
-    return this[index].from;
+  String getScheduleSubject(Appointment app) {
+    final timeFrom = '${app.from.hour}:${app.from.minute}';
+    final timeTo = '${app.to.hour}:${app.to.minute}';
+    return '$timeFrom-$timeTo\n${getSubject(app)}';
   }
 
-  @override
-  getEndTime(int index) {
-    return this[index].to;
-  }
-
-  @override
-  getSubject(int index) {
-    switch(appTypeFor(this[index])){
+  String getSubject(Appointment? app) {
+    if (app == null) return '?';
+    switch(appTypeFor(app)){
       case AppointmentType.teachConfirmed:
-        return this[index].name;
+        return app.name;
       case AppointmentType.teachPending: 
-        return '${"Confirm for".tr} ${this[index].name}';
+        return '${"Confirm for".tr} ${app.name}';
       case AppointmentType.attendConfirmed:
-        return this[index].name;
+        return app.name;
       default: 
-      return '${"Requested".tr} ${this[index].name}';
+      return '${"Requested".tr} ${app.name}';
     }
   }
 
-  @override
-  getColor(int index) {
-    final app = this[index];
+  Color getColor(Appointment? app) {
+    if (app == null) return Colors.transparent;
     final courseID = app.courseID;
     
     if(classColors[courseID] == null){
@@ -87,9 +94,6 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment>{
     return user.calendarAppointments[index];
   }
 
-  @override
-  isAllDay(int index) => false;
-
   Color getRandomColor() {
     final Random random = Random();
     return Color.fromARGB(
@@ -97,6 +101,16 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment>{
       random.nextInt(200),
       random.nextInt(200),
       random.nextInt(200),
+    );
+  }
+
+  Color getTitleColor(Appointment? app) {
+    final back = getColor(app);
+    return Color.fromARGB(
+      (back.a * 255).toInt(),
+      255 - back.r.toInt(),
+      255 - back.g.toInt(),
+      255 - back.b.toInt(),
     );
   }
 }

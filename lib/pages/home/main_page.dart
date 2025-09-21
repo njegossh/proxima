@@ -109,7 +109,7 @@ class _HomeMainPageState extends State<HomeMainPage> {
           body: {
             HomePage.courses: SuggestedCoursesMainPage(),
             HomePage.chats: ChatList(),
-            HomePage.calendar: CalendarBody(user: currentUser),
+            HomePage.calendar: CalendarMainBody(user: currentUser),
             HomePage.account: AccountMainPage(),
           }[controller.page]!,
           bottomNavigationBar: Container(

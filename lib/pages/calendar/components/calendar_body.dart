@@ -1,21 +1,22 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:kalender/kalender.dart';
 import 'package:proxima/classes/models/appointment.dart';
 import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/pages/appointment_confirmation/main_sheet.dart';
+import 'package:proxima/pages/appointment_creation/controller.dart';
 import 'package:proxima/pages/course/main_page.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart' as sync;
 import 'package:flutter/material.dart';
 import '../controller.dart';
 
-class CalendarBody extends StatefulWidget {
+class CalendarMainBody extends StatefulWidget {
   final User user;
-  const CalendarBody({super.key, required this.user});
+  const CalendarMainBody({super.key, required this.user});
 
   @override
-  State<CalendarBody> createState() => _CalendarBodyState();
+  State<CalendarMainBody> createState() => _CalendarMainBodyState();
 }
 
-class _CalendarBodyState extends State<CalendarBody> {
+class _CalendarMainBodyState extends State<CalendarMainBody> {
   late CalendarMainController controller;
 
   @override
@@ -40,28 +41,57 @@ class _CalendarBodyState extends State<CalendarBody> {
             child: CircularProgressIndicator()
           );
         } else {
-          return sync.SfCalendar(
-            key: controller.calendarKey.value,
-            allowedViews: sync.CalendarView.values,
-            view: sync.CalendarView.schedule,
-            showNavigationArrow: true,
-            showTodayButton: true,
-            firstDayOfWeek: 1,
-            dataSource: controller,
-            onTap: (details) async {
-              final app = details.appointments![0] as Appointment;
-              final course = app.course ?? await app.reloadCourse();
-              final appType = controller.appTypeFor(app);
-              if( appType == AppointmentType.teachPending ) {
-                showModalBottomSheet(context: context, builder: (_) {
-                  return AppointmentConfirmationMainSheet(appointment: app);
-                });
-              } else {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CourseMainPage(course: course);
-                }));
-              }
-            },
+          return CalendarView<Appointment>(
+            calendarController: controller.calendar,
+            eventsController: controller.events,
+            viewConfiguration: ScheduleViewConfiguration.continuous(),
+            callbacks: CalendarCallbacks( 
+              onEventTapped: (event, renderBox) async {
+                final app = event.data!;
+                final course = app.course ?? await app.reloadCourse();
+                final appType = controller.appTypeFor(app);
+                if( appType == AppointmentType.teachPending ) {
+                  showModalBottomSheet(context: context, builder: (_) {
+                    return AppointmentConfirmationMainSheet(appointment: app);
+                  });
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CourseMainPage(course: course);
+                  }));
+                }
+              },
+            ),
+            header: CalendarHeader<Appointment>(),
+            body: CalendarBody<Appointment>(
+              interaction: ValueNotifier(CalendarInteraction(
+                allowResizing: false,
+                allowRescheduling: false,
+                allowEventCreation: false,
+              )),
+              scheduleTileComponents: ScheduleTileComponents(
+                tileBuilder: (event, time) {
+                  if (event.data == null) return Container();
+                  final app = event.data!;
+                  return Container(
+                    height: 75,
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: controller.getColor(app),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Align(
+                    alignment: Alignment.centerLeft,
+                      child: Text(
+                        controller.getScheduleSubject(app),
+                        style: TextStyle(
+                          color: controller.getTitleColor(app),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           );
         }
       }
