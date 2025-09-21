@@ -23,6 +23,9 @@ class User extends ChangeNotifier {
   List<Course>? courses;
   List<User>? followedUsers;
 
+  bool suspended;
+  bool superuser;
+
   bool get followingThisUser {
     return currentUser.followedUserIDs.contains(id);
   }
@@ -63,9 +66,11 @@ class User extends ChangeNotifier {
     required this.interests,
     this.locale,
     required this.followedUserIDs,
+    this.suspended = false,
+    this.superuser = false,
   }) {
     addListener(() {
-      for (final app in appointments!) {
+      for (final app in appointments ?? []) {
         app.addListener(notifyListeners);
       }
     });
@@ -74,10 +79,10 @@ class User extends ChangeNotifier {
   static User fromJson(Map json, String id) {
     return User(
       id: id,
-      locationX: json['locationX'],
-      locationY: json['locationY'],
+      locationX: (json['locationX'] as num).toDouble(),
+      locationY: (json['locationY'] as num).toDouble(),
       name: json['name'],
-      range: json['range'],
+      range: (json['range'] as num?)?.toDouble() ?? 100,
       surname: json['surname'],
       locationDesc: (json['locationDesc'] as List? ?? [])
           .map((i) => '$i')
@@ -89,6 +94,8 @@ class User extends ChangeNotifier {
       followedUserIDs: (json['followedUserIDs'] as List? ?? [])
           .map((i) => '$i')
           .toList(),
+      suspended: json['suspended'] ?? false,
+      superuser: json['superuser'] ?? false,
     );
   }
 
@@ -105,6 +112,8 @@ class User extends ChangeNotifier {
       'range': range,
       'locale': locale,
       'followedUserIDs': followedUserIDs,
+      'suspended': suspended,
+      'superuser': superuser,
     };
   }
 
@@ -118,6 +127,8 @@ class User extends ChangeNotifier {
       surname: '',
       interests: [],
       followedUserIDs: [],
+      suspended: false,
+      superuser: false,
     );
   }
 

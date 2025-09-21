@@ -71,6 +71,19 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                         size: 35,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
+                      Spacer(),
+                      if (currentUser.superuser) ...[
+                        Icon(Icons.admin_panel_settings_rounded, size: 25, color: Theme.of(context).colorScheme.tertiary,),
+                        Text(
+                          "Admin",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                        SizedBox(width: 24,)
+                      ],
                     ],
                   ),
                 ),
@@ -79,11 +92,12 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
               const SizedBox(height: 12),
 
               Container(
-                margin: const EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 8),
                 height: 230,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/illustration.png"),
+                    image: AssetImage(
+                      currentUser.superuser ? "assets/images/illustrationAdmin.png" : "assets/images/illustration.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -311,7 +325,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "No courses that match your interests in the given radius".tr,
+                      "No courses that match your interests in the given radius"
+                          .tr,
                       style: const TextStyle(fontSize: 14, color: Colors.grey),
                       textAlign: TextAlign.center,
                     ),
