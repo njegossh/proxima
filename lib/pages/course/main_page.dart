@@ -15,11 +15,7 @@ import 'components/tags_chips.dart';
 class CourseMainPage extends StatefulWidget {
   final Course course;
   final VoidCallback? onChanged;
-  const CourseMainPage({
-    super.key,
-    required this.course,
-    this.onChanged,
-  });
+  const CourseMainPage({super.key, required this.course, this.onChanged});
 
   @override
   State<CourseMainPage> createState() => _CourseMainPageState();
@@ -97,11 +93,82 @@ class _CourseMainPageState extends State<CourseMainPage> {
                 ),
           body: ListView(
             children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 350,
+                    margin: EdgeInsets.only(left: 4, right: 4),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.secondary,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 20,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: SizedBox(width: 420, height: 300, child: Card()),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 37,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: CourseDisplayImage(
+                        imageString: course.thumbnailString,
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 280,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Text(
+                        course.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 24),
-              CourseDisplayImage(imageString: course.thumbnailString),
-              SizedBox(height: 24),
-              Center(child: TagsChips(tags: course.tags)),
-              SizedBox(height: 24),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.school_rounded,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Instructor".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12),
               Builder(
                 builder: (context) {
                   if (course.user == null) {
@@ -111,13 +178,42 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   }
                 },
               ),
+              SizedBox(height: 24),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.interests_rounded,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Tags".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8),
+              Center(child: TagsChips(tags: course.tags)),
+              SizedBox(height: 16),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.description,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Description".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12),
               course.description != null
                   ? Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                        top: 32,
-                      ),
+                      padding: const EdgeInsets.only(left: 16, right: 16),
                       child: SizedBox(
                         width: double.infinity,
                         child: Card(
@@ -135,6 +231,21 @@ class _CourseMainPageState extends State<CourseMainPage> {
                     )
                   : SizedBox.shrink(),
               SizedBox(height: 32),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.reviews_rounded,
+                      size: 25,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    SizedBox(width: 8),
+                    Text("Reviews".tr, style: TextStyle(fontSize: 18)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16,),
               Builder(
                 builder: (context) {
                   if (controller.isLoading) {
@@ -167,7 +278,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                         ),
                       ),
                     ),
-              SizedBox(height: 32),
+              SizedBox(height: 48),
             ],
           ),
         );

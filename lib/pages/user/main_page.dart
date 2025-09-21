@@ -41,6 +41,7 @@ class _UserMainPageState extends State<UserMainPage> {
                 children: [
                   Container(
                     height: 250,
+                    margin: EdgeInsets.only(left: 8, right: 8),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -63,7 +64,7 @@ class _UserMainPageState extends State<UserMainPage> {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: SizedBox(width: 500, height: 275, child: Card()),
+                      child: SizedBox(width: 400, height: 310, child: Card()),
                     ),
                   ),
 
@@ -88,48 +89,89 @@ class _UserMainPageState extends State<UserMainPage> {
                 ),
               ),
               SizedBox(height: 12),
+              Center(
+                child: widget.user.followingThisUser
+                    ? SizedBox(
+                      height: 30,
+                      child: OutlinedButton(
+                          onPressed: controller.unFollow,
+                      
+                          child: Text(
+                            widget.user.followingThisUser
+                                ? 'Following'.tr
+                                : 'Follow'.tr,
+                      
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                    )
+                    : SizedBox(
+                      height: 30,
+                      child: FilledButton(
+                          onPressed: controller.unFollow,
+                      
+                          child: Text(
+                            widget.user.followingThisUser
+                                ? 'Following'.tr
+                                : 'Follow'.tr,
+                      
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                    ),
+              ),
+              SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 16,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ChatMainPage(otherUser: controller.user);
-                          },
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.message, size: 25),
+                  SizedBox(
+                    height: 35,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ChatMainPage(otherUser: controller.user);
+                            },
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.message, size: 20),
+                    ),
                   ),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CalendarMainPage(user: controller.user);
-                          },
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.calendar_month, size: 25),
+                  SizedBox(
+                    height: 35,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CalendarMainPage(user: controller.user);
+                            },
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.calendar_month, size: 20),
+                    ),
                   ),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return VideoCallMainPage(otherUser: widget.user);
-                          },
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.video_camera_front_rounded, size: 25),
+                  SizedBox(
+                    height: 35,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return VideoCallMainPage(otherUser: widget.user);
+                            },
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.video_camera_front_rounded, size: 20),
+                    ),
                   ),
                 ],
               ),
@@ -146,7 +188,7 @@ class _UserMainPageState extends State<UserMainPage> {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     SizedBox(width: 8),
-                    Text("Interests:".tr, style: TextStyle(fontSize: 18)),
+                    Text("Interests".tr, style: TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
@@ -168,7 +210,7 @@ class _UserMainPageState extends State<UserMainPage> {
                               color: Theme.of(context).colorScheme.tertiary,
                             ),
                             SizedBox(width: 8),
-                            Text("About:".tr, style: TextStyle(fontSize: 18)),
+                            Text("About".tr, style: TextStyle(fontSize: 18)),
                           ],
                         ),
                       ),
@@ -191,8 +233,8 @@ class _UserMainPageState extends State<UserMainPage> {
                       ),
                     ]
                   : [],
-              SizedBox(height: 16),
 
+              SizedBox(height: 20),
               if (widget.user.courses != null &&
                   widget.user.courses!.isNotEmpty) ...[
                 Container(
@@ -205,11 +247,10 @@ class _UserMainPageState extends State<UserMainPage> {
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
                       SizedBox(width: 8),
-                      Text("Courses:".tr, style: TextStyle(fontSize: 18)),
+                      Text("Courses".tr, style: TextStyle(fontSize: 18)),
                     ],
                   ),
                 ),
-                SizedBox(height: 12),
                 CourseCarousel(courses: widget.user.courses ?? []),
               ],
             ],

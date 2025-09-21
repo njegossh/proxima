@@ -21,21 +21,6 @@ class ReviewsPreview extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(Icons.reviews_outlined),
-              SizedBox(width: 8),
-              Text(
-                "Recenzije",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
           ListView.separated(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

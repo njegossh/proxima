@@ -38,8 +38,8 @@ class CourseDisplayImage extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
         child: SizedBox(
-          width: double.infinity,
-          height: 220,
+          width: 360,
+          height: 230,
           child: imageWidget,
         ),
       ),
