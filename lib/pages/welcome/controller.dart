@@ -19,8 +19,8 @@ class WelcomeController extends ChangeNotifier{
   }
 
   String get actionName {
-    if(page == 1) return 'Confirm';
-    return 'Continue';
+    if(page == 1) return "Confirm".tr;
+    return "Continue".tr;
   }
 
   WelcomeController(){
@@ -40,12 +40,12 @@ class WelcomeController extends ChangeNotifier{
 
   Future<String?> confirm() async {
 
-    emailError = email.text.isEmpty ? 'Required' : null;
-    passwordError = password.text.isEmpty ? 'Required' : null;
+    emailError = email.text.isEmpty ? "Required".tr : null;
+    passwordError = password.text.isEmpty ? "Required".tr : null;
     notifyListeners();
 
-    if(emailError != null) return 'Email required';
-    if(passwordError != null) return 'Password required';
+    if(emailError != null) return "Email required".tr;
+    if(passwordError != null) return "Password required".tr;
 
     try {
       await Auth().continueWith(

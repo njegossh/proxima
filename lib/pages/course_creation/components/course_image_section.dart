@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 
 class CourseImageSection extends StatelessWidget {
   final String? imageString;
@@ -53,7 +54,7 @@ class CourseImageSection extends StatelessWidget {
             onPressed: onPickImage,
             icon: const Icon(Icons.camera_alt),
             label: Text(
-              imageString == null ? "Izaberite sliku kursa" : "Promenite sliku",
+              imageString == null ? "Choose photo".tr : "Change photo".tr,
             ),
             style: TextButton.styleFrom(
               foregroundColor: colorScheme.surface,

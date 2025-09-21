@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../controller.dart';
 
 class TagsInput extends StatefulWidget {
@@ -25,15 +26,15 @@ class _TagsInputState extends State<TagsInput> {
             Expanded(
               child: TextField(
                 controller: _inputCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Tags',
-                  hintText: 'npr. Flutter, Dart, UI',
+                decoration: InputDecoration(
+                  labelText: "Tags".tr,
+                  hintText: "ex. Math, Football, Guitar".tr,
                   prefixIcon: Icon(Icons.label_outline),
                 ),
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.add),
+              icon: Icon(Icons.add),
               onPressed: () {
                 controller.addTag(_inputCtrl.text);
                 _inputCtrl.clear();
@@ -41,7 +42,7 @@ class _TagsInputState extends State<TagsInput> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+       SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 4,

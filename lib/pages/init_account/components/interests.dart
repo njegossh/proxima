@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../controller.dart';
 
 class Interests extends StatefulWidget {
@@ -25,9 +26,9 @@ class _InterestsState extends State<Interests> {
             Expanded(
               child: TextField(
                 controller: _inputCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Interesovanja',
-                  hintText: 'npr. Programiranje',
+                decoration: InputDecoration(
+                  labelText: "Interests".tr,
+                  hintText: "ex. Math, Sports".tr,
                   prefixIcon: Icon(Icons.interests_outlined),
                 ),
               ),

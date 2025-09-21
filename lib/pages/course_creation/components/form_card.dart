@@ -33,7 +33,7 @@ class FormCard extends StatelessWidget {
           InputForm(controller: controller),
           const SizedBox(height: 24),
           ActionButton(
-            text: 'Save'.tr,
+            text: "Save".tr,
             onPressed: () {
               controller.saveCourse(context);
               Navigator.of(context).pop();

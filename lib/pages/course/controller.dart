@@ -3,6 +3,7 @@ import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/database/reviews.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/classes/models/review.dart';
+import 'package:proxima/main.dart';
 
 class CourseMainController extends ChangeNotifier {
   final Course course;
@@ -37,16 +38,16 @@ class CourseMainController extends ChangeNotifier {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Confirm deletion"),
-        content: const Text("Are you sure you want to delete this course?"),
+        title: Text("Confirm deletion".tr),
+        content: Text("Are you sure you want to delete this course?".tr),
         actions: [
           OutlinedButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Cancel"),
+            child: Text("Cancel".tr),
           ),
           OutlinedButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Delete"),
+            child: Text("Delete".tr),
           ),
         ],
       ),

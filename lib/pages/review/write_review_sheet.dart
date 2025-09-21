@@ -1,6 +1,7 @@
 import 'package:easy_stars/easy_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/review.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/review/controller.dart';
 
 class WriteReviewSheet extends StatefulWidget {
@@ -33,7 +34,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Napiši recenziju',
+                  "Make a review".tr,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 20),
@@ -57,8 +58,8 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _commentController,
-                  decoration: const InputDecoration(
-                    labelText: 'Tvoj komentar',
+                  decoration: InputDecoration(
+                    labelText: "Your comment".tr,
                     border: OutlineInputBorder(),
                   ),
                   maxLines: 4,
@@ -70,7 +71,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                   children: [
                     ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Zatvori'),
+                      child: Text("Close".tr),
                     ),
                     const SizedBox(width: 10),
                     ElevatedButton(
@@ -88,7 +89,7 @@ class _WriteReviewSheetState extends State<WriteReviewSheet> {
                           );
                         }
                       },
-                      child: const Text('Pošalji'),
+                      child: Text("Send".tr),
                     ),
                   ],
                 ),

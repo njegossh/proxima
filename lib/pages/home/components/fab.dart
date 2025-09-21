@@ -16,7 +16,7 @@ class HomeFAB extends StatelessWidget {
         switch(controller.page) {
           case HomePage.courses: 
             return FloatingActionButton.extended(
-              label: Text('Search'.tr),
+              label: Text("Search".tr),
               icon: Icon(Icons.search),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -30,7 +30,7 @@ class HomeFAB extends StatelessWidget {
             return Container();
           case HomePage.account: 
             return FloatingActionButton.extended(
-              label: Text('Edit'.tr),
+              label: Text("Edit".tr),
               icon: Icon(Icons.edit),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context){

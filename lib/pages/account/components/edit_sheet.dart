@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/account/controller.dart';
 
 class EditAccountSheet extends StatelessWidget {
@@ -24,7 +25,7 @@ class EditAccountSheet extends StatelessWidget {
                 SizedBox(height: 4),
                 Icon(Icons.expand_more_outlined, size: 50),
                 Text(
-                  "Azuriranje profila",
+                  "Profile editing".tr,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -35,7 +36,7 @@ class EditAccountSheet extends StatelessWidget {
                 TextField(
                   controller: controller.firstNameCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Ime',
+                    labelText: "Name".tr,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -48,7 +49,7 @@ class EditAccountSheet extends StatelessWidget {
                 TextField(
                   controller: controller.lastNameCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Prezime',
+                    labelText: "Last name".tr,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -62,7 +63,7 @@ class EditAccountSheet extends StatelessWidget {
                   controller: controller.descriptionCtrl,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    labelText: 'Opis',
+                    labelText: "About".tr,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -75,7 +76,7 @@ class EditAccountSheet extends StatelessWidget {
                 TextField(
                   controller: controller.locationDescCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Grad i drzava',
+                    labelText: "City and country".tr,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -88,7 +89,7 @@ class EditAccountSheet extends StatelessWidget {
                 TextField(
                   controller: controller.interestsCtrl,
                   decoration: InputDecoration(
-                    labelText: 'Interesovanja',
+                    labelText: "Interests".tr,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -107,7 +108,7 @@ class EditAccountSheet extends StatelessWidget {
                             : Icons.location_off,
                       ),
                       SizedBox(width: 6),
-                      Text("Podesi lokaciju?"),
+                      Text("Set location?".tr),
                     ],
                   ),
                   value: controller.trackLocation,
@@ -119,7 +120,7 @@ class EditAccountSheet extends StatelessWidget {
                     controller.updateAccount();
                     Navigator.pop(context);
                   },
-                  child: Text('Ažuriraj'),
+                  child: Text("Save".tr),
                 ),
                 SizedBox(height: 16),
               ],

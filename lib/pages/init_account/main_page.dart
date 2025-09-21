@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/init_account/controller.dart';
 import 'components/avatar_section.dart';
 import 'components/form_card.dart';
@@ -55,7 +56,7 @@ class _InitAccountMainPageState extends State<InitAccountMainPage> {
           appBar: AppBar(
             elevation: 0,
             title: Text(
-              "Podesite profil",
+              "Set up your profile".tr,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),

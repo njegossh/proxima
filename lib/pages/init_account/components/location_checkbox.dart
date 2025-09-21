@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 
 class LocationCheckbox extends StatelessWidget {
   final bool trackLocation;
@@ -37,7 +38,7 @@ class LocationCheckbox extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Text(
-              "Podesi lokaciju?",
+              "Set location?".tr,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
               ),
@@ -47,7 +48,7 @@ class LocationCheckbox extends StatelessWidget {
         subtitle: Padding(
           padding: const EdgeInsets.only(left: 36),
           child: Text(
-            "Omogućava pronalaženje kurseva u vašoj blizini",
+            "Looks for courses near you.".tr,
             style: theme.textTheme.bodySmall?.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.7),
             ),

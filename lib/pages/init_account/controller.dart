@@ -106,19 +106,19 @@ class InitAccountController extends ChangeNotifier {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.'.tr);
+      return Future.error("Location services are disabled. Please enable.".tr);
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied.'.tr);
+        return Future.error("Location permissions are denied. Please enable.".tr);
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied.'.tr);
+      return Future.error("Location permissions are permanently denied. Please enable.".tr);
     }
 
     return await Geolocator.getCurrentPosition(

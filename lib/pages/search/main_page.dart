@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import './controller.dart';
 import './components/course_card.dart';
 import './components/search_filters.dart';
@@ -76,7 +77,7 @@ class _SearchMainPageState extends State<SearchMainPage>
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text('Search'),
+      title: Text("Search".tr),
       actions: [
         AnimatedBuilder(
           animation: _filterAnimationController,
@@ -107,7 +108,7 @@ class _SearchMainPageState extends State<SearchMainPage>
       child: TextField(
         controller: controller.searchController,
         decoration: InputDecoration(
-          hintText: 'Pretraži kurseve...',
+          hintText: "Search courses".tr,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: controller.searchController.text.isNotEmpty
               ? IconButton(
@@ -166,7 +167,7 @@ class _SearchMainPageState extends State<SearchMainPage>
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
             style: Theme.of(context).textTheme.titleSmall!,
-            child: Text('Broj kurseva: ${controller.filteredCourses.length}'),
+            child: Text("${"Total courses:".tr} ${controller.filteredCourses.length}"),
           ),
         ],
       ),
@@ -178,7 +179,7 @@ class _SearchMainPageState extends State<SearchMainPage>
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: controller.filteredCourses.isEmpty
-            ? const Center(
+            ? Center(
                 key: ValueKey('empty'),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -186,11 +187,11 @@ class _SearchMainPageState extends State<SearchMainPage>
                     Icon(Icons.search_off, size: 64, color: Colors.grey),
                     SizedBox(height: 16),
                     Text(
-                      'Nema pronađenih kurseva',
+                      "No results!".tr,
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     Text(
-                      'Promenite parameter i pokušajte ponovo',
+                      "Try changing filters and try again!".tr,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],

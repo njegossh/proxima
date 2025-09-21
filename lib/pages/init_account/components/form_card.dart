@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/init_account/components/interests.dart';
 import 'package:proxima/pages/init_account/controller.dart';
 import 'section_header.dart';
@@ -34,28 +35,28 @@ class FormCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SectionHeader(
-              title: "Osnovne informacije",
+           SectionHeader(
+              title: "General information".tr,
               icon: Icons.person_outline,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             _buildFormFields(),
-            const SizedBox(height: 32),
-            const SectionHeader(
-              title: "Lokacija i preferencije",
+            SizedBox(height: 32),
+            SectionHeader(
+              title: "Location and preferences".tr,
               icon: Icons.location_on_outlined,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             LocationSection(
               controller: controller,
               isInitialized: isInitialized,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             ActionButton(
               isInitialized: isInitialized,
               onPressed: onActionPressed,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
           ],
         ),
       ),
@@ -70,7 +71,7 @@ class FormCard extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 controller: controller.firstNameCtrl,
-                label: 'Ime',
+                label: "Name".tr,
                 icon: Icons.person_outline,
               ),
             ),
@@ -78,7 +79,7 @@ class FormCard extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 controller: controller.lastNameCtrl,
-                label: 'Prezime',
+                label: "Last name".tr,
                 icon: Icons.person_outline,
               ),
             ),
@@ -87,17 +88,17 @@ class FormCard extends StatelessWidget {
         const SizedBox(height: 16),
         CustomTextField(
           controller: controller.descriptionCtrl,
-          label: 'Opis',
+          label: "About".tr,
           icon: Icons.description_outlined,
           maxLines: 3,
-          hint: 'Opišite sebe u nekoliko reči...',
+          hint: "Say something about yourself".tr,
         ),
         const SizedBox(height: 16),
         CustomTextField(
           controller: controller.locationDescCtrl,
-          label: 'Grad i država',
+          label: "City and country".tr,
           icon: Icons.location_city_outlined,
-          hint: 'npr. Niš, Srbija',
+          hint: "ex. Belgrade, Serbia",
         ),
         const SizedBox(height: 16),
         Interests(controller: controller),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../controller.dart';
 
 class TagSuggestionsDialog extends StatelessWidget {
@@ -26,14 +27,14 @@ class TagSuggestionsDialog extends StatelessWidget {
             .toList();
 
         return AlertDialog(
-          title: const Text('Izaberi tagove'),
+          title: Text("Choose tags".tr),
           content: SizedBox(
             width: double.maxFinite,
             height: 300,
             child: availableTags.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
-                      'Svi tagovi su već izabrani',
+                      "All tags already selected!".tr,
                     ),
                   )
                 : ListView.builder(
@@ -54,7 +55,7 @@ class TagSuggestionsDialog extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Zatvori'),
+              child: Text("Close".tr),
             ),
           ],
         );

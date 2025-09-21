@@ -62,11 +62,11 @@ class CalendarMainController extends sync.CalendarDataSource<Appointment>{
       case AppointmentType.teachConfirmed:
         return this[index].name;
       case AppointmentType.teachPending: 
-        return '${'Confirm for'.tr} ${this[index].name}';
+        return '${"Confirm for".tr} ${this[index].name}';
       case AppointmentType.attendConfirmed:
         return this[index].name;
       default: 
-      return '${'Waiting for'.tr} ${this[index].name}';
+      return '${"Requested".tr} ${this[index].name}';
     }
   }
 

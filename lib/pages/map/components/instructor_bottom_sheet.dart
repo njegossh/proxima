@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
 
 class InstructorsBottomSheet extends StatelessWidget {
   const InstructorsBottomSheet({super.key, required this.instructors});
@@ -36,7 +37,7 @@ class InstructorsBottomSheet extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Available Instructors',
+                "Available instructors".tr,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),

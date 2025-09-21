@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/course/main_page.dart';
 
 class CourseCard extends StatelessWidget {
@@ -103,7 +104,7 @@ class CourseCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '${course.pricePerHour} € po satu',
+            "€${course.pricePerHour} ${"per hour".tr}",
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ],

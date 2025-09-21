@@ -23,13 +23,13 @@ class _ReviewMainPageState extends State<ReviewMainPage> {
   void initState() {
     super.initState();
     controller = ReviewMainController(course: widget.course);
-    controller.init(); // make sure we actually fetch the data
+    controller.init();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Reviews')),
+      appBar: AppBar(title: Text("Reviews".tr)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final result = await showModalBottomSheet(
@@ -44,7 +44,7 @@ class _ReviewMainPageState extends State<ReviewMainPage> {
           }
         },
         icon: const Icon(Icons.edit),
-        label: const Text('Napiši recenziju'),
+        label: Text("Make a review".tr),
       ),
       body: ListenableBuilder(
         listenable: controller,

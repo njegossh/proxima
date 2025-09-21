@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'controller.dart';
 
 class AppointmentCreationMainSheet extends StatefulWidget {
@@ -43,14 +44,14 @@ class _AppointmentCreationMainSheetState extends State<AppointmentCreationMainSh
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Kurs'),
+                  Text("Course".tr),
                   Text(widget.course.name),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Pocetak'),
+                  Text("From".tr),
                   ElevatedButton(
                     child: Text(controller.from.prettified),
                     onPressed: () => controller.pickFrom(context),
@@ -60,7 +61,7 @@ class _AppointmentCreationMainSheetState extends State<AppointmentCreationMainSh
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Kraj'),
+                  Text("To".tr),
                   ElevatedButton(
                     child: Text(controller.to.prettified),
                     onPressed: () => controller.pickTo(context),
@@ -72,7 +73,7 @@ class _AppointmentCreationMainSheetState extends State<AppointmentCreationMainSh
                   await controller.confirm();
                   Navigator.of(context).pop();
                 }, 
-                child: Text('Posalji zahtev'),
+                child: Text("Send request".tr),
               ),
             ],
           ),

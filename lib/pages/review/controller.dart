@@ -50,7 +50,7 @@ class ReviewMainController extends ChangeNotifier {
 
   String? validateForm(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Please enter a comment';
+      return "Please enter a comment.".tr;
     }
     return null;
   }

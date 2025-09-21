@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 
 class RangeSliderCard extends StatelessWidget {
   final double range;
@@ -31,7 +32,7 @@ class RangeSliderCard extends StatelessWidget {
               Icon(Icons.radar, color: colorScheme.primary),
               const SizedBox(width: 12),
               Text(
-                "Radijus pretrage: ${range.toStringAsFixed(0)} km",
+                "${"Search radius:".tr} ${range.toStringAsFixed(0)}km",
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -54,7 +55,7 @@ class RangeSliderCard extends StatelessWidget {
               max: 100,
               divisions: 99,
               value: range,
-              label: "${range.toStringAsFixed(0)} km",
+              label: "${range.toStringAsFixed(0)}km",
               onChanged: onRangeChanged,
             ),
           ),

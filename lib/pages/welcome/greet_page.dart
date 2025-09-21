@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 
 class WelcomeGreetPage extends StatelessWidget {
   const WelcomeGreetPage({super.key});
@@ -16,7 +17,7 @@ class WelcomeGreetPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        Text('Welcome to Proxima', style: TextStyle(fontSize: 20)),
+        Text("Welcome to Proxima!".tr, style: TextStyle(fontSize: 20)),
       ],
     );
   }

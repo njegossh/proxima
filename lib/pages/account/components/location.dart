@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
 
 class LocationInfo extends StatelessWidget {
   final User account;
@@ -19,7 +20,7 @@ class LocationInfo extends StatelessWidget {
               Text(
                 account.locationDesc != null
                     ? account.locationDesc!.join(", ")
-                    : "Nema podataka za lokaciju.",
+                    : "No location data".tr,
                 style: TextStyle(
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),

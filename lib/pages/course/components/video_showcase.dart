@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class Videoshowcase extends StatefulWidget {
@@ -31,15 +32,15 @@ class _VideoshowcaseState extends State<Videoshowcase> {
       children: [
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 4, bottom: 8),
+            padding: EdgeInsets.only(top: 4, bottom: 8),
             child: Text(
-              "Saznajte vise:",
+              "Learn more".tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Card(
             clipBehavior: Clip.antiAlias,
             margin: EdgeInsets.zero,
@@ -59,7 +60,7 @@ class _VideoshowcaseState extends State<Videoshowcase> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            "Jos uvek nema dodatnog videa za ovaj kurs!",
+                            "No course video!".tr,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

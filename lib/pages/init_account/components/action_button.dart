@@ -26,7 +26,7 @@ class ActionButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            isInitialized ? 'Ažurirajte profil' : 'Kreirajte profil',
+            isInitialized ? "Edit profile" : "Create profile",
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: colorScheme.onPrimary,

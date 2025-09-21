@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../components/avatar.dart';
 
 class AvatarSection extends StatelessWidget {
@@ -41,11 +42,11 @@ class AvatarSection extends StatelessWidget {
             onPressed: onPickImage,
             icon: const Icon(Icons.camera_alt),
             label: Text(
-              imageString == null ? "Izaberi sliku" : "Promeni sliku",
+              imageString == null ? "Choose photo".tr : "Change photo".tr,
             ),
             style: TextButton.styleFrom(
               foregroundColor: colorScheme.surface,
-            ),
+            ), 
           ),
         ],
       ),

@@ -24,7 +24,7 @@ class WelcomeFormPage extends StatelessWidget {
             controller: controller.email,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelText: 'E-mail',
+              labelText: "Email",
               errorText: controller.emailError,
               prefixIcon: Icon(Icons.email_rounded),
               border: OutlineInputBorder(
@@ -53,7 +53,7 @@ class WelcomeFormPage extends StatelessWidget {
             obscureText: true,
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
-              labelText: 'Password'.tr,
+              labelText: "Password".tr,
               errorText: controller.passwordError,
               prefixIcon: Icon(Icons.lock),
               border: OutlineInputBorder(

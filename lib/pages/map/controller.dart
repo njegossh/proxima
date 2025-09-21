@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
 
 class MainMapController extends ChangeNotifier {
   final MapController mapController = MapController();
@@ -48,22 +49,21 @@ class MainMapController extends ChangeNotifier {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      return Future.error("Location services are disabled. Please enable.".tr);
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permission denied.');
+        return Future.error("Location permission denied. Please enable.".tr);
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permission permanently denied.');
+      return Future.error("Location permission permanently denied. Please enable.".tr);
     }
 
     return await Geolocator.getCurrentPosition();

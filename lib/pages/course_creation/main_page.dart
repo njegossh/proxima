@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/course_creation/components/course_image_section.dart';
 import 'package:proxima/pages/course_creation/controller.dart';
 import 'components/form_card.dart';
@@ -43,7 +44,7 @@ class _CourseCreationMainPageState extends State<CourseCreationMainPage> {
           appBar: AppBar(
             elevation: 0,
             title: Text(
-              widget.course == null ? "Kreiraj novi kurs" : "Izmeni kurs",
+              widget.course == null ? "Create new course".tr : "Edit course".tr,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),

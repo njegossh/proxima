@@ -45,7 +45,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton.extended(
-                      label: Text('Edit'.tr),
+                      label: Text("Edit".tr),
                       heroTag: 'edit_fab',
                       icon: Icon(Icons.edit),
                       onPressed: () {
@@ -65,7 +65,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                     ),
                     const SizedBox(height: 12),
                     FloatingActionButton.extended(
-                      label: Text('Delete'.tr),
+                      label: Text("Delete".tr),
                       heroTag: 'delete_fab',
                       icon: Icon(Icons.delete),
                       backgroundColor: Theme.of(context).colorScheme.error,
@@ -82,7 +82,7 @@ class _CourseMainPageState extends State<CourseMainPage> {
                   ],
                 )
               : FloatingActionButton.extended(
-                  label: Text("Request appointment".tr),
+                  label: Text("Book".tr),
                   icon: Icon(Icons.event),
                   heroTag: 'request_fab',
                   onPressed: () => showModalBottomSheet(

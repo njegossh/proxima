@@ -48,6 +48,7 @@ Future<void> navigateToRootAndAuth() async {
   );
 }
 
+// Initial debug home page
 /*
 
 class DebugPages extends StatelessWidget {

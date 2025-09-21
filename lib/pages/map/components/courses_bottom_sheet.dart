@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/search/components/course_card.dart';
 
 class CoursesBottomSheet extends StatelessWidget {
@@ -37,7 +38,7 @@ class CoursesBottomSheet extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Available Courses',
+                "Available courses".tr,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),

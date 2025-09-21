@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import '../controller.dart';
 
 class SearchFilters extends StatefulWidget {
@@ -63,7 +64,7 @@ class _SearchFiltersState extends State<SearchFilters> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _buildSectionHeader("Tagovi", Icons.tag),
+                _buildSectionHeader("Tags".tr, Icons.tag),
                 const SizedBox(height: 12),
                 _buildTagInput(),
                 if (widget.controller.selectedTags.isNotEmpty) ...[
@@ -71,11 +72,11 @@ class _SearchFiltersState extends State<SearchFilters> {
                   _buildSelectedTags(),
                 ],
                 const SizedBox(height: 24),
-                _buildSectionHeader("Opseg cena", Icons.euro),
+                _buildSectionHeader("Price range".tr, Icons.euro),
                 const SizedBox(height: 12),
                 _buildPriceRange(),
                 const SizedBox(height: 24),
-                _buildSectionHeader("Sortiranje", Icons.sort),
+                _buildSectionHeader("Sort".tr, Icons.sort),
                 const SizedBox(height: 12),
                 _buildSortOptions(theme),
                 const SizedBox(height: 24),
@@ -91,8 +92,8 @@ class _SearchFiltersState extends State<SearchFilters> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Poništi filtere',
+                    child: Text(
+                      "Reset filters".tr,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -129,7 +130,7 @@ class _SearchFiltersState extends State<SearchFilters> {
           child: TextField(
             controller: widget.controller.tagController,
             decoration: InputDecoration(
-              hintText: 'Dodaj tag...',
+              hintText: "Add tag".tr,
               filled: true,
               fillColor: Theme.of(context)
                   .colorScheme
@@ -181,7 +182,7 @@ class _SearchFiltersState extends State<SearchFilters> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Opseg cena (po satu): ${widget.controller.minPrice.round()} € - ${widget.controller.maxPrice.round()} €',
+          "${"Price range".tr} [${"per hour".tr}]: €${widget.controller.minPrice.round()} - €${widget.controller.maxPrice.round()}",
         ),
         const SizedBox(height: 8),
         Row(
@@ -191,7 +192,7 @@ class _SearchFiltersState extends State<SearchFilters> {
                 controller: minPriceController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Minimalna cena',
+                  labelText: "Min price".tr,
                   filled: true,
                   fillColor: Theme.of(context)
                       .colorScheme
@@ -216,7 +217,7 @@ class _SearchFiltersState extends State<SearchFilters> {
                 controller: maxPriceController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Maksimalna cena',
+                  labelText: "Max price".tr,
                   filled: true,
                   fillColor: Theme.of(context)
                       .colorScheme
@@ -246,10 +247,10 @@ class _SearchFiltersState extends State<SearchFilters> {
     return DropdownButton<String>(
       value: widget.controller.sortBy,
       isExpanded: true,
-      items: const [
-        DropdownMenuItem(value: 'name', child: Text('Po nazivu')),
-        DropdownMenuItem(value: 'price_low', child: Text('Ceni rastuće')),
-        DropdownMenuItem(value: 'price_high', child: Text('Ceni opadajuće')),
+      items: [
+        DropdownMenuItem(value: 'name', child: Text("Name".tr)),
+        DropdownMenuItem(value: 'price_low', child: Text("Increasing price".tr)),
+        DropdownMenuItem(value: 'price_high', child: Text("Decreasing price".tr)),
       ],
       onChanged: (value) {
         if (value != null) widget.controller.sortBy = value;

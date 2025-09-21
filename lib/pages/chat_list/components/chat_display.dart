@@ -29,7 +29,6 @@ class ChatDisplay extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               InkWell(
-                //Klik na sliku vodi do profila (user page)
                 onTap: () {
                   Navigator.push(
                     context,

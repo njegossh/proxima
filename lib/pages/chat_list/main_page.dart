@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 import 'components/chat_display.dart';
 import 'controller.dart';
 
@@ -40,7 +41,7 @@ class _ChatListState extends State<ChatList> {
                   controller: controller.searchController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'Pretrazi...',
+                    hintText: "Serach".tr,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -53,7 +54,7 @@ class _ChatListState extends State<ChatList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Icons.search_off, size: 50,),
-                        Text('Nema rezultata!'),
+                        Text("No results!".tr),
                       ],
                     ))
                     : ListView.separated(

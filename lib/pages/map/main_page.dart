@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/map/components/courses_bottom_sheet.dart';
 import 'controller.dart';
 
@@ -27,7 +28,7 @@ class _MapMainPageState extends State<MapMainPage> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Map'),
+            title: Text("Map".tr),
             actions: [
               IconButton(
                 onPressed: controller.getCurrentLocation,
@@ -101,7 +102,7 @@ class _MapMainPageState extends State<MapMainPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Radius ${controller.radius.toInt()} meters'),
+                        Text("${"Search radius:".tr} ${controller.radius.toInt()}m"),
                         Slider(
                           min: 1000,
                           max: 100000,

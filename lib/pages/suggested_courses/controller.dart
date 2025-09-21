@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
@@ -29,5 +31,19 @@ class SuggestedCoursesController extends ChangeNotifier {
       default:
         return "";
     }
+  }
+
+  final tips = [
+    "You can create your own courses!",
+    "Chat with intructors or friends!",
+    "You can book classes in course pages.",
+    "You can search courses by filtering or sorting them!",
+    "Easily edit profile or course!"
+  ];
+
+  String getRandomTip() {
+    final random = Random();
+    final index = random.nextInt(tips.length);
+    return tips[index];
   }
 }

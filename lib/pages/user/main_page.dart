@@ -97,10 +97,7 @@ class _UserMainPageState extends State<UserMainPage> {
                           onPressed: controller.unFollow,
                       
                           child: Text(
-                            widget.user.followingThisUser
-                                ? 'Following'.tr
-                                : 'Follow'.tr,
-                      
+                            "Following".tr,
                             style: TextStyle(fontSize: 13),
                           ),
                         ),
@@ -109,12 +106,8 @@ class _UserMainPageState extends State<UserMainPage> {
                       height: 30,
                       child: FilledButton(
                           onPressed: controller.unFollow,
-                      
                           child: Text(
-                            widget.user.followingThisUser
-                                ? 'Following'.tr
-                                : 'Follow'.tr,
-                      
+                            "Follow".tr,
                             style: TextStyle(fontSize: 13),
                           ),
                         ),

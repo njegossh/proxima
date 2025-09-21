@@ -39,7 +39,7 @@ class _AppointmentConfirmationMainSheetState extends State<AppointmentConfirmati
         spacing: 16,
         children: [
           ListTile(
-            title: Text('Confirm'.tr),
+            title: Text("Confirm".tr),
             trailing: Checkbox(
               value: false, 
               onChanged: (val) async {
@@ -49,7 +49,7 @@ class _AppointmentConfirmationMainSheetState extends State<AppointmentConfirmati
             ),
           ),
           ListTile(
-            title: Text('Decline'.tr),
+            title: Text("Decline".tr),
             trailing: Checkbox(
               value: false, 
               onChanged: (val) async {

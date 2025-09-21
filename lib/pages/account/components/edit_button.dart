@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/main.dart';
 
 class EditButton extends StatelessWidget {
   const EditButton({super.key, required this.onPressed});
@@ -15,7 +16,7 @@ class EditButton extends StatelessWidget {
             Icon(Icons.edit),
             SizedBox(width: 4),
             Text(
-              "Izmeni",
+              "Edit".tr,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
                 fontWeight: FontWeight.w600,

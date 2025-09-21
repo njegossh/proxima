@@ -32,7 +32,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
           backgroundColor: Colors.transparent,
           body: ListView(
             children: [
-              // Greeting card
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: FrostedGlassCard(
@@ -46,7 +45,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hello, ${currentUser.name}!',
+                            "${"Hello".tr}, ${currentUser.name}!",
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontSize: 20,
@@ -57,7 +56,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                             "Today is ".tr +
                                 controller
                                     .getWeekdayName(DateTime.now().weekday)
-                                    .tr,
+                                    .tr, //Ovde vrati dan pa ga prevede na drugi jezik
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontSize: 12,
@@ -79,7 +78,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
 
               const SizedBox(height: 12),
 
-              // Illustration
               Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 height: 230,
@@ -91,13 +89,11 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                 ),
               ),
 
-              // Two-column section
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Left card
                     Expanded(
                       flex: 1,
                       child: SizedBox(
@@ -114,8 +110,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     context,
                                   ).colorScheme.secondary,
                                 ),
-                                const Text(
-                                  "Upcoming class!",
+                                Text(
+                                  "Upcoming class!".tr,
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Container(
@@ -142,7 +138,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
 
                     const SizedBox(width: 16),
 
-                    // Right column
                     Expanded(
                       flex: 1,
                       child: Column(
@@ -160,7 +155,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                       context,
                                     ).colorScheme.tertiary,
                                   ),
-                                  const Text("Bonus tip!"),
+                                  Text("Bonus tip!".tr),
                                   Container(
                                     margin: const EdgeInsets.all(2),
                                     width: 150,
@@ -180,8 +175,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                       horizontal: 16,
                                       vertical: 2,
                                     ),
-                                    child: const Text(
-                                      "You can create your own courses!",
+                                    child: Text(
+                                      controller.getRandomTip().tr,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 12),
                                     ),
@@ -193,7 +188,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
 
                           const SizedBox(height: 10),
 
-                          // Map card
                           InkWell(
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
@@ -224,8 +218,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ).colorScheme.surface,
                                     size: 30,
                                   ),
-                                  const Text(
-                                    "Search the map!",
+                                  Text(
+                                    "Search the map!".tr,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Container(
@@ -247,8 +241,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                       horizontal: 16,
                                       vertical: 2,
                                     ),
-                                    child: const Text(
-                                      "Search the courses on the map.",
+                                    child: Text(
+                                      "Search the courses on the map.".tr,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -269,7 +263,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
 
               const SizedBox(height: 16),
 
-              // Section title
               Container(
                 margin: const EdgeInsets.all(16),
                 child: Row(
@@ -280,8 +273,8 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     const SizedBox(width: 4),
-                    const Text(
-                      "Courses in your neighbourhood:",
+                    Text(
+                      "Courses in your neighbourhood:".tr,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -291,7 +284,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                 ),
               ),
 
-              // Courses
               if (courses == null)
                 const Center(child: CircularProgressIndicator())
               else if (courses.isEmpty)
@@ -319,8 +311,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "No courses that match your interests in the given radius"
-                          .tr,
+                      "No courses that match your interests in the given radius".tr,
                       style: const TextStyle(fontSize: 14, color: Colors.grey),
                       textAlign: TextAlign.center,
                     ),
@@ -329,7 +320,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                 )
               else
                 Container(
-                  // only side + top margin, no bottom margin
                   margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
                   padding: const EdgeInsets.only(
                     top: 12,
