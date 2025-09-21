@@ -35,6 +35,31 @@ class _UserMainPageState extends State<UserMainPage> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(elevation: 0, title: Text(controller.user.fullName)),
+          floatingActionButton: currentUser.superuser
+              ? FloatingActionButton.extended(
+                  onPressed: () async {
+                    await controller.toggleSuspension();
+                  },
+                  backgroundColor: widget.user.suspended
+                      ? Theme.of(context)
+                            .colorScheme
+                            .primary
+                      : Theme.of(context).colorScheme.error,
+                  icon: Icon(
+                    widget.user.suspended
+                        ? Icons.app_registration_rounded
+                        : Icons.app_blocking_rounded,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    widget.user.suspended ? "Activate".tr : "Suspend".tr,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : null,
           body: ListView(
             children: [
               Stack(

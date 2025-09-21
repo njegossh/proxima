@@ -19,8 +19,8 @@ extension UsersDB on Database {
     await users.doc(userID).update({'suspended': true});
   }
 
-  /// Unsuspend a user (set suspended = false)
-  Future<void> unsuspendUser(String userID) async {
+  /// Activate a user (set suspended = false)
+  Future<void> activateUser(String userID) async {
     await users.doc(userID).update({'suspended': false});
   }
 }

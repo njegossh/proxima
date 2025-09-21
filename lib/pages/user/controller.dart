@@ -8,7 +8,7 @@ import 'package:proxima/main.dart';
 class UserController extends ChangeNotifier {
   final User user;
 
-  UserController(this.user){
+  UserController(this.user) {
     user.addListener(notifyListeners);
   }
 
@@ -16,9 +16,8 @@ class UserController extends ChangeNotifier {
     await user.reload();
   }
 
-
   Future<void> unFollow() async {
-    if(user.followingThisUser){
+    if (user.followingThisUser) {
       currentUser.followedUserIDs.remove(user.id);
     } else {
       currentUser.followedUserIDs.add(user.id);
@@ -30,5 +29,19 @@ class UserController extends ChangeNotifier {
 
   Future<void> sendReport(Report report) async {
     await Database().sendReport(report);
+  }
+
+  Future<void> toggleSuspension() async {
+    if (user.suspended == true) {
+      // Activate
+      await Database().activateUser(user.id);
+      user.suspended = false;
+    } else {
+      // Suspend
+      await Database().suspendUser(user.id);
+      user.suspended = true;
+    }
+
+    notifyListeners();
   }
 }

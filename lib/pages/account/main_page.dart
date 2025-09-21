@@ -42,10 +42,15 @@ class _AccountMainPageState extends State<AccountMainPage> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context).colorScheme.secondary,
-                        Theme.of(context).colorScheme.tertiary,
-                      ],
+                      colors: currentUser.superuser
+                          ? [
+                              Theme.of(context).colorScheme.tertiary,
+                              Theme.of(context).colorScheme.secondary,
+                            ]
+                          : [
+                              Theme.of(context).colorScheme.secondary,
+                              Theme.of(context).colorScheme.tertiary,
+                            ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -55,6 +60,33 @@ class _AccountMainPageState extends State<AccountMainPage> {
                     ),
                   ),
                 ),
+
+                if (currentUser.superuser)
+                  Positioned(
+                    top: 25,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.admin_panel_settings_rounded,
+                            size: 25,
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          Text(
+                            "Admin",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
 
                 Positioned(
                   top: 75,
@@ -149,7 +181,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
 
             if (account.courses != null && account.courses!.isNotEmpty) ...[
               SizedBox(height: 16),
-              
+
               CourseCarousel(
                 courses: account.courses ?? [],
                 onChanged: () async {

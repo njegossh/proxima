@@ -5,6 +5,7 @@ import 'package:proxima/config/theme.dart';
 import 'package:proxima/config/translation.dart';
 import 'package:proxima/pages/home/main_page.dart';
 import 'package:proxima/pages/init_account/main_page.dart';
+import 'package:proxima/pages/suspended/main_page.dart';
 import 'classes/database/database.dart';
 import 'classes/models/user.dart';
 import 'pages/welcome/main_page.dart';
@@ -30,11 +31,26 @@ Future<void> navigateToRootAndAuth() async {
       child: ListenableBuilder(
         listenable: TranslationService.instance,
         builder: (context, _) {
-          final home = {
-            AuthStatus.unauthenticated: WelcomeMainPage(),
-            AuthStatus.pendingProfile: InitAccountMainPage(isInitialized: false),
-            AuthStatus.active: HomeMainPage(),
-          }[authStatus]!;
+          Widget home;
+
+          switch (authStatus) {
+            case AuthStatus.unauthenticated:
+              home = WelcomeMainPage();
+              break;
+
+            case AuthStatus.pendingProfile:
+              home = InitAccountMainPage(isInitialized: false);
+              break;
+
+            case AuthStatus.active:
+              // 👇 Add suspension check here
+              if (currentUser.suspended) {
+                home = SuspendedMainPage();
+              } else {
+                home = HomeMainPage();
+              }
+              break;
+          }
 
           return MaterialApp(
             theme: generateGreenTheme,
