@@ -84,6 +84,7 @@ class _SearchFiltersState extends State<SearchFilters> {
                   child: ElevatedButton(
                     onPressed: widget.controller.clearFilters,
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 16,

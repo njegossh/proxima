@@ -22,7 +22,6 @@ class _SearchMainPageState extends State<SearchMainPage>
   void initState() {
     super.initState();
     controller = SearchMainController();
-    controller.searchCourses(controller.searchController.text);
 
     _filterAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -35,11 +34,18 @@ class _SearchMainPageState extends State<SearchMainPage>
     );
 
     controller.addListener(() {
-      if (controller.showFilters) {
-        _filterAnimationController.forward();
-      } else {
-        _filterAnimationController.reverse();
+      if (mounted) {
+        if (controller.showFilters) {
+          _filterAnimationController.forward();
+        } else {
+          _filterAnimationController.reverse();
+        }
       }
+    });
+
+    // Initial search after widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.searchCourses(controller.searchController.text);
     });
   }
 
@@ -65,9 +71,9 @@ class _SearchMainPageState extends State<SearchMainPage>
             children: [
               _buildSearchBar(),
               _buildAnimatedFilters(),
-              _buildResultsCount(),
+              _buildResultsHeader(),
               const SizedBox(height: 8),
-              _buildCourseList(),
+              Expanded(child: _buildBody()),
             ],
           ),
         );
@@ -120,6 +126,10 @@ class _SearchMainPageState extends State<SearchMainPage>
                 )
               : null,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+          filled: true,
+          fillColor: Theme.of(
+            context,
+          ).colorScheme.surfaceVariant.withValues(alpha: 0.3),
         ),
         onChanged: (value) {
           controller.searchCourses(value);
@@ -155,7 +165,7 @@ class _SearchMainPageState extends State<SearchMainPage>
     );
   }
 
-  Widget _buildResultsCount() {
+  Widget _buildResultsHeader() {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       padding: EdgeInsets.symmetric(
@@ -163,52 +173,130 @@ class _SearchMainPageState extends State<SearchMainPage>
         vertical: controller.showFilters ? 0 : 8,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
-            style: Theme.of(context).textTheme.titleSmall!,
-            child: Text("${"Total courses:".tr} ${controller.filteredCourses.length}"),
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            child: Text(
+              "${"Total courses:".tr} ${controller.filteredCourses.length}",
+            ),
           ),
+          if (controller.filteredCourses.isNotEmpty)
+            TextButton.icon(
+              onPressed: controller.clearFilters,
+              icon: const Icon(Icons.clear_all, size: 16),
+              label: Text("Clear".tr),
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.surface,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                minimumSize: const Size(0, 32),
+              ),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildCourseList() {
-    return Expanded(
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: controller.filteredCourses.isEmpty
-            ? Center(
-                key: ValueKey('empty'),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.search_off, size: 64, color: Colors.grey),
-                    SizedBox(height: 16),
-                    Text(
-                      "No results!".tr,
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
-                    ),
-                    Text(
-                      "Try changing filters and try again!".tr,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                key: const ValueKey('list'),
-                itemCount: controller.filteredCourses.length,
-                itemBuilder: (context, index) {
-                  final course = controller.filteredCourses[index];
-                  return AnimatedContainer(
-                    duration: Duration(milliseconds: 100 + (index * 50)),
-                    curve: Curves.easeOut,
-                    child: CourseCard(course: course),
-                  );
-                },
+  Widget _buildBody() {
+    if (controller.isLoading) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text(
+              'Loading courses...'.tr,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: controller.filteredCourses.isEmpty
+          ? _buildEmptyState()
+          : _buildCourseList(),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      key: const ValueKey('empty'),
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "No results!".tr,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Try changing filters and try again!".tr,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+              ),
+              onPressed: controller.clearFilters,
+              icon: const Icon(Icons.refresh),
+              label: Text("Reset Filters".tr),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCourseList() {
+    return RefreshIndicator(
+      onRefresh: controller.refresh,
+      child: ListView.builder(
+        key: const ValueKey('list'),
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: controller.filteredCourses.length,
+        itemBuilder: (context, index) {
+          final course = controller.filteredCourses[index];
+
+          // Preload images for first few visible items
+          final shouldPreload = index < 3;
+
+          return AnimatedContainer(
+            duration: Duration(milliseconds: 100 + (index * 20).clamp(0, 300)),
+            curve: Curves.easeOut,
+            child: CourseCard(course: course, preloadImage: shouldPreload),
+          );
+        },
       ),
     );
   }
