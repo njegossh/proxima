@@ -5,6 +5,7 @@ import 'package:proxima/pages/account/main_page.dart';
 import 'package:proxima/pages/calendar/components/calendar_body.dart';
 import 'package:proxima/pages/chat_list/main_page.dart';
 import 'package:proxima/pages/home/controller.dart';
+import 'package:proxima/pages/reports_view/main_page.dart';
 import 'package:proxima/pages/settings/main_page.dart';
 import 'package:proxima/pages/suggested_courses/main_page.dart';
 
@@ -36,6 +37,19 @@ class _HomeMainPageState extends State<HomeMainPage> {
               }[controller.page]!,
             ),
             actions: [
+              if (currentUser.superuser)
+                Container(
+                height: 30,
+                margin: EdgeInsets.only(left: 16, right: 8),
+                child: InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ReportsView(),
+                    ),
+                  ),
+                  child: Icon(Icons.report, size: 25),
+                ),
+              ),
               Container(
                 height: 30,
                 margin: EdgeInsets.only(left: 16, right: 8),

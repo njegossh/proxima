@@ -84,7 +84,7 @@ class _SearchFiltersState extends State<SearchFilters> {
                   child: ElevatedButton(
                     onPressed: widget.controller.clearFilters,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 16,
@@ -169,6 +169,7 @@ class _SearchFiltersState extends State<SearchFilters> {
       children: widget.controller.selectedTags
           .map(
             (tag) => Chip(
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               label: Text(tag),
               deleteIcon: const Icon(Icons.close),
               onDeleted: () => widget.controller.removeTag(tag),

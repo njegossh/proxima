@@ -187,10 +187,10 @@ class _SearchMainPageState extends State<SearchMainPage>
           if (controller.filteredCourses.isNotEmpty)
             TextButton.icon(
               onPressed: controller.clearFilters,
-              icon: const Icon(Icons.clear_all, size: 16),
+              icon: const Icon(Icons.clear_all),
               label: Text("Clear".tr),
               style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
                 foregroundColor: Theme.of(context).colorScheme.surface,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,

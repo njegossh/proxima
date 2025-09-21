@@ -327,7 +327,7 @@ class _CourseTagsWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: theme.colorScheme.secondary,
+              color: theme.colorScheme.tertiary,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -355,9 +355,9 @@ class _TagChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: theme.colorScheme.secondary,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.primary, width: 0.5),
+        color: theme.colorScheme.tertiary,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: theme.colorScheme.primary),
       ),
       child: Text(
         tag,
