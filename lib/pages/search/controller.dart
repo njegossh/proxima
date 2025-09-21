@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/course.dart';
@@ -6,6 +7,7 @@ class SearchMainController extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController tagController = TextEditingController();
 
+  List<Course> _allCourses = [];
   List<Course> _filteredCourses = [];
   List<Course> get filteredCourses => _filteredCourses;
 
@@ -13,13 +15,37 @@ class SearchMainController extends ChangeNotifier {
   List<String> get selectedTags => _selectedTags;
 
   List<String> allAvailableTags = [];
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   SearchMainController() {
     init();
   }
 
   Future<void> init() async {
-    await fetchAllAvailableTags();
+    _isLoading = true;
+    notifyListeners();
+    
+    await Future.wait([
+      _loadAllCourses(),
+      fetchAllAvailableTags(),
+    ]);
+    
+    _isLoading = false;
+    _applyFiltersLocally();
+  }
+
+  Future<void> _loadAllCourses() async {
+    try {
+      final query = Database().courses.limit(1000);
+      final result = await query.get();
+      _allCourses = result.docs.map((doc) {
+        return Course.fromJson(doc.data() as Map, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error loading courses: $e');
+      _allCourses = [];
+    }
   }
 
   double _minPrice = 0;
@@ -27,7 +53,7 @@ class SearchMainController extends ChangeNotifier {
   set minPrice(double value) {
     if (_minPrice != value) {
       _minPrice = value;
-      _applyFilters();
+      _applyFiltersLocally();
     }
   }
 
@@ -36,7 +62,7 @@ class SearchMainController extends ChangeNotifier {
   set maxPrice(double value) {
     if (_maxPrice != value) {
       _maxPrice = value;
-      _applyFilters();
+      _applyFiltersLocally();
     }
   }
 
@@ -45,7 +71,7 @@ class SearchMainController extends ChangeNotifier {
   set sortBy(String value) {
     if (_sortBy != value) {
       _sortBy = value;
-      _applyFilters();
+      _applyFiltersLocally();
     }
   }
 
@@ -58,51 +84,59 @@ class SearchMainController extends ChangeNotifier {
     }
   }
 
-  Future<void> _applyFilters() async {
+  void _applyFiltersLocally() {
     final query = searchController.text.toLowerCase().trim();
-    _filteredCourses = await Database().fetchCoursesWithParams( 
-      name: query,
-      minPrice: _minPrice,
-      maxPrice: _maxPrice,
-      tags: _selectedTags,
-      sortBy: _sortBy,
-    );
-    /*
-    _filteredCourses = courses.where((course) {
-      final matchesName = course.name.toLowerCase().contains(query);
-      final matchesPrice =
-          course.pricePerHour >= _minPrice && course.pricePerHour <= _maxPrice;
-      final matchesTags =
-          _selectedTags.isEmpty ||
+    
+    _filteredCourses = _allCourses.where((course) {
+      final matchesName = query.isEmpty || 
+          course.name.toLowerCase().contains(query);
+      final matchesPrice = course.pricePerHour >= _minPrice && 
+          course.pricePerHour <= _maxPrice;
+      final matchesTags = _selectedTags.isEmpty ||
           _selectedTags.any((tag) => course.tags.contains(tag));
 
       return matchesName && matchesPrice && matchesTags;
     }).toList();
 
-    if (_sortBy == 'name') {
-      _filteredCourses.sort((a, b) => a.name.compareTo(b.name));
-    } else if (_sortBy == 'price_low') {
-      _filteredCourses.sort((a, b) => a.pricePerHour.compareTo(b.pricePerHour));
-    } else if (_sortBy == 'price_high') {
-      _filteredCourses.sort((a, b) => b.pricePerHour.compareTo(a.pricePerHour));
-    }
-    */
-
+    _applySorting();
     notifyListeners();
   }
 
-  void addTag(String tag) async {
+  void _applySorting() {
+    switch (_sortBy) {
+      case 'name':
+        _filteredCourses.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case 'price_low':
+        _filteredCourses.sort((a, b) => a.pricePerHour.compareTo(b.pricePerHour));
+        break;
+      case 'price_high':
+        _filteredCourses.sort((a, b) => b.pricePerHour.compareTo(a.pricePerHour));
+        break;
+    }
+  }
+
+  Timer? _searchTimer;
+  void searchCourses(String query) {
+    _searchTimer?.cancel();
+    _searchTimer = Timer(const Duration(milliseconds: 300), () {
+      _applyFiltersLocally();
+    });
+  }
+
+  void addTag(String tag) {
     final lowerTag = tag.trim().toLowerCase();
-    if (lowerTag.isNotEmpty && !_selectedTags.any((t) => t.toLowerCase() == lowerTag)) {
+    if (lowerTag.isNotEmpty && 
+        !_selectedTags.any((t) => t.toLowerCase() == lowerTag)) {
       _selectedTags.add(tag);
       tagController.clear();
-      await _applyFilters();
+      _applyFiltersLocally();
     }
   }
 
   void removeTag(String tag) {
     _selectedTags.remove(tag);
-    _applyFilters();
+    _applyFiltersLocally();
   }
 
   void clearFilters() {
@@ -112,28 +146,38 @@ class SearchMainController extends ChangeNotifier {
     _minPrice = 0;
     _maxPrice = 100;
     _sortBy = 'name';
-    _applyFilters();
+    _applyFiltersLocally();
   }
 
   void updatePriceRange(double min, double max) {
     _minPrice = min;
     _maxPrice = max;
-    _applyFilters();
+    _applyFiltersLocally();
   }
 
-  Future<void> searchCourses(String query) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    _applyFilters();
-  }
-  
   Future<void> fetchAllAvailableTags() async {
-    final groups = await Database().fetchAllCourseTagGroups();
-    allAvailableTags = groups.expand((group) => group.items).toList();
-    notifyListeners();
+    try {
+      final groups = await Database().fetchAllCourseTagGroups();
+      allAvailableTags = groups.expand((group) => group.items).toList();
+    } catch (e) {
+      print('Error loading tags: $e');
+      allAvailableTags = [];
+    }
+  }
+
+  Future<void> refresh() async {
+    await _loadAllCourses();
+    _applyFiltersLocally();
+  }
+
+  // Simple method for scroll-based optimization
+  void onScrollNearBottom() {
+    // Could implement pagination here if needed
   }
 
   @override
   void dispose() {
+    _searchTimer?.cancel();
     searchController.dispose();
     tagController.dispose();
     super.dispose();
