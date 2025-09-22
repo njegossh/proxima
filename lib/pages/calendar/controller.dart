@@ -16,6 +16,8 @@ class CalendarMainController extends ChangeNotifier {
   Map<String, Color> classColors = {};
   final calendarKey = ValueNotifier(UniqueKey());
 
+  final month = ValueNotifier(' ');
+
   CalendarMainController({required this.user}){
     init();
   }
@@ -25,10 +27,27 @@ class CalendarMainController extends ChangeNotifier {
     for (final app in user.calendarAppointments) {
       await app.reload();
     }
-
     refresh();
-
     user.addListener(refresh);
+  }
+
+  void onPageChanged(DateTimeRange range) {
+    final index = range.dominantMonthDate.month;
+    month.value = [
+      ' ',
+      'January',
+      'Februrary',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November'
+      'December',
+    ][index].tr;
   }
 
   void refresh() {
@@ -39,7 +58,7 @@ class CalendarMainController extends ChangeNotifier {
         data: app,
       );
     }).toList());
-    calendarKey.value = UniqueKey();
+    notifyListeners();
   }
 
   AppointmentType appTypeFor(Appointment app) {
@@ -112,5 +131,12 @@ class CalendarMainController extends ChangeNotifier {
       255 - back.g.toInt(),
       255 - back.b.toInt(),
     );
+  }
+
+  @override 
+  void dispose() {
+    events.removeListener(notifyListeners);
+    calendar.removeListener(notifyListeners);
+    super.dispose();
   }
 }
