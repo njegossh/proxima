@@ -50,11 +50,11 @@ class _ReportsViewState extends State<ReportsView>
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Reports'.tr),
-          bottom: const TabBar(
+          title: Text("Reports".tr),
+          bottom: TabBar(
             tabs: [
-              Tab(text: 'Reports'),
-              Tab(text: 'Suspended Users'),
+              Tab(text: 'Reports'.tr),
+              Tab(text: 'Suspended Users'.tr),
             ],
           ),
         ),
@@ -68,7 +68,7 @@ class _ReportsViewState extends State<ReportsView>
                 }
 
                 if (controller.allReports.isEmpty) {
-                  return const Center(child: Text("No reports found"));
+                  return Center(child: Text("No reports found".tr));
                 }
 
                 return ListView.separated(
@@ -101,7 +101,7 @@ class _ReportsViewState extends State<ReportsView>
                 }
 
                 if (controller.suspendedUsers.isEmpty) {
-                  return const Center(child: Text("No suspended users"));
+                  return Center(child: Text("No suspended users".tr));
                 }
 
                 return ListView.separated(
@@ -118,7 +118,7 @@ class _ReportsViewState extends State<ReportsView>
                             : null,
                       ),
                       title: Text(user.fullName),
-                      subtitle: const Text("Suspended"),
+                      subtitle: Text("Suspended".tr),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => UserMainPage(user: user),
