@@ -20,39 +20,42 @@ class ReportCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final formattedDate = DateFormat('dd.MM.yyyy. HH:mm').format(report.date);
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 10,
-          children: [
-            Row(
-              children: [
-                _buildUserAvatar(fromUser),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    '${fromUser.fullName} → ${toUser.fullName}',
-                    style: Theme.of(context).textTheme.titleMedium,
+    return Container(
+      margin: EdgeInsets.only(top: 8, bottom: 8),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
+            children: [
+              Row(
+                children: [
+                  _buildUserAvatar(fromUser),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      '${fromUser.fullName} → ${toUser.fullName}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(report.desc, style: Theme.of(context).textTheme.bodyLarge),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                formattedDate,
-                style: Theme.of(context).textTheme.bodySmall,
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Text(report.desc, style: Theme.of(context).textTheme.bodyLarge),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  formattedDate,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

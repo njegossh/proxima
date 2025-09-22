@@ -14,13 +14,18 @@ extension UsersDB on Database {
     await users.doc(user.id).set(user.toJson());
   }
 
-  /// Suspend a user (set suspended = true)
   Future<void> suspendUser(String userID) async {
     await users.doc(userID).update({'suspended': true});
   }
 
-  /// Activate a user (set suspended = false)
   Future<void> activateUser(String userID) async {
     await users.doc(userID).update({'suspended': false});
+  }
+
+  Future<List<User>> fetchSuspendedUsers() async {
+    final snap = await users.where('suspended', isEqualTo: true).get();
+    return snap.docs.map((doc) {
+      return User.fromJson(doc.data() as Map, doc.id);
+    }).toList();
   }
 }
