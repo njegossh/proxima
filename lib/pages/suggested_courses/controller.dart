@@ -2,10 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:proxima/classes/database/database.dart';
+import 'package:proxima/classes/models/appointment.dart';
 import 'package:proxima/classes/models/course.dart';
+import 'package:proxima/main.dart';
 
 class SuggestedCoursesController extends ChangeNotifier {
   List<Course>? suggestedCourses;
+  Appointment? nextAppointment;
 
   Future<void> refresh() async {
     suggestedCourses = await Database().fetchCoursesInterestedIn();
@@ -45,5 +48,10 @@ class SuggestedCoursesController extends ChangeNotifier {
     final random = Random();
     final index = random.nextInt(tips.length);
     return tips[index];
+  }
+
+  Future<void> fetchNextAppointment() async {
+    nextAppointment = await Database().fetchNextAppointmentForUser(currentUser.id);
+    notifyListeners();
   }
 }

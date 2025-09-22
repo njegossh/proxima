@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proxima/config/translation.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/settings/controller.dart';
 

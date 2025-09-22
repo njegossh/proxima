@@ -5,7 +5,6 @@ import 'package:proxima/classes/models/course.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/appointment_creation/main_sheet.dart';
 import 'package:proxima/pages/course/components/course_display_image.dart';
-import 'package:proxima/pages/user/components/report_page.dart';
 import 'package:proxima/pages/course/components/reviews_preview.dart';
 import 'package:proxima/pages/course/components/user_info.dart';
 import 'package:proxima/pages/course/components/video_showcase.dart';

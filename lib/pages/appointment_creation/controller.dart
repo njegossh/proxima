@@ -12,7 +12,7 @@ class AppointmentCreateController extends ChangeNotifier {
 
   AppointmentCreateController({required this.course});
 
-  void setCourse(Course? course){
+  void setCourse(Course? course) {
     this.course = course!;
     notifyListeners();
   }
@@ -23,10 +23,36 @@ class AppointmentCreateController extends ChangeNotifier {
       initialDate: from,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.surface,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     final time = await showTimePicker(
-      context: context, 
+      context: context,
       initialTime: TimeOfDay.fromDateTime(from),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.surface,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     from = date!.copyWith(hour: time?.hour, minute: time?.minute);
     notifyListeners();
@@ -38,10 +64,36 @@ class AppointmentCreateController extends ChangeNotifier {
       initialDate: to,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.surface,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     final time = await showTimePicker(
-      context: context, 
+      context: context,
       initialTime: TimeOfDay.fromDateTime(to),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.surface,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     to = date!.copyWith(hour: time?.hour, minute: time?.minute);
     notifyListeners();
@@ -63,5 +115,5 @@ class AppointmentCreateController extends ChangeNotifier {
 }
 
 extension PrettyDate on DateTime {
-  String get prettified =>'$year-$month-$day $hour:$minute';
+  String get prettified => '$year-$month-$day $hour:$minute';
 }

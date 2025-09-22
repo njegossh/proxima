@@ -3,7 +3,6 @@ import 'package:proxima/classes/models/appointment.dart';
 import 'database.dart';
 
 extension AppointmentsDB on Database {
-
   CollectionReference get appointments => firestore.collection('appointments');
 
   Future<Appointment> fetchAppointmentFromID(String appointmentID) async {
@@ -24,22 +23,41 @@ extension AppointmentsDB on Database {
     await appointments.doc(appointment.id).delete();
   }
 
-  Future<List<Appointment>> fetchAppointmentsForCourseIDs(Iterable<String> courseIDs) async {
-    if ( courseIDs.isEmpty ) return [];
+  Future<List<Appointment>> fetchAppointmentsForCourseIDs(
+    Iterable<String> courseIDs,
+  ) async {
+    if (courseIDs.isEmpty) return [];
     final query = appointments.where('courseID', whereIn: courseIDs);
     final result = await query.get();
-    return result.docs.map((doc){
+    return result.docs.map((doc) {
       return Appointment.fromJson(doc.data() as Map, doc.id);
     }).toList();
   }
 
   Future<List<Appointment>> fetchAttendingForUserID(String userID) async {
-    final query = appointments.where(
-      'studentID', isEqualTo: userID,
-    );
+    final query = appointments.where('studentID', isEqualTo: userID);
     final result = await query.get();
-    return result.docs.map((doc){
+    return result.docs.map((doc) {
       return Appointment.fromJson(doc.data() as Map, doc.id);
     }).toList();
+  }
+
+  Future<Appointment?> fetchNextAppointmentForUser(String userId) async {
+    final now = DateTime.now();
+
+    final snap = await appointments
+        .where('studentID', isEqualTo: userId)
+        .where('from', isGreaterThanOrEqualTo: now.toIso8601String())
+        .orderBy('from', descending: false)
+        .limit(1)
+        .get();
+
+    if (snap.docs.isNotEmpty) {
+      final doc = snap.docs.first;
+      return Appointment.fromJson(doc.data() as Map, doc.id);
+    }
+    else {
+      return null;
+    }
   }
 }

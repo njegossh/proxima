@@ -3,6 +3,7 @@ import 'package:proxima/components/course_display_card.dart';
 import 'package:proxima/components/frosted_glass.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/map/main_page.dart';
+import 'package:proxima/pages/suggested_courses/components/appointment_card.dart';
 import 'controller.dart';
 
 class SuggestedCoursesMainPage extends StatefulWidget {
@@ -18,8 +19,9 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
 
   @override
   void initState() {
-    controller.refresh();
     super.initState();
+    controller.refresh();
+    controller.fetchNextAppointment();
   }
 
   @override
@@ -114,7 +116,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                         height: 250,
                         child: FrostedGlassCard(
                           child: Center(
-                            child: Column(
+                            child: controller.nextAppointment == null ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
@@ -144,7 +146,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                 ),
                                 // TODO: Show class info or nothing if no class
                               ],
-                            ),
+                            ) : AppointmentCard(appointment: controller.nextAppointment!),
                           ),
                         ),
                       ),

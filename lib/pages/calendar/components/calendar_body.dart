@@ -57,8 +57,8 @@ class _CalendarMainBodyState extends State<CalendarMainBody> {
                     calendarController: controller.calendar,
                     eventsController: controller.events,
                     //PROMENITE ISPOD DA VIDITE ALTERNATIVNI PRIKAZ
-                    //viewConfiguration: ScheduleViewConfiguration.continuous(),
-                    viewConfiguration: MultiDayViewConfiguration.week(),
+                    viewConfiguration: ScheduleViewConfiguration.continuous(),
+                    //viewConfiguration: MultiDayViewConfiguration.week(),
                     callbacks: CalendarCallbacks( 
                       onPageChanged: controller.onPageChanged,
                       onEventTapped: (event, renderBox) async {
