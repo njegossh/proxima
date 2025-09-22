@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:proxima/classes/database/database.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/main.dart';
 
 class FollowController extends ChangeNotifier {
-  List<User> users;
+  final String userId;
+  final bool getFollowers;
+  List<User> users = [];
 
-  FollowController({required this.users});
+  FollowController({required this.userId, required this.getFollowers});
 
-  void updateUsers(List<User> newUsers) {
-    users = newUsers;
+  void updateUsers() async {
+    if (getFollowers) {
+      users = await Database().fetchFollowers(userId);
+    }
+    else {
+      users = await Database().fetchFollowing(userId);
+    }
+    await Database().updateUser(currentUser);
     notifyListeners();
   }
 

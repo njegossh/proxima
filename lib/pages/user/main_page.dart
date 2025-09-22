@@ -143,7 +143,8 @@ class _UserMainPageState extends State<UserMainPage> {
                             MaterialPageRoute(
                               builder: (_) => FollowMainPage(
                                 title: "Followers".tr,
-                                users: controller.followers,
+                                userId: widget.user.id,
+                                getFollowers: true,
                               ),
                             ),
                           );
@@ -166,8 +167,9 @@ class _UserMainPageState extends State<UserMainPage> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => FollowMainPage(
-                                title: "Following.".tr,
-                                users: controller.following,
+                                title: "Following".tr,
+                                userId: widget.user.id,
+                                getFollowers: false,
                               ),
                             ),
                           );

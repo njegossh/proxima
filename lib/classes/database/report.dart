@@ -17,4 +17,9 @@ extension ReportDatabase on Database {
       return Report.fromJson(e.data() as Map, e.id);
     }).toList();
   }
+
+  Future<void> deleteReport(String reportId) async {
+    if (reportId.isEmpty) return;
+    await reports.doc(reportId).delete();
+  }
 }

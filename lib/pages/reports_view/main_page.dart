@@ -74,18 +74,27 @@ class _ReportsViewState extends State<ReportsView>
 
                 return ListView.separated(
                   itemCount: controller.allReports.length,
-                  itemBuilder: (context, index) => InkWell(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => UserMainPage(
-                          user: controller.allReports[index].userTo,
+                  itemBuilder: (context, index) => Dismissible(
+                    key: Key(controller.allReports[index].id),
+                    onDismissed: (direction) async {
+                      await controller.deleteReport(controller.allReports[index].report.id ?? '');
+                      setState(() {
+                        controller.allReports.removeAt(index);
+                      });
+                    },
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserMainPage(
+                            user: controller.allReports[index].userTo,
+                          ),
                         ),
                       ),
-                    ),
-                    child: ReportCard(
-                      report: controller.allReports[index].report,
-                      fromUser: controller.allReports[index].userFrom,
-                      toUser: controller.allReports[index].userTo,
+                      child: ReportCard(
+                        report: controller.allReports[index].report,
+                        fromUser: controller.allReports[index].userFrom,
+                        toUser: controller.allReports[index].userTo,
+                      ),
                     ),
                   ),
                   separatorBuilder: (context, index) =>

@@ -44,6 +44,11 @@ class ReportsController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteReport(String reportId) async {
+    await Database().deleteReport(reportId);
+    notifyListeners();
+  }
+
   void _subscribeToSuspendedUsers() {
     _loadingSuspended = true;
     notifyListeners();

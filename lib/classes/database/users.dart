@@ -14,6 +14,12 @@ extension UsersDB on Database {
     await users.doc(user.id).set(user.toJson());
   }
 
+  Future<void> updateUserFollowedList(String userID, List<String> followedUserIDs) async {
+    await users.doc(userID).update({
+      'followedUserIDs': followedUserIDs,
+    });
+  }
+
   Future<void> suspendUser(String userID) async {
     await users.doc(userID).update({'suspended': true});
   }

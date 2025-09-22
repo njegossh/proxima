@@ -122,7 +122,8 @@ class _AccountMainPageState extends State<AccountMainPage> {
                       MaterialPageRoute(
                         builder: (_) => FollowMainPage(
                           title: "Followers".tr,
-                          users: controller.followers,
+                          userId: currentUser.id,
+                          getFollowers: true,
                         ),
                       ),
                     );
@@ -145,8 +146,9 @@ class _AccountMainPageState extends State<AccountMainPage> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => FollowMainPage(
-                          title: "Following.".tr,
-                          users: controller.following,
+                          title: "Following".tr,
+                          userId: currentUser.id,
+                          getFollowers: false,
                         ),
                       ),
                     );
