@@ -8,12 +8,29 @@ import 'package:proxima/main.dart';
 class UserController extends ChangeNotifier {
   final User user;
 
+  List<User> following = [];
+  List<User> followers = [];
+
   UserController(this.user) {
     user.addListener(notifyListeners);
   }
 
   Future<void> init() async {
     await user.reload();
+    await loadFollowers();
+    await loadFollowing();
+  }
+
+  /// Ucitava korisnike koje ovaj user prati
+  Future<void> loadFollowing() async {
+    following = await Database().fetchFollowing(user.id);
+    notifyListeners();
+  }
+
+  /// Ucitava korisnike koji prate ovog usera
+  Future<void> loadFollowers() async {
+    followers = await Database().fetchFollowers(user.id);
+    notifyListeners();
   }
 
   Future<void> unFollow() async {

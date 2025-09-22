@@ -7,6 +7,9 @@ import 'package:proxima/main.dart';
 class AccountController extends ChangeNotifier {
   bool trackLocation = false;
 
+  List<User> followers = [];
+  List<User> following = [];
+
   final firstNameCtrl = TextEditingController(text: currentUser.name);
   final lastNameCtrl = TextEditingController(text: currentUser.surname);
   final locXCtrl = TextEditingController(
@@ -72,12 +75,16 @@ class AccountController extends ChangeNotifier {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error("Location permissions are denied. Please enable.".tr);
+        return Future.error(
+          "Location permissions are denied. Please enable.".tr,
+        );
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error("Location permissions are permanently denied. Please enable.".tr);
+      return Future.error(
+        "Location permissions are permanently denied. Please enable.".tr,
+      );
     }
 
     return await Geolocator.getCurrentPosition(
@@ -100,6 +107,23 @@ class AccountController extends ChangeNotifier {
   Future<void> reloadAccount() async {
     currentUser = await Database().fetchUserFromID(currentUser.id);
     await currentUser.reloadCourses();
+    notifyListeners();
+  }
+
+  Future<void> initAccountData() async {
+    await loadFollowers();
+    await loadFollowing();
+  }
+
+  /// Ucitava korisnike koje ovaj user prati
+  Future<void> loadFollowing() async {
+    following = await Database().fetchFollowing(account.id);
+    notifyListeners();
+  }
+
+  /// Ucitava korisnike koji prate ovog usera
+  Future<void> loadFollowers() async {
+    followers = await Database().fetchFollowers(account.id);
     notifyListeners();
   }
 }

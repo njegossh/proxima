@@ -22,7 +22,7 @@ class ChatDisplay extends StatelessWidget {
               },
             ),
           );
-        } /* TO DO */,
+        },
         child: Padding(
           padding: const EdgeInsets.all(4),
           child: Row(

@@ -3,6 +3,7 @@ import 'package:proxima/classes/models/user.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/calendar/main_page.dart';
 import 'package:proxima/pages/chat/main_page.dart';
+import 'package:proxima/pages/follow/main_page.dart';
 import 'package:proxima/pages/user/components/course_carousel.dart';
 import 'package:proxima/pages/user/components/location.dart';
 import 'package:proxima/pages/user/components/report_page.dart';
@@ -87,7 +88,7 @@ class _UserMainPageState extends State<UserMainPage> {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: SizedBox(width: 400, height: 310, child: Card()),
+                      child: SizedBox(width: 400, height: 360, child: Card()),
                     ),
                   ),
                   Positioned(
@@ -132,7 +133,56 @@ class _UserMainPageState extends State<UserMainPage> {
                 ),
               ] else ...[
                 Center(
-                  child: widget.user.followingThisUser
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FollowMainPage(
+                                title: "Followers".tr,
+                                users: controller.followers,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "${"Followers".tr}\n${controller.followers.length}",
+                          textAlign: TextAlign.center,
+                        ), //TODO dodati u translation followers i following
+                      ),
+                      SizedBox(width: 8),
+                      Container(
+                        height: 24,
+                        width: 1,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FollowMainPage(
+                                title: "Following.".tr,
+                                users: controller.following,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "${"Following".tr}\n${controller.following.length}",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 8,),
+                Center(
+                  child: widget.user.followingThisUser //TODO RISTICU NESTO MNOGO SPORO FOLLOWUJE I UNFOLLOWUJE PLS HELP
                       ? SizedBox(
                           height: 30,
                           child: OutlinedButton(

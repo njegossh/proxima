@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/course_creation/main_page.dart';
+import 'package:proxima/pages/follow/main_page.dart';
 import 'components/course_carousel.dart';
 import 'components/interest_chips.dart';
 import 'components/location.dart';
@@ -21,6 +22,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
   void initState() {
     super.initState();
     controller = AccountController();
+    controller.initAccountData();
   }
 
   @override
@@ -109,8 +111,54 @@ class _AccountMainPageState extends State<AccountMainPage> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
-
+            SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FollowMainPage(
+                          title: "Followers".tr,
+                          users: controller.followers,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "${"Followers".tr}\n${controller.followers.length}",
+                    textAlign: TextAlign.center,
+                  ), //TODO dodati u translation followers i following
+                ),
+                SizedBox(width: 8),
+                Container(
+                  height: 24,
+                  width: 1,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                SizedBox(width: 8),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FollowMainPage(
+                          title: "Following.".tr,
+                          users: controller.following,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "${"Following".tr}\n${controller.following.length}",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
             LocationInfo(account: account),
             SizedBox(height: 32),
             Container(
