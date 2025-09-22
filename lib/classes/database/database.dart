@@ -14,7 +14,6 @@ import '../../main.dart';
 import 'auth.dart';
 
 class Database with ChangeNotifier {
-
   Database.internal();
   static final Database instance = Database.internal();
   factory Database() => instance;
@@ -22,20 +21,19 @@ class Database with ChangeNotifier {
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
   Auth get auth => Auth();
 
-
   Future<void> init() async {
-    await Firebase.initializeApp( 
+    await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
 
   Future<bool> tryFetchingCurrentUser() async {
-    try{
+    try {
       currentUser = await fetchUserFromID(Auth().userUID);
       currentUser.reload(notify: false);
       return true;
     } catch (e) {
-      try{
+      try {
         currentUser = User.blankWithID(Auth().userUID);
         debugPrint('$e');
         return false;
@@ -44,5 +42,17 @@ class Database with ChangeNotifier {
         return false;
       }
     }
+  }
+
+  Stream<List<User>> suspendedUsersStream() {
+    return firestore
+        .collection('users')
+        .where('suspended', isEqualTo: true)
+        .snapshots()
+        .map(
+          (snap) => snap.docs
+              .map((doc) => User.fromJson(doc.data(), doc.id))
+              .toList(),
+        );
   }
 }

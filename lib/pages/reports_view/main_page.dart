@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proxima/main.dart';
 import 'package:proxima/pages/reports_view/components/report_card.dart';
@@ -109,14 +110,7 @@ class _ReportsViewState extends State<ReportsView>
                   itemBuilder: (context, index) {
                     final user = controller.suspendedUsers[index];
                     return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: user.imageString != null //TODO RISTIC DODAJ SLIKE PLS
-                            ? NetworkImage(user.imageString!)
-                            : null,
-                        child: user.imageString == null
-                            ? const Icon(Icons.person)
-                            : null,
-                      ),
+                      leading: _buildUserAvatar(user),
                       title: Text(user.fullName),
                       subtitle: Text("Suspended".tr),
                       onTap: () => Navigator.of(context).push(
@@ -137,3 +131,22 @@ class _ReportsViewState extends State<ReportsView>
     );
   }
 }
+
+Widget _buildUserAvatar(User user) {
+    return SizedBox(
+      width: 50,
+      height: 50,
+      child: Card(
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        child: (user.imageString != null && user.imageString!.isNotEmpty)
+            ? Image.memory(
+                base64Decode(user.imageString!),
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.person, size: 40),
+              )
+            : const Icon(Icons.person, size: 40),
+      ),
+    );
+  }
