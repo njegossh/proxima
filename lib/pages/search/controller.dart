@@ -25,12 +25,9 @@ class SearchMainController extends ChangeNotifier {
   Future<void> init() async {
     _isLoading = true;
     notifyListeners();
-    
-    await Future.wait([
-      _loadAllCourses(),
-      fetchAllAvailableTags(),
-    ]);
-    
+
+    await Future.wait([_loadAllCourses(), fetchAllAvailableTags()]);
+
     _isLoading = false;
     _applyFiltersLocally();
   }
@@ -39,9 +36,18 @@ class SearchMainController extends ChangeNotifier {
     try {
       final query = Database().courses.limit(1000);
       final result = await query.get();
-      _allCourses = result.docs.map((doc) {
+      final allCourses = result.docs.map((doc) {
         return Course.fromJson(doc.data() as Map, doc.id);
       }).toList();
+
+      final suspendedSnap = await Database().users
+          .where('suspended', isEqualTo: true)
+          .get();
+      final suspendedIds = suspendedSnap.docs.map((d) => d.id).toSet();
+
+      _allCourses = allCourses
+          .where((c) => !suspendedIds.contains(c.userID))
+          .toList();
     } catch (e) {
       print('Error loading courses: $e');
       _allCourses = [];
@@ -86,13 +92,14 @@ class SearchMainController extends ChangeNotifier {
 
   void _applyFiltersLocally() {
     final query = searchController.text.toLowerCase().trim();
-    
+
     _filteredCourses = _allCourses.where((course) {
-      final matchesName = query.isEmpty || 
-          course.name.toLowerCase().contains(query);
-      final matchesPrice = course.pricePerHour >= _minPrice && 
-          course.pricePerHour <= _maxPrice;
-      final matchesTags = _selectedTags.isEmpty ||
+      final matchesName =
+          query.isEmpty || course.name.toLowerCase().contains(query);
+      final matchesPrice =
+          course.pricePerHour >= _minPrice && course.pricePerHour <= _maxPrice;
+      final matchesTags =
+          _selectedTags.isEmpty ||
           _selectedTags.any((tag) => course.tags.contains(tag));
 
       return matchesName && matchesPrice && matchesTags;
@@ -108,10 +115,14 @@ class SearchMainController extends ChangeNotifier {
         _filteredCourses.sort((a, b) => a.name.compareTo(b.name));
         break;
       case 'price_low':
-        _filteredCourses.sort((a, b) => a.pricePerHour.compareTo(b.pricePerHour));
+        _filteredCourses.sort(
+          (a, b) => a.pricePerHour.compareTo(b.pricePerHour),
+        );
         break;
       case 'price_high':
-        _filteredCourses.sort((a, b) => b.pricePerHour.compareTo(a.pricePerHour));
+        _filteredCourses.sort(
+          (a, b) => b.pricePerHour.compareTo(a.pricePerHour),
+        );
         break;
     }
   }
@@ -126,7 +137,7 @@ class SearchMainController extends ChangeNotifier {
 
   void addTag(String tag) {
     final lowerTag = tag.trim().toLowerCase();
-    if (lowerTag.isNotEmpty && 
+    if (lowerTag.isNotEmpty &&
         !_selectedTags.any((t) => t.toLowerCase() == lowerTag)) {
       _selectedTags.add(tag);
       tagController.clear();

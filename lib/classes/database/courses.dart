@@ -29,16 +29,20 @@ extension CoursesDB on Database {
     if (courseId.isEmpty) return;
 
     // Brisanje povezanih appointmenta
-    final appointmentsQuery =
-        await firestore.collection('appointments').where('courseID', isEqualTo: courseId).get();
+    final appointmentsQuery = await firestore
+        .collection('appointments')
+        .where('courseID', isEqualTo: courseId)
+        .get();
 
     for (final doc in appointmentsQuery.docs) {
       await doc.reference.delete();
     }
 
     // Brisanje povezanih reviews
-    final reviewsQuery =
-        await firestore.collection('reviews').where('courseID', isEqualTo: courseId).get();
+    final reviewsQuery = await firestore
+        .collection('reviews')
+        .where('courseID', isEqualTo: courseId)
+        .get();
 
     for (final doc in reviewsQuery.docs) {
       await doc.reference.delete();
@@ -88,9 +92,19 @@ extension CoursesDB on Database {
     }
 
     final result = await query.get();
-    return result.docs.map((doc) {
+    final allCourses = result.docs.map((doc) {
       return Course.fromJson(doc.data() as Map, doc.id);
     }).toList();
+
+    // Izbacuje kurseve suspendovanih korisnika
+    final suspendedUsersSnap = await FirebaseFirestore.instance
+        .collection('users')
+        .where('suspended', isEqualTo: true)
+        .get();
+
+    final suspendedIds = suspendedUsersSnap.docs.map((d) => d.id).toSet();
+
+    return allCourses.where((c) => !suspendedIds.contains(c.userID)).toList();
   }
 
   Future<List<CourseTagGroup>> fetchAllCourseTagGroups() async {
