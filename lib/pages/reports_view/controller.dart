@@ -18,9 +18,11 @@ class ReportsController extends ChangeNotifier {
   bool _loadingSuspended = false;
   bool get loadingSuspended => _loadingSuspended;
 
+  StreamSubscription<List<User>>? _suspendedSub;
+
   ReportsController() {
     init();
-    loadSuspendedUsers();
+    _subscribeToSuspendedUsers();
   }
 
   Future<void> init() async {
@@ -42,16 +44,24 @@ class ReportsController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadSuspendedUsers() async {
+  void _subscribeToSuspendedUsers() {
     _loadingSuspended = true;
     notifyListeners();
 
-    final users = await Database().fetchSuspendedUsers();
-    _suspendedUsers
-      ..clear()
-      ..addAll(users);
+    _suspendedSub = Database().suspendedUsersStream().listen((users) {
+      _suspendedUsers
+        ..clear()
+        ..addAll(users);
 
-    _loadingSuspended = false;
-    notifyListeners();
+      _loadingSuspended = false;
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _suspendedSub?.cancel();
+    super.dispose();
   }
 }
+

@@ -23,13 +23,20 @@ class MainMapController extends ChangeNotifier {
   }
 
   Future<List<Course>> getCoursesWithingRadius() async {
-      print("Radius: " + "${radius}");
-      print("Radius/1000: " + "${radius/1000}");
-    return await Database().getCoursesWithinRadius(
+    print("Radius: " + "${radius}");
+    print("Radius/1000: " + "${radius / 1000}");
+    final courses = await Database().getCoursesWithinRadius(
       userLocation.latitude,
       userLocation.longitude,
-      radius / 1000, //radius je ovde u metrima a f-ja prima km
+      radius / 1000,
     );
+
+    final suspendedSnap = await Database().fetchSuspendedUsers();
+    final suspendedIds = suspendedSnap.map((d) => d.id).toSet();
+
+    print(suspendedIds);
+
+    return courses.where((c) => !suspendedIds.contains(c.userID)).toList();
   }
 
   void setRadius(double val) {
@@ -63,7 +70,9 @@ class MainMapController extends ChangeNotifier {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error("Location permission permanently denied. Please enable.".tr);
+      return Future.error(
+        "Location permission permanently denied. Please enable.".tr,
+      );
     }
 
     return await Geolocator.getCurrentPosition();
