@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:proxima/classes/database/auth.dart';
+import 'package:proxima/classes/util/preferences.dart';
 import 'package:proxima/config/theme.dart';
 import 'package:proxima/config/translation.dart';
 import 'package:proxima/pages/home/main_page.dart';
@@ -18,6 +19,7 @@ extension Translation on String {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Preferences().init();
   await Database().init();
   await navigateToRootAndAuth();
   await TranslationService.instance.load(currentUser.locale ?? 'en');

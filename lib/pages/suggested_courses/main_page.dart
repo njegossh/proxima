@@ -33,6 +33,7 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: ListView(
+            padding: EdgeInsets.only(bottom: 64),
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),

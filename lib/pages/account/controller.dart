@@ -7,6 +7,10 @@ import 'package:proxima/main.dart';
 class AccountController extends ChangeNotifier {
   bool trackLocation = false;
 
+  AccountController(){
+    currentUser.addListener(notifyListeners);
+  }
+
   List<User> followers = [];
   List<User> following = [];
 
@@ -27,8 +31,6 @@ class AccountController extends ChangeNotifier {
   final descriptionCtrl = TextEditingController(text: currentUser.description);
 
   User get account => currentUser;
-
-  AccountController();
 
   void trackLocationChange(bool? val) {
     trackLocation = val ?? false;
@@ -101,6 +103,7 @@ class AccountController extends ChangeNotifier {
     descriptionCtrl.dispose();
     locationDescCtrl.dispose();
     interestsCtrl.dispose();
+    currentUser.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -113,6 +116,7 @@ class AccountController extends ChangeNotifier {
   Future<void> initAccountData() async {
     await loadFollowers();
     await loadFollowing();
+    await reloadAccount();
   }
 
   /// Ucitava korisnike koje ovaj user prati

@@ -34,8 +34,8 @@ class FormCard extends StatelessWidget {
           const SizedBox(height: 24),
           ActionButton(
             text: "Save".tr,
-            onPressed: () {
-              controller.saveCourse(context);
+            onPressed: () async {
+              await controller.saveCourse(context);
               Navigator.of(context).pop();
             },
           ),

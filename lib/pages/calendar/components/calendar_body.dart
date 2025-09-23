@@ -2,6 +2,8 @@
 import 'package:kalender/kalender.dart';
 import 'package:proxima/classes/models/appointment.dart';
 import 'package:proxima/classes/models/user.dart';
+import 'package:proxima/classes/util/preferences.dart';
+import 'package:proxima/main.dart';
 import 'package:proxima/pages/appointment_confirmation/main_sheet.dart';
 import 'package:proxima/pages/course/main_page.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +27,29 @@ class _CalendarMainBodyState extends State<CalendarMainBody> {
   }
 
   @override
-    void dispose() {
-      controller.dispose();
-      super.dispose();
-    }
-
-  @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: controller,
+      listenable: Listenable.merge([
+        Preferences(),
+        controller,
+      ]),
       builder: (context, child) {
-        if( controller.user.appointments == null) {
+        if (controller.user.appointments == null) {
           return Center( 
             child: CircularProgressIndicator()
+          );
+        } else if (controller.user.calendarAppointments.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16,
+              children: [
+                Icon(Icons.calendar_month, size: 48),
+                Text('Go to course to book'.tr, style: TextStyle( 
+                  fontSize: 20,
+                )),
+              ],
+            ), 
           );
         } else {
           return Padding(
@@ -46,19 +58,37 @@ class _CalendarMainBodyState extends State<CalendarMainBody> {
             spacing: 12,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ValueListenableBuilder(
-                  valueListenable: controller.month,
-                  builder: (context, value, child) {
-                    return Text(value, style: TextStyle(fontSize: 20));
+                ListenableBuilder(
+                  listenable: controller.month,
+                  builder: (context, child) {
+                    return Row(
+                      children: [
+                        Text(controller.month.value, style: TextStyle(fontSize: 20)),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon({
+                            "Week": Icons.calendar_view_week_rounded,
+                            "Schedule": Icons.calendar_view_day,
+                          }[Pref.calendarView.value]),
+                          onPressed: () async {
+                            switch(Pref.calendarView.value) {
+                              case "Week": return Pref.calendarView.set("Schedule");
+                              case "Schedule": return Pref.calendarView.set("Week");
+                            }
+                          },
+                        ),
+                      ],
+                    );
                   }
                 ),
                 Expanded(
                   child: CalendarView<Appointment>(
                     calendarController: controller.calendar,
                     eventsController: controller.events,
-                    //PROMENITE ISPOD DA VIDITE ALTERNATIVNI PRIKAZ
-                    viewConfiguration: ScheduleViewConfiguration.continuous(),
-                    //viewConfiguration: MultiDayViewConfiguration.week(),
+                    viewConfiguration: {
+                      "Week": MultiDayViewConfiguration.week(),
+                      "Schedule": ScheduleViewConfiguration.continuous(),
+                    }[Pref.calendarView.value]!,
                     callbacks: CalendarCallbacks( 
                       onPageChanged: controller.onPageChanged,
                       onEventTapped: (event, renderBox) async {

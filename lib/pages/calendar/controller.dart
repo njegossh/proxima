@@ -19,6 +19,7 @@ class CalendarMainController extends ChangeNotifier {
   final month = ValueNotifier(' ');
 
   CalendarMainController({required this.user}){
+    chooseMonth(DateTime.now().month);
     init();
   }
 
@@ -33,6 +34,10 @@ class CalendarMainController extends ChangeNotifier {
 
   void onPageChanged(DateTimeRange range) {
     final index = range.dominantMonthDate.month;
+    chooseMonth(index);
+  }
+
+  void chooseMonth(int index) {
     month.value = [
       ' ',
       'January',

@@ -44,14 +44,15 @@ class _AppointmentCreationMainSheetState extends State<AppointmentCreationMainSh
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Course".tr),
-                  Text(widget.course.name),
+                  Text("Course".tr, style: TextStyle(fontSize: 20)),
+                  Text(widget.course.name, style: TextStyle(fontSize: 20)),
                 ],
               ),
+              SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("From".tr),
+                  Text("From".tr, style: TextStyle(fontSize: 20)),
                   ElevatedButton(
                     child: Text(controller.from.prettified),
                     onPressed: () => controller.pickFrom(context),
@@ -61,7 +62,7 @@ class _AppointmentCreationMainSheetState extends State<AppointmentCreationMainSh
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("To".tr),
+                  Text("To".tr, style: TextStyle(fontSize: 20)),
                   ElevatedButton(
                     child: Text(controller.to.prettified),
                     onPressed: () => controller.pickTo(context),
