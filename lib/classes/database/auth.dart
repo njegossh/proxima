@@ -36,7 +36,6 @@ class Auth {
   }
 
   Future<void> continueWith(String email, String password) async {
-    //TODO email verify
     try {
       try {
         await auth.createUserWithEmailAndPassword(

@@ -45,7 +45,6 @@ Future<void> navigateToRootAndAuth() async {
               break;
 
             case AuthStatus.active:
-              // 👇 Add suspension check here
               if (currentUser.suspended) {
                 home = SuspendedMainPage();
               } else {

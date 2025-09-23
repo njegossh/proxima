@@ -152,7 +152,7 @@ class _UserMainPageState extends State<UserMainPage> {
                         child: Text(
                           "${"Followers".tr}\n${controller.followers.length}",
                           textAlign: TextAlign.center,
-                        ), //TODO dodati u translation followers i following
+                        ),
                       ),
                       SizedBox(width: 8),
                       Container(
@@ -184,7 +184,7 @@ class _UserMainPageState extends State<UserMainPage> {
                 ),
                 SizedBox(height: 8,),
                 Center(
-                  child: widget.user.followingThisUser //TODO RISTICU NESTO MNOGO SPORO FOLLOWUJE I UNFOLLOWUJE PLS HELP
+                  child: widget.user.followingThisUser
                       ? SizedBox(
                           height: 30,
                           child: OutlinedButton(

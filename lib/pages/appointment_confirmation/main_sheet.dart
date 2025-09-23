@@ -16,15 +16,15 @@ class AppointmentConfirmationMainSheet extends StatefulWidget {
 
 class _AppointmentConfirmationMainSheetState extends State<AppointmentConfirmationMainSheet> {
 
-    late AppointmentConfirmationController controller;
+  late AppointmentConfirmationController controller;
 
   @override
-    void initState() {
-      controller = AppointmentConfirmationController(widget.appointment);
-      super.initState();
-    }
+  void initState() {
+    controller = AppointmentConfirmationController(widget.appointment);
+    super.initState();
+  }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -57,7 +57,7 @@ class _AppointmentConfirmationMainSheetState extends State<AppointmentConfirmati
                 Navigator.of(context).pop();
               },
             ),
-          ), //TODO MARKO Nece da radi confirmation kad udjem na calendar pise confirm for... ali mi ulazi na kurs ne izbacuje mi sheet za confirm
+          ),
         ],
       ),
     );

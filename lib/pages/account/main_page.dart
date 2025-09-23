@@ -131,7 +131,7 @@ class _AccountMainPageState extends State<AccountMainPage> {
                   child: Text(
                     "${"Followers".tr}\n${controller.followers.length}",
                     textAlign: TextAlign.center,
-                  ), //TODO dodati u translation followers i following
+                  ),
                 ),
                 SizedBox(width: 8),
                 Container(

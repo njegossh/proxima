@@ -58,7 +58,7 @@ class AccountController extends ChangeNotifier {
             .map((e) => e.trim())
             .where((e) => e.isNotEmpty)
             .toList(),
-        range: -1, //TODO
+        range: -1,
       ),
     );
     navigateToRootAndAuth();

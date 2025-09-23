@@ -145,7 +145,6 @@ class _SuggestedCoursesMainPageState extends State<SuggestedCoursesMainPage> {
                                     ),
                                   ),
                                 ),
-                                // TODO: Show class info or nothing if no class
                               ],
                             ) : AppointmentCard(appointment: controller.nextAppointment!),
                           ),
